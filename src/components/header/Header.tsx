@@ -1,5 +1,5 @@
 import React from "react";
-import "./Header.css";
+import styles from "./Header.module.css";
 
 type HeaderProps = {
   title: string;
@@ -7,8 +7,8 @@ type HeaderProps = {
 
 const Header: React.FC<HeaderProps> = ({ title }) => {
   return (
-    <div className="header">
-      <div className="titleWrap">
+    <div className={styles.header}>
+      <div className={styles.titleWrap}>
         <h1>{title}</h1>
       </div>
     </div>

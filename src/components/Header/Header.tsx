@@ -1,17 +1,41 @@
 import React from "react";
-import styles from "./Header.module.css";
+import styled from "styled-components";
 
-type HeaderProps = {
+interface HeaderProps {
   title: string;
-};
+}
+
+const HeaderWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: stretch;
+  height: 150px;
+  background-color: gray;
+  align-content: center;
+`;
+
+const TitleWrapper = styled.div`
+  flex-basis: auto;
+  text-align: center;
+  background-color: #0074a6;
+  display: flex;
+  align-items: center;
+  padding: 0 0.5em 0 0.5em;
+`;
+
+const Title = styled.h1`
+  color: #eeeeee;
+  font-family: NanumSquareNeoExtraBold, sans-serif;
+`;
 
 const Header: React.FC<HeaderProps> = ({ title }) => {
   return (
-    <div className={styles.header}>
-      <div className={styles.titleWrap}>
-        <h1>{title}</h1>
-      </div>
-    </div>
+    <HeaderWrapper>
+      <TitleWrapper>
+        <Title>{title}</Title>
+      </TitleWrapper>
+    </HeaderWrapper>
   );
 };
 

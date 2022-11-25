@@ -12,7 +12,7 @@ interface TypeBtnProps {
 
 const CalendarBarWrapper = styled.div`
   margin-top: 50px;
-  margin-left: 70px;
+  // margin-left: 70px;
   width: 1400px;
   height: 70px;
   box-sizing: border-box;

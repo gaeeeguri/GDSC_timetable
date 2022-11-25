@@ -26,7 +26,7 @@ const TitleWrapper = styled.div`
 
 const Title = styled.h1`
   color: #eeeeee;
-  font-family: NanumSquareNeoExtraBold, sans-serif;
+  font-family: sans-serif;
 `;
 
 const Header: React.FC<HeaderProps> = ({ title }) => {

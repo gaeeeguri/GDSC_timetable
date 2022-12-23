@@ -1,46 +1,38 @@
 import React from "react";
-import styled from "styled-components";
+import { createStyles } from "@mantine/core";
 
-interface HeaderProps {
-  title: string;
-}
+const useStyles = createStyles((theme, _params, getRef) => ({
+  wrapper: {
+    backgroundColor:
+      theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.white,
+    // maxWidth: 1190,
+    width: "100vw",
+    height: 60,
+    zIndex: 6,
+    position: "fixed",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    marginLeft: 0,
+    marginRight: 0,
+    borderBottom: `1px solid ${
+      theme.colorScheme === "dark" ? theme.colors.dark[8] : theme.colors.gray[2]
+    }`,
+  },
+  title: {
+    ref: getRef("child"),
+    maxWidth: 1190,
+    color: theme.colorScheme === "dark" ? theme.white : theme.black,
+  },
+}));
 
-const HeaderWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: stretch;
-  height: 150px;
-  background-color: gray;
-  align-content: center;
-`;
-
-const TitleWrapper = styled.div`
-  flex-basis: auto;
-  text-align: center;
-  background-color: #0074a6;
-  display: flex;
-  align-items: center;
-  padding: 0 0.5em 0 0.5em;
-`;
-
-const Title = styled.h1`
-  color: #eeeeee;
-  font-family: sans-serif;
-`;
-
-const Header: React.FC<HeaderProps> = ({ title }) => {
+const Header = () => {
+  const { classes } = useStyles();
   return (
-    <HeaderWrapper>
-      <TitleWrapper>
-        <Title>{title}</Title>
-      </TitleWrapper>
-    </HeaderWrapper>
+    <div className={classes.wrapper}>
+      <div className={classes.title}>GDSC Calendar Project</div>
+    </div>
   );
-};
-
-Header.defaultProps = {
-  title: "GDSC Project",
 };
 
 export default Header;

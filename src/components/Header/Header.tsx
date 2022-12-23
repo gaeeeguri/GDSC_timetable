@@ -9,10 +9,13 @@ const useStyles = createStyles((theme, _params, getRef) => ({
     width: "100vw",
     height: 60,
     zIndex: 6,
-    position: "fixed",
+    position: "sticky",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    top: 0,
+    left: 0,
+    right: 0,
     marginLeft: 0,
     marginRight: 0,
     borderBottom: `1px solid ${
@@ -23,6 +26,7 @@ const useStyles = createStyles((theme, _params, getRef) => ({
     ref: getRef("child"),
     maxWidth: 1190,
     color: theme.colorScheme === "dark" ? theme.white : theme.black,
+    fontSize: theme.fontSizes.lg,
   },
 }));
 

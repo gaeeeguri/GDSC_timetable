@@ -4,6 +4,8 @@ import styled from "styled-components";
 import { useState } from "react";
 import Calendar from "./components/Calendar/Calendar";
 
+import { MantineProvider, Text } from "@mantine/core";
+
 const AppWrapper = styled.div`
   box-sizing: border-box;
   display: flex;
@@ -21,12 +23,8 @@ export default function App() {
   const [type, setType] = useState<string>("old");
 
   return (
-    <div>
-      <Header title={"GDSC Project"} />
-      <Layout>
-        <CalendarBar setType={setType} />
-        <Calendar type={type} />
-      </Layout>
-    </div>
+    <MantineProvider withGlobalStyles withNormalizeCSS>
+      <Text>Trying Mantine</Text>
+    </MantineProvider>
   );
 }

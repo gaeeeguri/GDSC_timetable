@@ -1,4 +1,4 @@
-import { Button, createStyles } from "@mantine/core";
+import { SegmentedControl, createStyles } from "@mantine/core";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
@@ -63,8 +63,15 @@ const TimeTable = () => {
   return (
     <div>
       <div className={classes.buttonWrapper}>
-        <Button onClick={() => setType("old")}>구관</Button>
-        <Button onClick={() => setType("new")}>신관</Button>
+        <SegmentedControl
+          size="md"
+          value={type}
+          onChange={setType}
+          data={[
+            { label: "구관", value: "old" },
+            { label: "신관", value: "new" },
+          ]}
+        />
       </div>
       {type}
     </div>

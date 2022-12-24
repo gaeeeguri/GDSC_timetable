@@ -1,4 +1,4 @@
-import { SegmentedControl, createStyles } from "@mantine/core";
+import { SegmentedControl, createStyles, Paper, Table } from "@mantine/core";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
@@ -19,11 +19,23 @@ interface TimeTableProps {
 }
 
 const useStyles = createStyles((theme, _params, getRef) => ({
-  buttonWrapper: {
-    height: 40,
+  wrapper: {
     display: "flex",
-    alignItems: "center",
+    justifyContent: "center",
+  },
+  calendarWrapper: {
+    maxHeight: 700,
+    maxWidth: 1130,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "start",
     justifyContent: "flex-start",
+    marginTop: 30,
+  },
+  calendar: {
+    maxHeight: 1400,
+    maxWidth: 800,
+    marginTop: 15,
   },
 }));
 
@@ -31,6 +43,18 @@ const TimeTable = () => {
   const { classes } = useStyles();
   const [timeBlock, setTimeBlock] = useState<GetTimeBlockResponse>();
   const [type, setType] = useState<string>("old");
+  const ths = (
+    <tr>
+      <th>시간</th>
+      <th>월</th>
+      <th>화</th>
+      <th>수</th>
+      <th>목</th>
+      <th>금</th>
+      <th>토</th>
+      <th>일</th>
+    </tr>
+  );
   async function getTimeBlocks() {
     try {
       const { data, status } = await axios.get<GetTimeBlockResponse>(
@@ -61,8 +85,14 @@ const TimeTable = () => {
   }, []);
 
   return (
-    <div>
-      <div className={classes.buttonWrapper}>
+    <div className={classes.wrapper}>
+      <Paper
+        shadow="sm"
+        radius="md"
+        p="lg"
+        className={classes.calendarWrapper}
+        withBorder
+      >
         <SegmentedControl
           size="md"
           value={type}
@@ -72,8 +102,18 @@ const TimeTable = () => {
             { label: "신관", value: "new" },
           ]}
         />
-      </div>
-      {type}
+        <Table
+          className={classes.calendar}
+          withColumnBorders
+          withBorder
+          horizontalSpacing="xl"
+          verticalSpacing="md"
+          fontSize="md"
+        >
+          <thead>{ths}</thead>
+          {type}
+        </Table>
+      </Paper>
     </div>
   );
 };

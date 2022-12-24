@@ -24,7 +24,7 @@ const useStyles = createStyles((theme, _params, getRef) => ({
     justifyContent: "center",
   },
   calendarWrapper: {
-    maxHeight: 700,
+    height: "fit-content",
     maxWidth: 1130,
     display: "flex",
     flexDirection: "column",
@@ -55,6 +55,21 @@ const TimeTable = () => {
       <th>일</th>
     </tr>
   );
+
+  const times: number[] = Array.from({ length: 12 }, (i, j) => j + 12);
+  const rows = times.map(time => (
+    <tr key={time}>
+      <td>{time > 9 ? time : `0${time}`}:00</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+  ));
+
   async function getTimeBlocks() {
     try {
       const { data, status } = await axios.get<GetTimeBlockResponse>(
@@ -107,11 +122,11 @@ const TimeTable = () => {
           withColumnBorders
           withBorder
           horizontalSpacing="xl"
-          verticalSpacing="md"
-          fontSize="md"
+          verticalSpacing="xs"
+          fontSize="sm"
         >
           <thead>{ths}</thead>
-          {type}
+          <tbody>{rows}</tbody>
         </Table>
       </Paper>
     </div>

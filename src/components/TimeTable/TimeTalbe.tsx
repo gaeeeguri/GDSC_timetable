@@ -1,18 +1,8 @@
 import { SegmentedControl, createStyles, Paper, Table } from "@mantine/core";
 import axios from "axios";
 import { useEffect, useState } from "react";
-
-type timeBlock = {
-  id: number;
-  day: string;
-  start: number;
-  end: number;
-  user: string;
-};
-
-type GetTimeBlockResponse = {
-  data: timeBlock[];
-};
+import TimeTableRow from "./timeTableRow";
+import { timeBlock } from "../Types/type";
 
 interface TimeTableProps {
   type: string; // old | new
@@ -41,8 +31,9 @@ const useStyles = createStyles((theme, _params, getRef) => ({
 
 const TimeTable = () => {
   const { classes } = useStyles();
-  const [timeBlock, setTimeBlock] = useState<GetTimeBlockResponse>();
+  const [timeBlock, setTimeBlock] = useState<timeBlock[]>([]);
   const [type, setType] = useState<string>("old");
+
   const ths = (
     <tr>
       <th>시간</th>
@@ -57,22 +48,21 @@ const TimeTable = () => {
   );
 
   const times: number[] = Array.from({ length: 12 }, (i, j) => j + 12);
+
+  const timeBlockFilter = (time: timeBlock[], num: number) => {
+    return time.filter(t => t.start <= num && num < t.end);
+  };
+
   const rows = times.map(time => (
     <tr key={time}>
       <td>{time > 9 ? time : `0${time}`}:00</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
+      <TimeTableRow time={time} times={timeBlockFilter(timeBlock, time)} />
     </tr>
   ));
 
   async function getTimeBlocks() {
     try {
-      const { data, status } = await axios.get<GetTimeBlockResponse>(
+      const { data, status } = await axios.get<timeBlock[]>(
         "http://35.247.70.187:8080/demo/alltime",
         {
           headers: {

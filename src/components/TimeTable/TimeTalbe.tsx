@@ -23,9 +23,36 @@ const useStyles = createStyles((theme, _params, getRef) => ({
     marginTop: 30,
   },
   calendar: {
-    maxHeight: 1400,
-    maxWidth: 800,
+    maxHeight: 800,
+    maxWidth: 1130,
     marginTop: 15,
+    width: "100%",
+    borderCollapse: "collapse",
+    captionSide: "top",
+    border:
+      theme.colorScheme === "dark"
+        ? `1px solid ${theme.colors.dark[4]}`
+        : `1px solid ${theme.colors.gray[3]}`,
+  },
+  tableHead: {
+    maxWidth: 1130 / 8,
+    width: "7vw",
+    textAlign: "center",
+    padding: "7px 15px",
+    fontSize: theme.fontSizes.md,
+    border:
+      theme.colorScheme === "dark"
+        ? `1px solid ${theme.colors.dark[4]}`
+        : `1px solid ${theme.colors.gray[3]}`,
+  },
+  tableTime: {
+    textAlign: "center",
+    padding: "12px 15px",
+    fontSize: theme.fontSizes.sm,
+    border:
+      theme.colorScheme === "dark"
+        ? `1px solid ${theme.colors.dark[4]}`
+        : `1px solid ${theme.colors.gray[3]}`,
   },
 }));
 
@@ -36,14 +63,14 @@ const TimeTable = () => {
 
   const ths = (
     <tr>
-      <th>시간</th>
-      <th>월</th>
-      <th>화</th>
-      <th>수</th>
-      <th>목</th>
-      <th>금</th>
-      <th>토</th>
-      <th>일</th>
+      <th className={classes.tableHead}>시간</th>
+      <th className={classes.tableHead}>월</th>
+      <th className={classes.tableHead}>화</th>
+      <th className={classes.tableHead}>수</th>
+      <th className={classes.tableHead}>목</th>
+      <th className={classes.tableHead}>금</th>
+      <th className={classes.tableHead}>토</th>
+      <th className={classes.tableHead}>일</th>
     </tr>
   );
 
@@ -55,7 +82,7 @@ const TimeTable = () => {
 
   const rows = times.map(time => (
     <tr key={time}>
-      <td>{time > 9 ? time : `0${time}`}:00</td>
+      <td className={classes.tableTime}>{time > 9 ? time : `0${time}`}:00</td>
       <TimeTableRow time={time} times={timeBlockFilter(timeBlock, time)} />
     </tr>
   ));
@@ -107,17 +134,10 @@ const TimeTable = () => {
             { label: "신관", value: "new" },
           ]}
         />
-        <Table
-          className={classes.calendar}
-          withColumnBorders
-          withBorder
-          horizontalSpacing="xl"
-          verticalSpacing="xs"
-          fontSize="sm"
-        >
+        <table className={classes.calendar}>
           <thead>{ths}</thead>
           <tbody>{rows}</tbody>
-        </Table>
+        </table>
       </Paper>
     </div>
   );

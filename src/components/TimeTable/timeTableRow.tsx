@@ -14,12 +14,12 @@ const TimeTableRow = ({ time, times }: TimeTableRowProps) => {
   return (
     <>
       <TimeTableCell day="mon" time={time} timeData={dayFilter("mon")} />
-      <TimeTableCell day="tue" time={time} timeData={dayFilter("tue")} />
+      <TimeTableCell day="TUE" time={time} timeData={dayFilter("TUE")} />
       <TimeTableCell day="wed" time={time} timeData={dayFilter("wed")} />
       <TimeTableCell day="thu" time={time} timeData={dayFilter("thu")} />
       <TimeTableCell day="fri" time={time} timeData={dayFilter("fri")} />
       <TimeTableCell day="sat" time={time} timeData={dayFilter("sat")} />
-      <TimeTableCell day="SUN" time={time} timeData={dayFilter("SUN")} />
+      <TimeTableCell day="sun" time={time} timeData={dayFilter("sun")} />
     </>
   );
 };

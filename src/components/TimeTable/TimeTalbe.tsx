@@ -1,6 +1,8 @@
-import { createStyles, Paper, SegmentedControl, Table } from "@mantine/core";
+import { Button, createStyles, Paper, SegmentedControl } from "@mantine/core";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+
+import captureData from "@/util/saveImage/saveImage";
 
 import { timeBlock } from "../Types/type";
 import TimeTableRow from "./timeTableRow";
@@ -22,6 +24,12 @@ const useStyles = createStyles((theme, _params, getRef) => ({
     alignItems: "start",
     justifyContent: "flex-start",
     marginTop: 30,
+  },
+  paperHeader: {
+    display: "flex",
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
   calendar: {
     maxHeight: 800,
@@ -126,16 +134,27 @@ const TimeTable = () => {
         p="lg"
         className={classes.calendarWrapper}
       >
-        <SegmentedControl
-          size="md"
-          value={type}
-          data={[
-            { label: "구관", value: "old" },
-            { label: "신관", value: "new" },
-          ]}
-          onChange={setType}
-        />
-        <table className={classes.calendar}>
+        <div className={classes.paperHeader}>
+          <SegmentedControl
+            size="md"
+            value={type}
+            data={[
+              { label: "구관", value: "old" },
+              { label: "신관", value: "new" },
+            ]}
+            onChange={setType}
+          />
+          <Button
+            size="md"
+            variant="outline"
+            color="gray"
+            style={{ marginLeft: 15 }}
+            onClick={captureData}
+          >
+            이미지 저장
+          </Button>
+        </div>
+        <table id="table" className={classes.calendar}>
           <thead>{ths}</thead>
           <tbody>{rows}</tbody>
         </table>

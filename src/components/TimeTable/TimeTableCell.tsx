@@ -1,14 +1,18 @@
-import { timeBlock } from "../Types/type";
 import { createStyles } from "@mantine/core";
 
-const useStyles = createStyles((theme, _params, getRef) => ({
-  cell: {
-    color: theme.white,
-    backgroundColor: theme.colors.orange[4],
-    verticalAlign: "top",
-    paddingLeft: 12,
-    paddingTop: 12,
-  },
+import DataCell from "@/components/TimeTable/DataCell";
+
+import { timeBlock } from "../Types/type";
+
+const colors: { [key: string]: string } = {
+  도쭈: "violet",
+  휴익: "grape",
+  이그니션: "indigo",
+  싱송: "teal",
+  지스리: "orange",
+};
+
+const useStyles = createStyles((theme, _, getRef) => ({
   none: {
     border:
       theme.colorScheme === "dark"
@@ -23,6 +27,7 @@ interface TimeTableCellProps {
   time: number;
 }
 const TimeTableCell = ({ timeData, day, time }: TimeTableCellProps) => {
+  const color = timeData ? colors[timeData.user] : "";
   const { classes } = useStyles();
 
   return (
@@ -30,9 +35,11 @@ const TimeTableCell = ({ timeData, day, time }: TimeTableCellProps) => {
       {timeData === undefined ? (
         <td className={classes.none}></td>
       ) : timeData!.start == time ? (
-        <td rowSpan={timeData.end - timeData.start} className={classes.cell}>
-          {timeData.user}
-        </td>
+        <DataCell
+          color={colors[timeData.user]}
+          rowSpan={timeData.end - timeData.start}
+          user={timeData.user}
+        />
       ) : timeData!.start < time && time < timeData!.end ? null : (
         <td className={classes.none}></td>
       )}

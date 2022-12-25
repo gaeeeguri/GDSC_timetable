@@ -1,4 +1,5 @@
 import { createStyles } from "@mantine/core";
+
 import Header from "./components/Header/Header";
 import TimeTable from "./components/TimeTable/TimeTalbe";
 

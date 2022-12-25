@@ -1,8 +1,9 @@
-import { SegmentedControl, createStyles, Paper, Table } from "@mantine/core";
+import { createStyles, Paper, SegmentedControl, Table } from "@mantine/core";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import TimeTableRow from "./timeTableRow";
+
 import { timeBlock } from "../Types/type";
+import TimeTableRow from "./timeTableRow";
 
 interface TimeTableProps {
   type: string; // old | new
@@ -119,20 +120,20 @@ const TimeTable = () => {
   return (
     <div className={classes.wrapper}>
       <Paper
+        withBorder
         shadow="sm"
         radius="md"
         p="lg"
         className={classes.calendarWrapper}
-        withBorder
       >
         <SegmentedControl
           size="md"
           value={type}
-          onChange={setType}
           data={[
             { label: "구관", value: "old" },
             { label: "신관", value: "new" },
           ]}
+          onChange={setType}
         />
         <table className={classes.calendar}>
           <thead>{ths}</thead>

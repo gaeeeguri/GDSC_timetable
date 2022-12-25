@@ -1,5 +1,6 @@
-import TimeTableCell from "./TimeTableCell";
 import { timeBlock } from "@/components/Types/type";
+
+import TimeTableCell from "./TimeTableCell";
 
 interface TimeTableRowProps {
   time: number;

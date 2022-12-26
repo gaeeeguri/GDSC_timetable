@@ -58,7 +58,7 @@ const Header = ({ isAdmin, setIsAdmin }: HeaderProps) => {
   const { classes } = useStyles();
 
   const onChange = (e: React.FormEvent<HTMLInputElement>) => {
-    console.log(e.currentTarget.value);
+    // console.log(e.currentTarget.value);
     setPassword(e.currentTarget.value);
   };
 
@@ -74,7 +74,7 @@ const Header = ({ isAdmin, setIsAdmin }: HeaderProps) => {
   };
 
   const validate = () => {
-    console.log("validate");
+    // console.log("validate");
     if (password === "1234") {
       onSuccess();
     } else {

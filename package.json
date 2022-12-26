@@ -36,14 +36,16 @@
     }
   },
   "dependencies": {
+    "@emotion/cache": "^11.10.5",
     "@emotion/react": "^11.10.5",
-    "@emotion/styled": "^11.10.5",
+    "@emotion/serialize": "^1.1.1",
+    "@emotion/utils": "^1.2.0",
     "@mantine/core": "^5.9.5",
     "@mantine/hooks": "^5.9.5",
     "@mantine/modals": "^5.9.5",
     "@mantine/notifications": "^5.9.5",
     "@mantine/nprogress": "^5.9.5",
-    "@mui/material": "^5.10.15",
+    "@tabler/icons": "^1.118.0",
     "axios": "^1.2.1",
     "html2canvas": "^1.4.1",
     "react": "^18.2.0",

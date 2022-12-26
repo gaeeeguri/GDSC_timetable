@@ -36,7 +36,7 @@ const TimeTableCell = ({ timeData, day, time }: TimeTableCellProps) => {
         <td className={classes.none}></td>
       ) : timeData!.start == time ? (
         <DataCell
-          color={colors[timeData.user]}
+          color={colors[timeData.user] ? colors[timeData.user] : "blue"}
           rowSpan={timeData.end - timeData.start}
           user={timeData.user}
         />

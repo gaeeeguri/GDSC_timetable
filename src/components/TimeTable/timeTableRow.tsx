@@ -20,7 +20,7 @@ const TimeTableRow = ({ time, times }: TimeTableRowProps) => {
       <TimeTableCell day="thu" time={time} timeData={dayFilter("thu")} />
       <TimeTableCell day="fri" time={time} timeData={dayFilter("fri")} />
       <TimeTableCell day="sat" time={time} timeData={dayFilter("sat")} />
-      <TimeTableCell day="sun" time={time} timeData={dayFilter("sun")} />
+      <TimeTableCell day="SUN" time={time} timeData={dayFilter("SUN")} />
     </>
   );
 };

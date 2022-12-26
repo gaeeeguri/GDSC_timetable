@@ -1,4 +1,5 @@
 import { createStyles } from "@mantine/core";
+import { useState } from "react";
 
 import Header from "./components/Header/Header";
 import TimeTable from "./components/TimeTable/TimeTalbe";
@@ -15,9 +16,10 @@ const useStyles = createStyles((theme, _params, getRef) => ({
 
 export default function App() {
   const { classes } = useStyles();
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
   return (
     <div className={classes.wrapper}>
-      <Header />
+      <Header isAdmin={isAdmin} setIsAdmin={setIsAdmin} />
       <TimeTable />
     </div>
   );

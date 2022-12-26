@@ -1,6 +1,14 @@
-import { ActionIcon, createStyles } from "@mantine/core";
+import {
+  ActionIcon,
+  Button,
+  createStyles,
+  Dialog,
+  Group,
+  Text,
+  TextInput,
+} from "@mantine/core";
 import { IconEdit } from "@tabler/icons";
-import { useState } from "react";
+import React, { useState } from "react";
 
 interface cellProps {
   color: string;
@@ -35,6 +43,7 @@ const useStyles = createStyles(
 const DataCell = ({ color, rowSpan, user, isAdmin }: cellProps) => {
   const { classes } = useStyles({ color, rowSpan, user, isAdmin });
   const [hover, setHover] = useState<boolean>(false);
+  const [edit, setEdit] = useState<boolean>(false);
   return (
     <td
       rowSpan={rowSpan}
@@ -44,12 +53,34 @@ const DataCell = ({ color, rowSpan, user, isAdmin }: cellProps) => {
     >
       {user}
       {hover && isAdmin ? (
-        <div style={{ position: "absolute", top: 5, right: 5 }}>
+        <div
+          role="presentation"
+          style={{ position: "absolute", top: 5, right: 5 }}
+          onClick={() => setEdit(true)}
+          onKeyDown={() => setEdit(true)}
+        >
           <ActionIcon>
             <IconEdit size={18} />
           </ActionIcon>
         </div>
       ) : null}
+      <Dialog
+        withCloseButton
+        opened={edit}
+        size="lg"
+        radius="md"
+        onClose={() => {
+          setEdit(false);
+          setHover(false);
+        }}
+      >
+        <Text>Subscribe to email newsletter</Text>
+
+        <Group align="flex-end">
+          <TextInput placeholder="hello@gluesticker.com" style={{ flex: 1 }} />
+          <Button onClick={() => setEdit(false)}>Subscribe</Button>
+        </Group>
+      </Dialog>
     </td>
   );
 };

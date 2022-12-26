@@ -158,7 +158,7 @@ const TimeTable = ({ isAdmin }: timeTableProps) => {
             color="gray"
             onClick={captureData}
           >
-            시간표 저장
+            이미지로 저장
           </Button>
         </div>
         <table id="table" className={classes.calendar}>

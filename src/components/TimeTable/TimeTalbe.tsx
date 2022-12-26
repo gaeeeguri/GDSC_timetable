@@ -65,7 +65,11 @@ const useStyles = createStyles((theme, _params, getRef) => ({
   },
 }));
 
-const TimeTable = () => {
+interface timeTableProps {
+  isAdmin: boolean;
+}
+
+const TimeTable = ({ isAdmin }: timeTableProps) => {
   const { classes } = useStyles();
   const [timeBlock, setTimeBlock] = useState<timeBlock[]>([]);
   const [type, setType] = useState<string>("old");
@@ -92,7 +96,11 @@ const TimeTable = () => {
   const rows = times.map(time => (
     <tr key={time}>
       <td className={classes.tableTime}>{time > 9 ? time : `0${time}`}:00</td>
-      <TimeTableRow time={time} times={timeBlockFilter(timeBlock, time)} />
+      <TimeTableRow
+        time={time}
+        times={timeBlockFilter(timeBlock, time)}
+        isAdmin={isAdmin}
+      />
     </tr>
   ));
 

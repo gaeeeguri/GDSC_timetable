@@ -20,7 +20,7 @@ export default function App() {
   return (
     <div className={classes.wrapper}>
       <Header isAdmin={isAdmin} setIsAdmin={setIsAdmin} />
-      <TimeTable />
+      <TimeTable isAdmin={isAdmin} />
     </div>
   );
 }

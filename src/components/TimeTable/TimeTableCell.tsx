@@ -25,8 +25,14 @@ interface TimeTableCellProps {
   timeData?: timeBlock | undefined;
   day: string;
   time: number;
+  isAdmin: boolean;
 }
-const TimeTableCell = ({ timeData, day, time }: TimeTableCellProps) => {
+const TimeTableCell = ({
+  timeData,
+  day,
+  time,
+  isAdmin,
+}: TimeTableCellProps) => {
   const color = timeData ? colors[timeData.user] : "";
   const { classes } = useStyles();
 
@@ -39,6 +45,7 @@ const TimeTableCell = ({ timeData, day, time }: TimeTableCellProps) => {
           color={colors[timeData.user] ? colors[timeData.user] : "blue"}
           rowSpan={timeData.end - timeData.start}
           user={timeData.user}
+          isAdmin={isAdmin}
         />
       ) : timeData!.start < time && time < timeData!.end ? null : (
         <td className={classes.none}></td>

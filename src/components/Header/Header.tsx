@@ -43,15 +43,7 @@ const Header = () => {
   return (
     <div className={classes.wrapper}>
       <div className={classes.navWrapper}>
-        <div className={classes.title}>
-          <img
-            src="/src/assets/gdsc-icon.png"
-            alt=""
-            width="24px"
-            height="24px"
-          />
-          GDSC Calendar Project
-        </div>
+        <div className={classes.title}>GDSC Calendar Project</div>
         <Button color="red" variant="outline" style={{ marginLeft: "auto" }}>
           관리자 로그인
         </Button>

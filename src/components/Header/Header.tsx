@@ -44,7 +44,12 @@ const Header = () => {
     <div className={classes.wrapper}>
       <div className={classes.navWrapper}>
         <div className={classes.title}>
-          <img src="/public/gdsc-icon.png" alt="" width="24px" height="24px" />
+          <img
+            src="/src/assets/gdsc-icon.png"
+            alt=""
+            width="24px"
+            height="24px"
+          />
           GDSC Calendar Project
         </div>
         <Button color="red" variant="outline" style={{ marginLeft: "auto" }}>

@@ -73,6 +73,7 @@ const TimeTable = ({ isAdmin }: timeTableProps) => {
   const { classes } = useStyles();
   const [timeBlock, setTimeBlock] = useState<timeBlock[]>([]);
   const [type, setType] = useState<string>("old");
+  const [edit, setEdit] = useState<boolean>(false);
 
   const ths = (
     <tr>
@@ -100,6 +101,8 @@ const TimeTable = ({ isAdmin }: timeTableProps) => {
         time={time}
         times={timeBlockFilter(timeBlock, time)}
         isAdmin={isAdmin}
+        edit={edit}
+        setEdit={setEdit}
       />
     </tr>
   ));

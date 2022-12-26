@@ -73,6 +73,13 @@ const Header = ({ isAdmin, setIsAdmin }: HeaderProps) => {
     setValidationFail(true);
   };
 
+  const onKeyPress = (e: any) => {
+    if (e.key === "Enter") {
+      console.log("enter");
+      validate();
+    }
+  };
+
   const validate = () => {
     // console.log("validate");
     if (password === "1234") {
@@ -120,6 +127,7 @@ const Header = ({ isAdmin, setIsAdmin }: HeaderProps) => {
             label="비밀번호"
             description="관리자 비밀번호를 입력하세요."
             onChange={onChange}
+            onKeyDown={onKeyPress}
           />
           {validationFail ? (
             <Text color="red" size="xs" style={{ marginLeft: 12 }}>
@@ -132,6 +140,7 @@ const Header = ({ isAdmin, setIsAdmin }: HeaderProps) => {
             value={password}
             style={{ marginTop: 15, float: "right" }}
             onClick={validate}
+            onKeyPress={onKeyPress}
           >
             로그인
           </Button>

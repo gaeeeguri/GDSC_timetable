@@ -1,4 +1,5 @@
 import { createStyles } from "@mantine/core";
+import { Dispatch, SetStateAction } from "react";
 
 import DataCell from "@/components/TimeTable/DataCell";
 
@@ -26,12 +27,16 @@ interface TimeTableCellProps {
   day: string;
   time: number;
   isAdmin: boolean;
+  edit: boolean;
+  setEdit: Dispatch<SetStateAction<boolean>>;
 }
 const TimeTableCell = ({
   timeData,
   day,
   time,
   isAdmin,
+  edit,
+  setEdit,
 }: TimeTableCellProps) => {
   const color = timeData ? colors[timeData.user] : "";
   const { classes } = useStyles();
@@ -43,9 +48,10 @@ const TimeTableCell = ({
       ) : timeData!.start == time ? (
         <DataCell
           color={colors[timeData.user] ? colors[timeData.user] : "blue"}
-          rowSpan={timeData.end - timeData.start}
-          user={timeData.user}
+          timeData={timeData}
           isAdmin={isAdmin}
+          edit={edit}
+          setEdit={setEdit}
         />
       ) : timeData!.start < time && time < timeData!.end ? null : (
         <td className={classes.none}></td>

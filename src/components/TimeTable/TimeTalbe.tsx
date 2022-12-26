@@ -148,10 +148,9 @@ const TimeTable = () => {
             size="md"
             variant="outline"
             color="gray"
-            style={{ marginLeft: 15 }}
             onClick={captureData}
           >
-            이미지 저장
+            시간표 저장
           </Button>
         </div>
         <table id="table" className={classes.calendar}>

@@ -1,4 +1,4 @@
-import { createStyles } from "@mantine/core";
+import { Button, createStyles } from "@mantine/core";
 import React from "react";
 
 const useStyles = createStyles((theme, _params, getRef) => ({
@@ -10,6 +10,7 @@ const useStyles = createStyles((theme, _params, getRef) => ({
     height: 60,
     zIndex: 6,
     position: "sticky",
+    textAlign: "center",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -22,11 +23,18 @@ const useStyles = createStyles((theme, _params, getRef) => ({
       theme.colorScheme === "dark" ? theme.colors.dark[8] : theme.colors.gray[2]
     }`,
   },
+  navWrapper: {
+    maxWidth: 1190,
+    width: "56vw",
+    display: "flex",
+  },
   title: {
     ref: getRef("child"),
     maxWidth: 1190,
     color: theme.colorScheme === "dark" ? theme.white : theme.black,
     fontSize: theme.fontSizes.lg,
+    display: "flex",
+    alignItems: "center",
   },
 }));
 
@@ -34,7 +42,15 @@ const Header = () => {
   const { classes } = useStyles();
   return (
     <div className={classes.wrapper}>
-      <div className={classes.title}>GDSC Calendar Project</div>
+      <div className={classes.navWrapper}>
+        <div className={classes.title}>
+          <img src="/public/gdsc-icon.png" alt="" width="24px" height="24px" />
+          GDSC Calendar Project
+        </div>
+        <Button color="red" variant="outline" style={{ marginLeft: "auto" }}>
+          관리자 로그인
+        </Button>
+      </div>
     </div>
   );
 };

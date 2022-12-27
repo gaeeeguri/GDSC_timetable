@@ -1,4 +1,4 @@
-const dict: { [key: string]: string } = {
+const days: { [key: string]: string } = {
   월: "mon",
   화: "tue",
   수: "wed",
@@ -15,4 +15,4 @@ const dict: { [key: string]: string } = {
   sun: "일",
 };
 
-export default dict;
+export default days;

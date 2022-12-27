@@ -12,7 +12,8 @@ import {
 import { IconEdit } from "@tabler/icons";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 
-import dict from "@/Const/dict";
+import days from "@/Const/days";
+import times from "@/Const/times";
 
 import { timeBlock } from "../Types/type";
 
@@ -65,6 +66,7 @@ const DataCell = ({ color, timeData, isAdmin, edit, setEdit }: cellProps) => {
   const [thisEdit, setThisEdit] = useState<boolean>(false);
   const [hover, setHover] = useState<boolean>(false);
   const { classes } = useStyles({ color, thisEdit, isAdmin });
+  const [rangeError, setRangeError] = useState<boolean>(false);
 
   const onClickEdit = () => {
     setThisEdit(true);
@@ -76,13 +78,13 @@ const DataCell = ({ color, timeData, isAdmin, edit, setEdit }: cellProps) => {
     setThisEdit(false);
   };
 
-  const checkEdit = (edit: boolean) => {
-    console.log("function called");
-    if (edit) {
+  useEffect(() => {
+    if (!isAdmin) {
       setThisEdit(false);
+      setEdit(false);
       setHover(false);
     }
-  };
+  }, [isAdmin]);
 
   return (
     <td
@@ -106,50 +108,76 @@ const DataCell = ({ color, timeData, isAdmin, edit, setEdit }: cellProps) => {
       ) : null}
       <Dialog
         withCloseButton
-        opened={thisEdit}
+        opened={thisEdit && isAdmin}
         size="lg"
         radius="md"
         onClose={onCloseDialog}
       >
         <Text size="lg" style={{ marginBottom: 10 }} weight={500}>
-          {dict[timeData.day]}요일, {timeData.user} {timeData.start}:00 -{" "}
+          {days[timeData.day]}요일, {timeData.user} {timeData.start}:00 -{" "}
           {timeData.end}:00
         </Text>
-        <Group>
+        <NativeSelect
+          defaultValue={timeData.user}
+          data={["도쭈", "휴익", "이그니션", "싱송", "지스리"]}
+          label="동아리"
+          style={{ width: "100%" }}
+        />
+        <NativeSelect
+          defaultValue={days[timeData.day]}
+          data={["월", "화", "수", "목", "금", "토", "일"]}
+          label="요일"
+          style={{ width: "100%", marginTop: 15 }}
+        />
+        <Group style={{ marginTop: 15 }} position="apart">
           <NativeSelect
-            withAsterisk
-            defaultValue={timeData.user}
-            data={["도쭈", "휴익", "이그니션", "싱송", "지스리"]}
-            label="동아리"
-            description="해당 시간에 사용하는 동아리를 골라주세요."
+            defaultValue={times[timeData.start]}
+            data={[
+              "정오",
+              "1시",
+              "2시",
+              "3시",
+              "4시",
+              "5시",
+              "6시",
+              "7시",
+              "8시",
+              "9시",
+              "10시",
+              "11시",
+              "자정",
+            ]}
+            label="시작 시간"
+            style={{ width: "45%" }}
           />
           <NativeSelect
-            withAsterisk
-            defaultValue={dict[timeData.day]}
-            data={["월", "화", "수", "목", "금", "토", "일"]}
-            label="요일"
-            description="연습할 요일을 정해주세요."
+            defaultValue={times[timeData.end]}
+            label="종료 시간"
+            data={[
+              "정오",
+              "1시",
+              "2시",
+              "3시",
+              "4시",
+              "5시",
+              "6시",
+              "7시",
+              "8시",
+              "9시",
+              "10시",
+              "11시",
+              "자정",
+            ]}
+            style={{ width: "45%" }}
           />
-          <NumberInput
-            withAsterisk
-            defaultValue={timeData.start}
-            placeholder="시작 시간"
-            label="시작"
-          />
-          <NumberInput
-            withAsterisk
-            defaultValue={timeData.end}
-            placeholder="종료 시간"
-            label="끝"
-          />
-          <Group position="apart" style={{ width: "100%" }}>
-            <Button variant="light" color="red">
-              삭제
-            </Button>
-            <Button variant="light" onClick={onCloseDialog}>
-              수정
-            </Button>
-          </Group>
+        </Group>
+        <Group position="apart" style={{ width: "100%", marginTop: 30 }}>
+          <Button variant="light" color="red">
+            시간 삭제
+          </Button>
+          <Button variant="light" onClick={onCloseDialog}>
+            수정
+          </Button>
         </Group>
       </Dialog>
     </td>

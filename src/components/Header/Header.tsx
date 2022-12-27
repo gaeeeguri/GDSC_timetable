@@ -122,8 +122,6 @@ const Header = ({ isAdmin, setIsAdmin }: HeaderProps) => {
       >
         <div className={classes.form} onSubmit={validate}>
           <PasswordInput
-            withAsterisk
-            placeholder="Password"
             label="비밀번호"
             description="관리자 비밀번호를 입력하세요."
             onChange={onChange}

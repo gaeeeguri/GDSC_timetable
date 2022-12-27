@@ -40,9 +40,9 @@ const useStyles = createStyles(
         thisEdit && isAdmin
           ? theme.colorScheme === "dark"
             ? theme.colors[color][4]
-            : theme.colors[color][7]
+            : theme.colors[color][6]
           : theme.colorScheme === "dark"
-          ? theme.colors[color][7]
+          ? theme.colors[color][6]
           : theme.colors[color][4],
       verticalAlign: "top",
       paddingLeft: 10,
@@ -57,7 +57,25 @@ const useStyles = createStyles(
         backgroundColor:
           theme.colorScheme === "dark"
             ? theme.colors[color][4]
-            : theme.colors[color][7],
+            : theme.colors[color][6],
+      },
+    },
+    editButton: {
+      color: theme.white,
+      width: 25,
+      height: 25,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      borderRadius: 6,
+
+      "&:hover": {
+        cursor: "pointer",
+        backgroundColor: theme.white,
+        color:
+          theme.colorScheme === "dark"
+            ? theme.colors[color][4]
+            : theme.colors[color][6],
       },
     },
   })
@@ -66,11 +84,12 @@ const useStyles = createStyles(
 const DataCell = ({ color, timeData, isAdmin, edit, setEdit }: cellProps) => {
   const [thisEdit, setThisEdit] = useState<boolean>(false);
   const [hover, setHover] = useState<boolean>(false);
+  const [deleteTry, setDeleteTry] = useState<boolean>(false);
   const { classes } = useStyles({ color, thisEdit, isAdmin });
-  const [rangeError, setRangeError] = useState<boolean>(false);
 
   const form = useForm({
     initialValues: {
+      id: timeData.id,
       user: timeData.user,
       day: timeData.day,
       start: timeData.start,
@@ -78,11 +97,6 @@ const DataCell = ({ color, timeData, isAdmin, edit, setEdit }: cellProps) => {
     },
 
     validate: {
-      start: (
-        value: number,
-        values: { [key: string | number]: string | number }
-      ) =>
-        value < values.end ? null : "시작 시간은 종료 시간보다 빨라야 합니다!",
       end: (
         value: number,
         values: { [key: string | number]: string | number }
@@ -102,6 +116,15 @@ const DataCell = ({ color, timeData, isAdmin, edit, setEdit }: cellProps) => {
     setHover(false);
     setThisEdit(false);
     setEdit(false);
+    setDeleteTry(false);
+  };
+
+  const onSubmit = (values: { [key: string | number]: string | number }) => {
+    console.log(values);
+  };
+
+  const onDelete = () => {
+    deleteTry ? console.log("delete!") : setDeleteTry(true);
   };
 
   useEffect(() => {
@@ -123,13 +146,13 @@ const DataCell = ({ color, timeData, isAdmin, edit, setEdit }: cellProps) => {
       {hover && isAdmin && !thisEdit && !edit ? (
         <div
           role="presentation"
-          style={{ position: "absolute", top: 8, right: 8 }}
+          style={{ position: "absolute", top: 10, right: 10 }}
           onClick={onClickEdit}
           onKeyDown={() => setEdit(true)}
         >
-          <ActionIcon variant="subtle" color={color}>
+          <div className={classes.editButton}>
             <IconEdit size={18} />
-          </ActionIcon>
+          </div>
         </div>
       ) : null}
       <Dialog
@@ -143,68 +166,91 @@ const DataCell = ({ color, timeData, isAdmin, edit, setEdit }: cellProps) => {
           {days[timeData.day]}요일, {timeData.user} {timeData.start}:00 -{" "}
           {timeData.end}:00
         </Text>
-        <NativeSelect
-          defaultValue={timeData.user}
-          data={["도쭈", "휴익", "이그니션", "싱송", "지스리"]}
-          label="동아리"
-          style={{ width: "100%" }}
-        />
-        <NativeSelect
-          defaultValue={days[timeData.day]}
-          data={["월", "화", "수", "목", "금", "토", "일"]}
-          label="요일"
-          style={{ width: "100%", marginTop: 15 }}
-        />
-        <Group style={{ marginTop: 15 }} position="apart">
+        <form onSubmit={form.onSubmit(values => onSubmit(values))}>
           <NativeSelect
-            defaultValue={times[timeData.start]}
-            data={[
-              "정오",
-              "1시",
-              "2시",
-              "3시",
-              "4시",
-              "5시",
-              "6시",
-              "7시",
-              "8시",
-              "9시",
-              "10시",
-              "11시",
-              "자정",
-            ]}
-            label="시작 시간"
-            style={{ width: "45%" }}
+            defaultValue={timeData.user}
+            data={["도쭈", "휴익", "이그니션", "싱송", "지스리"]}
+            label="동아리"
+            style={{ width: "100%" }}
+            {...form.getInputProps("user")}
           />
           <NativeSelect
-            defaultValue={times[timeData.end]}
-            label="종료 시간"
+            defaultValue={days[timeData.day]}
             data={[
-              "정오",
-              "1시",
-              "2시",
-              "3시",
-              "4시",
-              "5시",
-              "6시",
-              "7시",
-              "8시",
-              "9시",
-              "10시",
-              "11시",
-              "자정",
+              { value: "mon", label: "월" },
+              { value: "tue", label: "화" },
+              { value: "wed", label: "수" },
+              { value: "thu", label: "목" },
+              { value: "fri", label: "금" },
+              { value: "sat", label: "토" },
+              { value: "sun", label: "일" },
             ]}
-            style={{ width: "45%" }}
+            label="요일"
+            style={{ width: "100%", marginTop: 15 }}
+            {...form.getInputProps("day")}
           />
-        </Group>
-        <Group position="apart" style={{ width: "100%", marginTop: 30 }}>
-          <Button variant="light" color="red">
-            시간 삭제
-          </Button>
-          <Button variant="light" onClick={onCloseDialog}>
-            수정
-          </Button>
-        </Group>
+          <Group style={{ marginTop: 15 }} position="apart">
+            <NativeSelect
+              defaultValue={times[timeData.start]}
+              data={[
+                { value: 12, label: "정오" },
+                { value: 13, label: "1시" },
+                { value: 14, label: "2시" },
+                { value: 15, label: "3시" },
+                { value: 16, label: "4시" },
+                { value: 17, label: "5시" },
+                { value: 18, label: "6시" },
+                { value: 19, label: "7시" },
+                { value: 20, label: "8시" },
+                { value: 21, label: "9시" },
+                { value: 22, label: "10시" },
+                { value: 23, label: "11시" },
+              ]}
+              label="시작 시간"
+              style={{ width: "45%" }}
+              {...form.getInputProps("start")}
+            />
+            <NativeSelect
+              defaultValue={times[timeData.end]}
+              label="종료 시간"
+              data={[
+                { value: 13, label: "1시" },
+                { value: 14, label: "2시" },
+                { value: 15, label: "3시" },
+                { value: 16, label: "4시" },
+                { value: 17, label: "5시" },
+                { value: 18, label: "6시" },
+                { value: 19, label: "7시" },
+                { value: 20, label: "8시" },
+                { value: 21, label: "9시" },
+                { value: 22, label: "10시" },
+                { value: 23, label: "11시" },
+                { value: 24, label: "자정" },
+              ]}
+              style={{ width: "45%" }}
+              {...form.getInputProps("end")}
+            />
+          </Group>
+          <Group position="apart" style={{ width: "100%", marginTop: 30 }}>
+            <Group position="left" spacing={5}>
+              <Button
+                variant={deleteTry ? "filled" : "light"}
+                color="red"
+                onClick={onDelete}
+              >
+                시간 삭제
+              </Button>
+              {deleteTry ? (
+                <Text size="xs" color="red">
+                  한번 더 눌러 삭제하기
+                </Text>
+              ) : null}
+            </Group>
+            <Button variant="light" type="submit" onClick={onCloseDialog}>
+              수정
+            </Button>
+          </Group>
+        </form>
       </Dialog>
     </td>
   );

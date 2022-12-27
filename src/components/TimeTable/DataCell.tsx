@@ -9,6 +9,7 @@ import {
   Text,
   TextInput,
 } from "@mantine/core";
+import { useForm } from "@mantine/form";
 import { IconEdit } from "@tabler/icons";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 
@@ -68,6 +69,30 @@ const DataCell = ({ color, timeData, isAdmin, edit, setEdit }: cellProps) => {
   const { classes } = useStyles({ color, thisEdit, isAdmin });
   const [rangeError, setRangeError] = useState<boolean>(false);
 
+  const form = useForm({
+    initialValues: {
+      user: timeData.user,
+      day: timeData.day,
+      start: timeData.start,
+      end: timeData.end,
+    },
+
+    validate: {
+      start: (
+        value: number,
+        values: { [key: string | number]: string | number }
+      ) =>
+        value < values.end ? null : "시작 시간은 종료 시간보다 빨라야 합니다!",
+      end: (
+        value: number,
+        values: { [key: string | number]: string | number }
+      ) =>
+        values.start < value
+          ? null
+          : "종료 시간은 시작 시간보다 늦어야 합니다!",
+    },
+  });
+
   const onClickEdit = () => {
     setThisEdit(true);
     setEdit(true);
@@ -76,6 +101,7 @@ const DataCell = ({ color, timeData, isAdmin, edit, setEdit }: cellProps) => {
   const onCloseDialog = () => {
     setHover(false);
     setThisEdit(false);
+    setEdit(false);
   };
 
   useEffect(() => {
@@ -94,7 +120,7 @@ const DataCell = ({ color, timeData, isAdmin, edit, setEdit }: cellProps) => {
       onMouseLeave={() => setHover(false)}
     >
       {timeData.user}
-      {hover && isAdmin && !thisEdit ? (
+      {hover && isAdmin && !thisEdit && !edit ? (
         <div
           role="presentation"
           style={{ position: "absolute", top: 8, right: 8 }}

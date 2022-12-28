@@ -262,6 +262,10 @@ const TimeTable = ({ isAdmin }: timeTableProps) => {
     demoDataSet();
   }, []);
 
+  useEffect(() => {
+    onClose();
+  }, [type]);
+
   return (
     <div className={classes.wrapper}>
       <Paper

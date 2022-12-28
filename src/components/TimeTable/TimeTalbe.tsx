@@ -80,7 +80,8 @@ interface timeTableProps {
 
 const TimeTable = ({ isAdmin }: timeTableProps) => {
   const { classes } = useStyles();
-  const [timeBlock, setTimeBlock] = useState<timeBlock[]>([]);
+  const [oldTimeBlock, setOldTimeBlock] = useState<timeBlock[]>([]);
+  const [newTimeBlock, setNewTimeBlock] = useState<timeBlock[]>([]);
   const [type, setType] = useState<string>("old");
   const [edit, setEdit] = useState<boolean>(false);
   const [thisEdit, setThisEdit] = useState<boolean>(false);
@@ -114,12 +115,25 @@ const TimeTable = ({ isAdmin }: timeTableProps) => {
     return time.filter(t => t.start <= num && num < t.end);
   };
 
-  const rows = times.map(time => (
+  const oldRows = times.map(time => (
     <tr key={time}>
       <td className={classes.tableTime}>{time > 9 ? time : `0${time}`}:00</td>
       <TimeTableRow
         time={time}
-        times={timeBlockFilter(timeBlock, time)}
+        times={timeBlockFilter(oldTimeBlock, time)}
+        isAdmin={isAdmin}
+        edit={edit}
+        setEdit={setEdit}
+      />
+    </tr>
+  ));
+
+  const newRows = times.map(time => (
+    <tr key={time}>
+      <td className={classes.tableTime}>{time > 9 ? time : `0${time}`}:00</td>
+      <TimeTableRow
+        time={time}
+        times={timeBlockFilter(newTimeBlock, time)}
         isAdmin={isAdmin}
         edit={edit}
         setEdit={setEdit}
@@ -140,7 +154,7 @@ const TimeTable = ({ isAdmin }: timeTableProps) => {
       console.log(JSON.stringify(data, null, 4));
       console.log("response status is: ", status);
 
-      setTimeBlock(data);
+      setOldTimeBlock(data);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.log("error message: ", error.message);
@@ -153,7 +167,7 @@ const TimeTable = ({ isAdmin }: timeTableProps) => {
   }
 
   const demoDataSet = () => {
-    setTimeBlock([
+    setOldTimeBlock([
       {
         id: 1,
         day: "mon",
@@ -192,6 +206,50 @@ const TimeTable = ({ isAdmin }: timeTableProps) => {
       {
         id: 6,
         day: "fri",
+        start: 21,
+        end: 24,
+        user: "싱송",
+      },
+    ]);
+    setNewTimeBlock([
+      {
+        id: 7,
+        day: "mon",
+        start: 20,
+        end: 23,
+        user: "싱송",
+      },
+      {
+        id: 8,
+        day: "tue",
+        start: 19,
+        end: 20,
+        user: "지스리",
+      },
+      {
+        id: 9,
+        day: "tue",
+        start: 20,
+        end: 23,
+        user: "싱송",
+      },
+      {
+        id: 10,
+        day: "fri",
+        start: 18,
+        end: 21,
+        user: "도쭈",
+      },
+      {
+        id: 11,
+        day: "fri",
+        start: 21,
+        end: 24,
+        user: "이그니션",
+      },
+      {
+        id: 12,
+        day: "sat",
         start: 21,
         end: 24,
         user: "싱송",
@@ -240,7 +298,7 @@ const TimeTable = ({ isAdmin }: timeTableProps) => {
         </div>
         <table id="table" className={classes.calendar}>
           <thead>{ths}</thead>
-          <tbody>{rows}</tbody>
+          <tbody>{type === "old" ? oldRows : newRows}</tbody>
         </table>
       </Paper>
       <AddDialog opened={thisEdit} onClose={onClose} />

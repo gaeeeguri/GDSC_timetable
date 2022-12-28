@@ -5,7 +5,6 @@ import {
   PasswordInput,
   Text,
 } from "@mantine/core";
-import { IconX } from "@tabler/icons";
 import React, { Dispatch, SetStateAction, useState } from "react";
 
 const useStyles = createStyles((theme, _params, getRef) => ({
@@ -132,7 +131,7 @@ const Header = ({ isAdmin, setIsAdmin }: HeaderProps) => {
               비밀번호가 틀렸습니다!
             </Text>
           ) : (
-            <div style={{ height: 18.6 }}></div>
+            <div style={{ height: 20 }}></div>
           )}
           <Button
             value={password}

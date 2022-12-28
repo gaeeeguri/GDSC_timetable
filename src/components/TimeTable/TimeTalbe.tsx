@@ -4,8 +4,17 @@ import React, { useEffect, useState } from "react";
 
 import captureData from "@/util/saveImage/saveImage";
 
+import AddDialog from "../AddDialog/AddDialog";
 import { timeBlock } from "../Types/type";
 import TimeTableRow from "./timeTableRow";
+
+const nullData = {
+  id: 0,
+  user: "도쭈",
+  day: "mon",
+  start: 12,
+  end: 13,
+};
 
 interface TimeTableProps {
   type: string; // old | new
@@ -74,6 +83,17 @@ const TimeTable = ({ isAdmin }: timeTableProps) => {
   const [timeBlock, setTimeBlock] = useState<timeBlock[]>([]);
   const [type, setType] = useState<string>("old");
   const [edit, setEdit] = useState<boolean>(false);
+  const [thisEdit, setThisEdit] = useState<boolean>(false);
+
+  const onAdd = () => {
+    setThisEdit(true);
+    setEdit(true);
+  };
+
+  const onClose = () => {
+    setThisEdit(false);
+    setEdit(false);
+  };
 
   const ths = (
     <tr>
@@ -132,8 +152,56 @@ const TimeTable = ({ isAdmin }: timeTableProps) => {
     }
   }
 
+  const demoDataSet = () => {
+    setTimeBlock([
+      {
+        id: 1,
+        day: "mon",
+        start: 22,
+        end: 24,
+        user: "도쭈",
+      },
+      {
+        id: 2,
+        day: "mon",
+        start: 19,
+        end: 20,
+        user: "휴익",
+      },
+      {
+        id: 3,
+        day: "tue",
+        start: 19,
+        end: 23,
+        user: "지스리",
+      },
+      {
+        id: 4,
+        day: "wed",
+        start: 14,
+        end: 17,
+        user: "도쭈",
+      },
+      {
+        id: 5,
+        day: "fri",
+        start: 20,
+        end: 21,
+        user: "이그니션",
+      },
+      {
+        id: 6,
+        day: "fri",
+        start: 21,
+        end: 24,
+        user: "싱송",
+      },
+    ]);
+  };
+
   useEffect(() => {
-    getTimeBlocks();
+    // getTimeBlocks();
+    demoDataSet();
   }, []);
 
   return (
@@ -155,20 +223,27 @@ const TimeTable = ({ isAdmin }: timeTableProps) => {
             ]}
             onChange={setType}
           />
-          <Button
-            size="md"
-            variant="outline"
-            color="gray"
-            onClick={captureData}
-          >
-            이미지로 저장
-          </Button>
+          {isAdmin ? (
+            <Button size="md" onClick={onAdd}>
+              연습시간 추가
+            </Button>
+          ) : (
+            <Button
+              size="md"
+              variant="outline"
+              color="gray"
+              onClick={captureData}
+            >
+              이미지로 저장
+            </Button>
+          )}
         </div>
         <table id="table" className={classes.calendar}>
           <thead>{ths}</thead>
           <tbody>{rows}</tbody>
         </table>
       </Paper>
+      <AddDialog opened={thisEdit} onClose={onClose} />
     </div>
   );
 };

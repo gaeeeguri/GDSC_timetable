@@ -25,7 +25,7 @@ interface cellProps {
   isAdmin: boolean;
   edit: boolean;
   setEdit: Dispatch<SetStateAction<boolean>>;
-  type: boolean;
+  type: string;
 }
 
 interface styleProps {

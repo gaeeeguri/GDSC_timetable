@@ -29,7 +29,7 @@ interface TimeTableCellProps {
   isAdmin: boolean;
   edit: boolean;
   setEdit: Dispatch<SetStateAction<boolean>>;
-  type: boolean;
+  type: string;
 }
 const TimeTableCell = ({
   timeData,

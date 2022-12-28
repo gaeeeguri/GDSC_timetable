@@ -128,7 +128,7 @@ const EditDialog = ({
               color="red"
               onClick={onDelete}
             >
-              시간 삭제
+              삭제
             </Button>
             {deleteTry ? (
               <Text size="xs" color="red">

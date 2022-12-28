@@ -257,7 +257,6 @@ const DataCell = ({ color, timeData, isAdmin, edit, setEdit }: cellProps) => {
         opened={thisEdit && isAdmin}
         timeData={timeData}
         deleteTry={deleteTry}
-        isAdd={false}
         onClose={onCloseDialog}
         onDelete={onDelete}
       />

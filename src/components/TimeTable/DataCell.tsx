@@ -25,6 +25,7 @@ interface cellProps {
   isAdmin: boolean;
   edit: boolean;
   setEdit: Dispatch<SetStateAction<boolean>>;
+  type: boolean;
 }
 
 interface styleProps {
@@ -82,7 +83,14 @@ const useStyles = createStyles(
   })
 );
 
-const DataCell = ({ color, timeData, isAdmin, edit, setEdit }: cellProps) => {
+const DataCell = ({
+  color,
+  timeData,
+  isAdmin,
+  edit,
+  setEdit,
+  type,
+}: cellProps) => {
   const [thisEdit, setThisEdit] = useState<boolean>(false);
   const [hover, setHover] = useState<boolean>(false);
   const [deleteTry, setDeleteTry] = useState<boolean>(false);
@@ -135,6 +143,10 @@ const DataCell = ({ color, timeData, isAdmin, edit, setEdit }: cellProps) => {
       setHover(false);
     }
   }, [isAdmin]);
+
+  useEffect(() => {
+    onCloseDialog();
+  }, [type]);
 
   return (
     <td

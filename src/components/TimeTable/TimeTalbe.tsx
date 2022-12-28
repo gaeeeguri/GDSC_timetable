@@ -137,6 +137,7 @@ const TimeTable = ({ isAdmin }: timeTableProps) => {
         isAdmin={isAdmin}
         edit={edit}
         setEdit={setEdit}
+        type={type}
       />
     </tr>
   ));

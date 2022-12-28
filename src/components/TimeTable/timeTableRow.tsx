@@ -10,6 +10,7 @@ interface TimeTableRowProps {
   isAdmin: boolean;
   edit: boolean;
   setEdit: Dispatch<SetStateAction<boolean>>;
+  type: boolean;
 }
 
 const TimeTableRow = ({
@@ -18,6 +19,7 @@ const TimeTableRow = ({
   isAdmin,
   edit,
   setEdit,
+  type,
 }: TimeTableRowProps) => {
   const dayFilter = (day: string) => {
     return times.find(time => time.day === day);
@@ -32,6 +34,7 @@ const TimeTableRow = ({
         isAdmin={isAdmin}
         edit={edit}
         setEdit={setEdit}
+        type={type}
       />
       <TimeTableCell
         day="tue"
@@ -40,6 +43,7 @@ const TimeTableRow = ({
         isAdmin={isAdmin}
         edit={edit}
         setEdit={setEdit}
+        type={type}
       />
       <TimeTableCell
         day="wed"
@@ -48,6 +52,7 @@ const TimeTableRow = ({
         isAdmin={isAdmin}
         edit={edit}
         setEdit={setEdit}
+        type={type}
       />
       <TimeTableCell
         day="thu"
@@ -56,6 +61,7 @@ const TimeTableRow = ({
         isAdmin={isAdmin}
         edit={edit}
         setEdit={setEdit}
+        type={type}
       />
       <TimeTableCell
         day="fri"
@@ -64,6 +70,7 @@ const TimeTableRow = ({
         isAdmin={isAdmin}
         edit={edit}
         setEdit={setEdit}
+        type={type}
       />
       <TimeTableCell
         day="sat"
@@ -72,6 +79,7 @@ const TimeTableRow = ({
         isAdmin={isAdmin}
         edit={edit}
         setEdit={setEdit}
+        type={type}
       />
       <TimeTableCell
         day="sun"
@@ -80,6 +88,7 @@ const TimeTableRow = ({
         isAdmin={isAdmin}
         edit={edit}
         setEdit={setEdit}
+        type={type}
       />
     </>
   );

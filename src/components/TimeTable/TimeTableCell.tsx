@@ -29,6 +29,7 @@ interface TimeTableCellProps {
   isAdmin: boolean;
   edit: boolean;
   setEdit: Dispatch<SetStateAction<boolean>>;
+  type: boolean;
 }
 const TimeTableCell = ({
   timeData,
@@ -37,6 +38,7 @@ const TimeTableCell = ({
   isAdmin,
   edit,
   setEdit,
+  type,
 }: TimeTableCellProps) => {
   const color = timeData ? colors[timeData.user] : "";
   const { classes } = useStyles();
@@ -52,6 +54,7 @@ const TimeTableCell = ({
           isAdmin={isAdmin}
           edit={edit}
           setEdit={setEdit}
+          type={type}
         />
       ) : timeData!.start < time && time < timeData!.end ? null : (
         <td className={classes.none}></td>

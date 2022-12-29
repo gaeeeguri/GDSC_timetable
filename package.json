@@ -36,6 +36,7 @@
     }
   },
   "dependencies": {
+    "@babel/plugin-proposal-pipeline-operator": "^7.18.9",
     "@emotion/cache": "^11.10.5",
     "@emotion/react": "^11.10.5",
     "@emotion/serialize": "^1.1.1",

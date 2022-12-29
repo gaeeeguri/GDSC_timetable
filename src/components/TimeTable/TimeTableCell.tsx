@@ -24,7 +24,6 @@ const useStyles = createStyles((theme, _, getRef) => ({
 
 interface TimeTableCellProps {
   timeData?: timeBlock | undefined;
-  day: string;
   time: number;
   isAdmin: boolean;
   edit: boolean;
@@ -33,14 +32,12 @@ interface TimeTableCellProps {
 }
 const TimeTableCell = ({
   timeData,
-  day,
   time,
   isAdmin,
   edit,
   setEdit,
   type,
 }: TimeTableCellProps) => {
-  const color = timeData ? colors[timeData.user] : "";
   const { classes } = useStyles();
 
   return (

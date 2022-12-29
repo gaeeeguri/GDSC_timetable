@@ -28,7 +28,6 @@ const TimeTableRow = ({
   return (
     <>
       <TimeTableCell
-        day="mon"
         time={time}
         timeData={dayFilter("mon")}
         isAdmin={isAdmin}
@@ -37,7 +36,6 @@ const TimeTableRow = ({
         type={type}
       />
       <TimeTableCell
-        day="tue"
         time={time}
         timeData={dayFilter("tue")}
         isAdmin={isAdmin}
@@ -46,7 +44,6 @@ const TimeTableRow = ({
         type={type}
       />
       <TimeTableCell
-        day="wed"
         time={time}
         timeData={dayFilter("wed")}
         isAdmin={isAdmin}
@@ -55,7 +52,6 @@ const TimeTableRow = ({
         type={type}
       />
       <TimeTableCell
-        day="thu"
         time={time}
         timeData={dayFilter("thu")}
         isAdmin={isAdmin}
@@ -64,7 +60,6 @@ const TimeTableRow = ({
         type={type}
       />
       <TimeTableCell
-        day="fri"
         time={time}
         timeData={dayFilter("fri")}
         isAdmin={isAdmin}
@@ -73,7 +68,6 @@ const TimeTableRow = ({
         type={type}
       />
       <TimeTableCell
-        day="sat"
         time={time}
         timeData={dayFilter("sat")}
         isAdmin={isAdmin}
@@ -82,7 +76,6 @@ const TimeTableRow = ({
         type={type}
       />
       <TimeTableCell
-        day="sun"
         time={time}
         timeData={dayFilter("sun")}
         isAdmin={isAdmin}

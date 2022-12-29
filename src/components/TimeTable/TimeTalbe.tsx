@@ -8,18 +8,6 @@ import AddDialog from "../AddDialog/AddDialog";
 import { timeBlock } from "../Types/type";
 import TimeTableRow from "./timeTableRow";
 
-const nullData = {
-  id: 0,
-  user: "도쭈",
-  day: "mon",
-  start: 12,
-  end: 13,
-};
-
-interface TimeTableProps {
-  type: string; // old | new
-}
-
 const useStyles = createStyles((theme, _params, getRef) => ({
   wrapper: {
     display: "flex",
@@ -45,6 +33,7 @@ const useStyles = createStyles((theme, _params, getRef) => ({
     maxWidth: 1130,
     marginTop: 15,
     width: "100%",
+    backgroundColor: theme.colorScheme === "dark" ? theme.black : theme.white,
     borderCollapse: "collapse",
     captionSide: "top",
     border:
@@ -117,7 +106,9 @@ const TimeTable = ({ isAdmin }: timeTableProps) => {
 
   const oldRows = times.map(time => (
     <tr key={time}>
-      <td className={classes.tableTime}>{time > 9 ? time : `0${time}`}:00</td>
+      <td className={classes.tableTime}>
+        오후 {time < 13 ? time : time - 12}시
+      </td>
       <TimeTableRow
         time={time}
         times={timeBlockFilter(oldTimeBlock, time)}

@@ -1,5 +1,4 @@
 import html2canvas from "html2canvas";
-import React from "react";
 
 const captureData = () => {
   const capture = () => {

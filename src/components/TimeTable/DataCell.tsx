@@ -1,21 +1,8 @@
-import {
-  ActionIcon,
-  Button,
-  createStyles,
-  Dialog,
-  Group,
-  NativeSelect,
-  NumberInput,
-  Text,
-  TextInput,
-} from "@mantine/core";
-import { useForm } from "@mantine/form";
+import { createStyles } from "@mantine/core";
 import { IconEdit } from "@tabler/icons";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 import EditDialog from "@/components/EditDialog/EditDialog";
-import days from "@/Const/days";
-import times from "@/Const/times";
 
 import { timeBlock } from "../Types/type";
 
@@ -96,26 +83,6 @@ const DataCell = ({
   const [deleteTry, setDeleteTry] = useState<boolean>(false);
   const { classes } = useStyles({ color, thisEdit, isAdmin });
 
-  const form = useForm({
-    initialValues: {
-      id: timeData.id,
-      user: timeData.user,
-      day: timeData.day,
-      start: timeData.start,
-      end: timeData.end,
-    },
-
-    validate: {
-      end: (
-        value: number,
-        values: { [key: string | number]: string | number }
-      ) =>
-        values.start < value
-          ? null
-          : "종료 시간은 시작 시간보다 늦어야 합니다!",
-    },
-  });
-
   const onClickEdit = () => {
     setThisEdit(true);
     setEdit(true);
@@ -126,10 +93,6 @@ const DataCell = ({
     setThisEdit(false);
     setEdit(false);
     setDeleteTry(false);
-  };
-
-  const onSubmit = (values: { [key: string | number]: string | number }) => {
-    console.log(values);
   };
 
   const onDelete = () => {

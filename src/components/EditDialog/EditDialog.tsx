@@ -1,9 +1,9 @@
 import { Button, Dialog, Group, NativeSelect, Text } from "@mantine/core";
 import { useForm } from "@mantine/form";
+import axios from "axios";
 
 import { timeBlock } from "@/components/Types/type";
 import days from "@/Const/days";
-import times from "@/Const/times";
 
 interface EditDialogProps {
   opened: boolean;
@@ -11,6 +11,7 @@ interface EditDialogProps {
   timeData: timeBlock;
   deleteTry?: boolean;
   onDelete?: () => void;
+  type: string;
 }
 
 const EditDialog = ({
@@ -19,15 +20,67 @@ const EditDialog = ({
   timeData,
   deleteTry,
   onDelete,
+  type,
 }: EditDialogProps) => {
-  const onSubmit = (values: { [key: string | number]: string | number }) => {
-    console.log(values);
-  };
+  async function onSubmit(values: { [key: string | number]: string | number }) {
+    try {
+      await axios
+        .patch(
+          `http://35.247.70.187:8080/${type}/${values.id}?day=${values.day}&start=${values.start}&end=${values.end}&user=""`,
+          {},
+          {
+            headers: {
+              "Access-Control-Allow-Origin": "*",
+            },
+          }
+        )
+        .then(function (response) {
+          console.log(response);
+          // type === "old"
+          //   ? getOldTimeBlock()
+          //   : getNewTimeBlock()
+        });
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.log("error message: ", error.message);
+        return error.message;
+      } else {
+        console.log("unexpected error: ", error);
+        return "An unexpected error occurred.";
+      }
+    }
+  }
+
+  async function deleteTime() {
+    try {
+      await axios
+        .delete(`http://35.247.70.187:8080/${type}/${timeData.id}`, {
+          headers: {
+            // "Content-Type": "application/json",
+            // "Accept": "application/json",
+            // 'Access-Control-Allow-Origin': "*",
+          },
+        })
+        .then(function (response) {
+          console.log(response);
+          // type === "old"
+          //   ? getOldTimeBlock()
+          //   : getNewTimeBlock()
+        });
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.log("error message: ", error.message);
+        return error.message;
+      } else {
+        console.log("unexpected error: ", error);
+        return "An unexpected error occurred.";
+      }
+    }
+  }
 
   const editForm = useForm({
     initialValues: {
       id: timeData.id,
-      user: timeData.user,
       day: timeData.day,
       start: timeData.start,
       end: timeData.end,
@@ -53,19 +106,12 @@ const EditDialog = ({
       onClose={onClose}
     >
       <Text size="lg" style={{ marginBottom: 10 }} weight={500}>
-        {days[timeData.day]}요일, {timeData.user} {timeData.start}:00 -{" "}
+        {timeData.user}, {days[timeData.day]}요일 {timeData.start}:00 -{" "}
         {timeData.end}:00
       </Text>
       <form onSubmit={editForm.onSubmit(values => onSubmit(values))}>
         <NativeSelect
-          defaultValue={timeData.user}
-          data={["도쭈", "휴익", "이그니션", "싱송", "지스리"]}
-          label="동아리"
-          style={{ width: "100%" }}
-          {...editForm.getInputProps("user")}
-        />
-        <NativeSelect
-          defaultValue={days[timeData.day]}
+          // defaultValue={days[timeData.day]}
           data={[
             { value: "mon", label: "월요일" },
             { value: "tue", label: "화요일" },
@@ -81,7 +127,7 @@ const EditDialog = ({
         />
         <Group style={{ marginTop: 15 }} position="apart">
           <NativeSelect
-            defaultValue={times[timeData.start]}
+            // defaultValue={times[timeData.start]}
             data={[
               { value: 12, label: "낮 12시" },
               { value: 13, label: "오후 1시" },
@@ -101,7 +147,7 @@ const EditDialog = ({
             {...editForm.getInputProps("start")}
           />
           <NativeSelect
-            defaultValue={times[timeData.end]}
+            // defaultValue={times[timeData.end]}
             label="종료 시간"
             data={[
               { value: 13, label: "오후 1시" },
@@ -126,7 +172,7 @@ const EditDialog = ({
             <Button
               variant={deleteTry ? "filled" : "light"}
               color="red"
-              onClick={onDelete}
+              onClick={deleteTry ? deleteTime : onDelete}
             >
               삭제
             </Button>

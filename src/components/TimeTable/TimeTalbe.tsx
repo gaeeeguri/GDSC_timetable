@@ -134,18 +134,47 @@ const TimeTable = ({ isAdmin }: timeTableProps) => {
     </tr>
   ));
 
-  async function getTimeBlocks() {
+  const getTimeBlocks = () => {
+    getNewTimeBlock();
+    getOldTimeBlock();
+  };
+
+  async function getNewTimeBlock() {
     try {
       const { data, status } = await axios.get<timeBlock[]>(
-        "http://35.247.70.187:8080/demo/alltime",
+        "http://35.247.70.187:8080/new/alltime",
         {
           headers: {
             Accept: "application/json",
           },
         }
       );
-      console.log(JSON.stringify(data, null, 4));
-      console.log("response status is: ", status);
+      // console.log(JSON.stringify(data, null, 4));
+      // console.log("response status is: ", status);
+      setNewTimeBlock(data);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.log("error message: ", error.message);
+        return error.message;
+      } else {
+        console.log("unexpected error: ", error);
+        return "An unexpected error occurred.";
+      }
+    }
+  }
+
+  async function getOldTimeBlock() {
+    try {
+      const { data, status } = await axios.get<timeBlock[]>(
+        "http://35.247.70.187:8080/old/alltime",
+        {
+          headers: {
+            Accept: "application/json",
+          },
+        }
+      );
+      // console.log(JSON.stringify(data, null, 4));
+      // console.log("response status is: ", status);
 
       setOldTimeBlock(data);
     } catch (error) {
@@ -251,8 +280,8 @@ const TimeTable = ({ isAdmin }: timeTableProps) => {
   };
 
   useEffect(() => {
-    // getTimeBlocks();
-    demoDataSet();
+    getTimeBlocks();
+    // demoDataSet();
   }, []);
 
   useEffect(() => {
@@ -298,7 +327,13 @@ const TimeTable = ({ isAdmin }: timeTableProps) => {
           <tbody>{type === "old" ? oldRows : newRows}</tbody>
         </table>
       </Paper>
-      <AddDialog opened={thisEdit} onClose={onClose} />
+      <AddDialog
+        opened={thisEdit}
+        type={type}
+        getNewTimeBlock={getNewTimeBlock}
+        getOldTimeBlock={getOldTimeBlock}
+        onClose={onClose}
+      />
     </div>
   );
 };

@@ -96,7 +96,7 @@ const DataCell = ({
   };
 
   const onDelete = () => {
-    deleteTry ? console.log("delete!") : setDeleteTry(true);
+    setDeleteTry(true);
   };
 
   useEffect(() => {
@@ -135,6 +135,7 @@ const DataCell = ({
         opened={thisEdit && isAdmin}
         timeData={timeData}
         deleteTry={deleteTry}
+        type={type}
         onClose={onCloseDialog}
         onDelete={onDelete}
       />

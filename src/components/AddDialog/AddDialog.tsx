@@ -1,15 +1,49 @@
 import { Button, Dialog, Group, NativeSelect, Text } from "@mantine/core";
 import { useForm } from "@mantine/form";
+import axios from "axios";
+
+import { timeBlock } from "@/components/Types/type";
+
+// axios.defaults.withCredentials = true;
 
 interface AddDialogProps {
   opened: boolean;
   onClose: () => void;
+  type: string;
+  getOldTimeBlock: () => void;
+  getNewTimeBlock: () => void;
 }
 
-const AddDialog = ({ opened, onClose }: AddDialogProps) => {
-  const onSubmit = (values: { [key: string | number]: string | number }) => {
+const AddDialog = ({
+  opened,
+  onClose,
+  type,
+  getOldTimeBlock,
+  getNewTimeBlock,
+}: AddDialogProps) => {
+  async function onSubmit(values: { [key: string | number]: string | number }) {
     console.log(values);
-  };
+    try {
+      await axios
+        .post(
+          `http://35.247.70.187:8080/${type}/addtime?day=${values.day}&start=${values.start}&end=${values.end}&user=${values.user}`,
+          {},
+          {}
+        )
+        .then(function (response) {
+          console.log(response);
+          type === "old" ? getOldTimeBlock() : getNewTimeBlock();
+        });
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.log("error message: ", error.message);
+        return error.message;
+      } else {
+        console.log("unexpected error: ", error);
+        return "An unexpected error occurred.";
+      }
+    }
+  }
 
   const addForm = useForm({
     initialValues: {
@@ -43,14 +77,14 @@ const AddDialog = ({ opened, onClose }: AddDialogProps) => {
       </Text>
       <form onSubmit={addForm.onSubmit(values => onSubmit(values))}>
         <NativeSelect
-          defaultValue={"도쭈"}
+          // defaultValue={"도쭈"}
           data={["도쭈", "휴익", "이그니션", "싱송", "지스리"]}
           label="동아리"
           style={{ width: "100%" }}
           {...addForm.getInputProps("user")}
         />
         <NativeSelect
-          defaultValue={"월"}
+          // defaultValue={"월"}
           data={[
             { value: "mon", label: "월" },
             { value: "tue", label: "화" },
@@ -66,7 +100,7 @@ const AddDialog = ({ opened, onClose }: AddDialogProps) => {
         />
         <Group style={{ marginTop: 15 }} position="apart">
           <NativeSelect
-            defaultValue={12}
+            // defaultValue={12}
             data={[
               { value: 12, label: "정오" },
               { value: 13, label: "1시" },
@@ -86,7 +120,7 @@ const AddDialog = ({ opened, onClose }: AddDialogProps) => {
             {...addForm.getInputProps("start")}
           />
           <NativeSelect
-            defaultValue={13}
+            // defaultValue={13}
             label="종료 시간"
             data={[
               { value: 13, label: "1시" },

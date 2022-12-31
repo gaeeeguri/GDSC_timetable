@@ -42,12 +42,12 @@ const useStyles = createStyles(
           ? `1px solid ${theme.colors.dark[4]}`
           : `1px solid ${theme.colors.gray[3]}`,
 
-      "&:hover": {
-        backgroundColor:
-          theme.colorScheme === "dark"
-            ? theme.colors[color][4]
-            : theme.colors[color][6],
-      },
+      // "&:hover": {
+      //   backgroundColor:
+      //     theme.colorScheme === "dark"
+      //       ? theme.colors[color][4]
+      //       : theme.colors[color][6],
+      // },
     },
     editButton: {
       color: theme.white,

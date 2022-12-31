@@ -26,8 +26,9 @@ const EditDialog = ({
     try {
       await axios
         .patch(
-          `http://35.247.70.187:8080/${type}/${values.id}?day=${values.day}&start=${values.start}&end=${values.end}&user=""`,
-          {},
+          `http://35.247.70.187:8080/${type}/${values.id}`,
+          // ?day=${values.day}&start=${values.start}&end=${values.end}&id=${values.id}&user=${values.user}
+          values,
           {
             headers: {
               "Access-Control-Allow-Origin": "*",

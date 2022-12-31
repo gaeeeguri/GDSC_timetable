@@ -24,15 +24,12 @@ const EditDialog = ({
 }: EditDialogProps) => {
   async function onSubmit(values: { [key: string | number]: string | number }) {
     try {
+      console.log(values);
       await axios
         .patch(
           `http://35.247.70.187:8080/${type}/${values.id}?day=${values.day}&start=${values.start}&end=${values.end}&user=""`,
           {},
-          {
-            headers: {
-              "Access-Control-Allow-Origin": "*",
-            },
-          }
+          {}
         )
         .then(function (response) {
           console.log(response);

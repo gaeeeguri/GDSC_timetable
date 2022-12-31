@@ -52,6 +52,7 @@ const useStyles = createStyles(
     tableHead: {
       maxWidth: 1130 / 8,
       width: "8vw",
+      minWidth: 45,
       textAlign: "center",
       padding: "7px 15px",
       fontSize: theme.fontSizes.sm,
@@ -157,25 +158,25 @@ const TimeTable = ({ isAdmin }: timeTableProps) => {
 
   const oldRow = (
     <>
-      <td>
+      <td className={classes.emptyCell}>
         <TimeCells times={filterByDay(oldTimeBlock, "mon")} />
       </td>
-      <td>
+      <td className={classes.emptyCell}>
         <TimeCells times={filterByDay(oldTimeBlock, "tue")} />
       </td>
-      <td>
+      <td className={classes.emptyCell}>
         <TimeCells times={filterByDay(oldTimeBlock, "wed")} />
       </td>
-      <td>
+      <td className={classes.emptyCell}>
         <TimeCells times={filterByDay(oldTimeBlock, "thu")} />
       </td>
-      <td>
+      <td className={classes.emptyCell}>
         <TimeCells times={filterByDay(oldTimeBlock, "fri")} />
       </td>
-      <td>
+      <td className={classes.emptyCell}>
         <TimeCells times={filterByDay(oldTimeBlock, "sat")} />
       </td>
-      <td>
+      <td className={classes.emptyCell}>
         <TimeCells times={filterByDay(oldTimeBlock, "sun")} />
       </td>
     </>

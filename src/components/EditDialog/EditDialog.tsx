@@ -5,6 +5,7 @@ import { useState } from "react";
 
 import { timeBlock } from "@/components/Types/type";
 import days from "@/Const/days";
+import { dayForm, endForm, startForm } from "@/Const/form";
 
 interface EditDialogProps {
   opened: boolean;
@@ -111,36 +112,22 @@ const EditDialog = ({ opened, onClose, timeData, type }: EditDialogProps) => {
       <form onSubmit={editForm.onSubmit(values => onClickModify(values))}>
         <NativeSelect
           // defaultValue={days[timeData.day]}
-          data={[
-            { value: "mon", label: "월요일" },
-            { value: "tue", label: "화요일" },
-            { value: "wed", label: "수요일" },
-            { value: "thu", label: "목요일" },
-            { value: "fri", label: "금요일" },
-            { value: "sat", label: "토요일" },
-            { value: "sun", label: "일요일" },
-          ]}
+          data={dayForm}
           label="요일"
           style={{ width: "100%", marginTop: 15 }}
           {...editForm.getInputProps("day")}
         />
-        <Group style={{ marginTop: 15 }} position="apart">
+        <div
+          style={{
+            marginTop: 15,
+            height: 100,
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
           <NativeSelect
             // defaultValue={times[timeData.start]}
-            data={[
-              { value: 12, label: "낮 12시" },
-              { value: 13, label: "오후 1시" },
-              { value: 14, label: "오후 2시" },
-              { value: 15, label: "오후 3시" },
-              { value: 16, label: "오후 4시" },
-              { value: 17, label: "오후 5시" },
-              { value: 18, label: "오후 6시" },
-              { value: 19, label: "오후 7시" },
-              { value: 20, label: "오후 8시" },
-              { value: 21, label: "오후 9시" },
-              { value: 22, label: "오후 10시" },
-              { value: 23, label: "오후 11시" },
-            ]}
+            data={startForm}
             label="시작 시간"
             style={{ width: "45%" }}
             {...editForm.getInputProps("start")}
@@ -148,24 +135,11 @@ const EditDialog = ({ opened, onClose, timeData, type }: EditDialogProps) => {
           <NativeSelect
             // defaultValue={times[timeData.end]}
             label="종료 시간"
-            data={[
-              { value: 13, label: "오후 1시" },
-              { value: 14, label: "오후 2시" },
-              { value: 15, label: "오후 3시" },
-              { value: 16, label: "오후 4시" },
-              { value: 17, label: "오후 5시" },
-              { value: 18, label: "오후 6시" },
-              { value: 19, label: "오후 7시" },
-              { value: 20, label: "오후 8시" },
-              { value: 21, label: "오후 9시" },
-              { value: 22, label: "오후 10시" },
-              { value: 23, label: "오후 11시" },
-              { value: 24, label: "밤 12시" },
-            ]}
+            data={endForm}
             style={{ width: "45%" }}
             {...editForm.getInputProps("end")}
           />
-        </Group>
+        </div>
         <Group position="apart" style={{ width: "100%", marginTop: 30 }}>
           <Group position="left" spacing={5}>
             <Button

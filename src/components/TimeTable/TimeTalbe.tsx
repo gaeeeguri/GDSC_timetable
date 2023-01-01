@@ -9,7 +9,6 @@ import captureData from "@/util/saveImage/saveImage";
 
 import AddDialog from "../AddDialog/AddDialog";
 import { timeBlock } from "../Types/type";
-import TimeTableRow from "./timeTableRow";
 
 interface tableLengthProps {
   height: number;

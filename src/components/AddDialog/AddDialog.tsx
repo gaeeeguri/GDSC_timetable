@@ -25,11 +25,7 @@ const AddDialog = ({
     console.log(values);
     try {
       await axios
-        .post(
-          `http://35.247.70.187:8080/${type}/addtime?day=${values.day}&start=${values.start}&end=${values.end}&user=${values.user}`,
-          {},
-          {}
-        )
+        .post(`http://35.247.70.187:8080/${type}`, values, {})
         .then(function (response) {
           console.log(response);
           type === "old" ? getOldTimeBlock() : getNewTimeBlock();

@@ -3,12 +3,12 @@ import { useEffect, useState } from "react";
 
 import { timeBlock } from "@/components/Types/type";
 
-const FetchTimes = (type: string, edit: boolean) => {
+const FetchTimes = (type: string, isEdit: boolean) => {
   const [data, setData] = useState<Array<timeBlock>>([]);
 
   useEffect(() => {
     fetchTimes(type);
-  }, [edit]);
+  }, [isEdit]);
   async function fetchTimes(type: string) {
     try {
       const { data, status } = await axios.get<timeBlock[]>(

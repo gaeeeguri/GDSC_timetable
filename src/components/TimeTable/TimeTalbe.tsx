@@ -117,11 +117,11 @@ interface timeTableProps {
 const TimeTable = ({ isAdmin }: timeTableProps) => {
   const { classes } = useStyles({ height: TABLE_CONST.height });
   const [type, setType] = useState<string>("old");
-  const [edit, setEdit] = useState<boolean>(false);
+  const [isEdit, setIsEdit] = useState<boolean>(false);
   const [thisEdit, setThisEdit] = useState<boolean>(false);
 
-  const newTimeBlock: Array<timeBlock> = FetchTimes("new", edit);
-  const oldTimeBlock: Array<timeBlock> = FetchTimes("old", edit);
+  const newTimeBlock: Array<timeBlock> = FetchTimes("new", isEdit);
+  const oldTimeBlock: Array<timeBlock> = FetchTimes("old", isEdit);
 
   const filterByDay = (
     times: Array<timeBlock>,
@@ -133,25 +133,67 @@ const TimeTable = ({ isAdmin }: timeTableProps) => {
   const newRow = (
     <>
       <td className={classes.emptyCell}>
-        <TimeCells times={filterByDay(newTimeBlock, "mon")} />
+        <TimeCells
+          times={filterByDay(newTimeBlock, "mon")}
+          type="new"
+          isEdit={isEdit}
+          setIsEdit={setIsEdit}
+          isAdmin={isAdmin}
+        />
       </td>
       <td className={classes.emptyCell}>
-        <TimeCells times={filterByDay(newTimeBlock, "tue")} />
+        <TimeCells
+          times={filterByDay(newTimeBlock, "tue")}
+          type="new"
+          isEdit={isEdit}
+          setIsEdit={setIsEdit}
+          isAdmin={isAdmin}
+        />
       </td>
       <td className={classes.emptyCell}>
-        <TimeCells times={filterByDay(newTimeBlock, "wed")} />
+        <TimeCells
+          times={filterByDay(newTimeBlock, "wed")}
+          type="new"
+          isEdit={isEdit}
+          setIsEdit={setIsEdit}
+          isAdmin={isAdmin}
+        />
       </td>
       <td className={classes.emptyCell}>
-        <TimeCells times={filterByDay(newTimeBlock, "thu")} />
+        <TimeCells
+          times={filterByDay(newTimeBlock, "thu")}
+          type="new"
+          isEdit={isEdit}
+          setIsEdit={setIsEdit}
+          isAdmin={isAdmin}
+        />
       </td>
       <td className={classes.emptyCell}>
-        <TimeCells times={filterByDay(newTimeBlock, "fri")} />
+        <TimeCells
+          times={filterByDay(newTimeBlock, "fri")}
+          type="new"
+          isEdit={isEdit}
+          setIsEdit={setIsEdit}
+          isAdmin={isAdmin}
+        />
       </td>
       <td className={classes.emptyCell}>
-        <TimeCells times={filterByDay(newTimeBlock, "sat")} />
+        <TimeCells
+          times={filterByDay(newTimeBlock, "sat")}
+          type="new"
+          isEdit={isEdit}
+          setIsEdit={setIsEdit}
+          isAdmin={isAdmin}
+        />
       </td>
       <td className={classes.emptyCell}>
-        <TimeCells times={filterByDay(newTimeBlock, "sun")} />
+        <TimeCells
+          times={filterByDay(newTimeBlock, "sun")}
+          type="new"
+          isEdit={isEdit}
+          setIsEdit={setIsEdit}
+          isAdmin={isAdmin}
+        />
       </td>
     </>
   );
@@ -159,41 +201,83 @@ const TimeTable = ({ isAdmin }: timeTableProps) => {
   const oldRow = (
     <>
       <td className={classes.emptyCell}>
-        <TimeCells times={filterByDay(oldTimeBlock, "mon")} />
+        <TimeCells
+          times={filterByDay(oldTimeBlock, "mon")}
+          type="old"
+          isEdit={isEdit}
+          setIsEdit={setIsEdit}
+          isAdmin={isAdmin}
+        />
       </td>
       <td className={classes.emptyCell}>
-        <TimeCells times={filterByDay(oldTimeBlock, "tue")} />
+        <TimeCells
+          times={filterByDay(oldTimeBlock, "tue")}
+          type="old"
+          isEdit={isEdit}
+          setIsEdit={setIsEdit}
+          isAdmin={isAdmin}
+        />
       </td>
       <td className={classes.emptyCell}>
-        <TimeCells times={filterByDay(oldTimeBlock, "wed")} />
+        <TimeCells
+          times={filterByDay(oldTimeBlock, "wed")}
+          type="old"
+          isEdit={isEdit}
+          setIsEdit={setIsEdit}
+          isAdmin={isAdmin}
+        />
       </td>
       <td className={classes.emptyCell}>
-        <TimeCells times={filterByDay(oldTimeBlock, "thu")} />
+        <TimeCells
+          times={filterByDay(oldTimeBlock, "thu")}
+          type="old"
+          isEdit={isEdit}
+          setIsEdit={setIsEdit}
+          isAdmin={isAdmin}
+        />
       </td>
       <td className={classes.emptyCell}>
-        <TimeCells times={filterByDay(oldTimeBlock, "fri")} />
+        <TimeCells
+          times={filterByDay(oldTimeBlock, "fri")}
+          type="old"
+          isEdit={isEdit}
+          setIsEdit={setIsEdit}
+          isAdmin={isAdmin}
+        />
       </td>
       <td className={classes.emptyCell}>
-        <TimeCells times={filterByDay(oldTimeBlock, "sat")} />
+        <TimeCells
+          times={filterByDay(oldTimeBlock, "sat")}
+          type="old"
+          isEdit={isEdit}
+          setIsEdit={setIsEdit}
+          isAdmin={isAdmin}
+        />
       </td>
       <td className={classes.emptyCell}>
-        <TimeCells times={filterByDay(oldTimeBlock, "sun")} />
+        <TimeCells
+          times={filterByDay(oldTimeBlock, "sun")}
+          type="old"
+          isEdit={isEdit}
+          setIsEdit={setIsEdit}
+          isAdmin={isAdmin}
+        />
       </td>
     </>
   );
 
-  const onAdd = () => {
+  const onClickAddButton = () => {
     setThisEdit(true);
-    setEdit(true);
+    setIsEdit(true);
   };
 
-  const onClose = () => {
+  const onCloseAddDialog = () => {
+    setIsEdit(false);
     setThisEdit(false);
-    setEdit(false);
   };
 
   useEffect(() => {
-    onClose();
+    onCloseAddDialog();
   }, [type]);
 
   return (
@@ -216,7 +300,7 @@ const TimeTable = ({ isAdmin }: timeTableProps) => {
             onChange={setType}
           />
           {isAdmin ? (
-            <Button size="md" onClick={onAdd}>
+            <Button size="md" onClick={onClickAddButton}>
               연습시간 추가
             </Button>
           ) : (
@@ -361,6 +445,7 @@ const TimeTable = ({ isAdmin }: timeTableProps) => {
           </tbody>
         </table>
       </Paper>
+      <AddDialog opened={thisEdit} type={type} onClose={onCloseAddDialog} />
     </div>
   );
 };

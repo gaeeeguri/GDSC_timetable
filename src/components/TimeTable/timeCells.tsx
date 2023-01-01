@@ -1,4 +1,5 @@
 import { createStyles } from "@mantine/core";
+import { Dispatch, SetStateAction } from "react";
 
 import colors from "@/Const/colors";
 
@@ -7,18 +8,29 @@ import TimeCell from "./TimeCell";
 
 interface TimeCellsProps {
   times: Array<timeBlock>;
+  type: "new" | "old";
+  isEdit: boolean;
+  setIsEdit: Dispatch<SetStateAction<boolean>>;
+  isAdmin: boolean;
 }
 
-const TimeCells = ({ times }: TimeCellsProps) => {
+const TimeCells = ({
+  times,
+  type,
+  isEdit,
+  setIsEdit,
+  isAdmin,
+}: TimeCellsProps) => {
   return (
     <>
       {times.map(time => (
         <div key={time.id} style={{ width: "100%" }}>
           <TimeCell
-            start={time.start}
-            end={time.end}
-            user={time.user}
-            color={colors[time.user]}
+            timeData={time}
+            isEdit={isEdit}
+            setIsEdit={setIsEdit}
+            type={type}
+            isAdmin={isAdmin}
           />
         </div>
       ))}

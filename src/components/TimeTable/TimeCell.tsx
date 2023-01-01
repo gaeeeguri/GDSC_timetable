@@ -1,16 +1,20 @@
 import { createStyles } from "@mantine/core";
 import { IconEdit } from "@tabler/icons";
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
+
+import colors from "@/Const/colors";
+
+import EditDialog from "../EditDialog/EditDialog";
+import { timeBlock } from "../Types/type";
 
 interface BlockProps {
-  color: string;
   start: number;
   end: number;
-  user: string;
+  color: string;
 }
 
 const useStyles = createStyles(
-  (theme, { color, start, end }: BlockProps, getRef) => ({
+  (theme, { start, end, color }: BlockProps, getRef) => ({
     block: {
       width: "8vw",
       maxWidth: 1130 / 8 + 1,
@@ -56,9 +60,29 @@ const useStyles = createStyles(
   })
 );
 
-const TimeCell = ({ color, start, end, user }: BlockProps) => {
-  const { classes } = useStyles({ color, start, end, user });
+interface TimeCellProps {
+  timeData: timeBlock;
+  type: "new" | "old";
+  isEdit: boolean;
+  setIsEdit: Dispatch<SetStateAction<boolean>>;
+  isAdmin: boolean;
+}
+
+const TimeCell = ({
+  timeData,
+  type,
+  isEdit,
+  setIsEdit,
+  isAdmin,
+}: TimeCellProps) => {
+  const [start, end, color] = [
+    timeData.start,
+    timeData.end,
+    colors[timeData.user],
+  ];
+  const { classes } = useStyles({ start, end, color });
   const [hover, setHover] = useState<boolean>(false);
+  const [isDialogOn, setIsDialogOn] = useState<boolean>(false);
 
   const onMouseEnter = () => {
     setHover(true);
@@ -68,24 +92,47 @@ const TimeCell = ({ color, start, end, user }: BlockProps) => {
     setHover(false);
   };
 
+  const onClickEditIcon = () => {
+    setIsDialogOn(true);
+    setIsEdit(true);
+  };
+
+  const onCloseEditModal = () => {
+    setIsDialogOn(false);
+    setIsEdit(false);
+  };
+
   return (
-    <div
-      className={classes.block}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
-    >
-      {user}
+    <>
       <div
-        role="presentation"
-        style={{ position: "absolute", top: 10, right: 10 }}
+        className={classes.block}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
       >
-        {hover ? (
-          <div className={classes.editButton}>
-            <IconEdit size={18} />
-          </div>
-        ) : null}
+        {timeData.user}
+        <div
+          role="presentation"
+          style={{ position: "absolute", top: 10, right: 10 }}
+        >
+          {hover && !isEdit && isAdmin ? (
+            <div
+              className={classes.editButton}
+              role="presentation"
+              onClick={onClickEditIcon}
+              onKeyDown={onClickEditIcon}
+            >
+              <IconEdit size={18} />
+            </div>
+          ) : null}
+        </div>
       </div>
-    </div>
+      <EditDialog
+        opened={isDialogOn}
+        timeData={timeData}
+        type={type}
+        onClose={onCloseEditModal}
+      />
+    </>
   );
 };
 

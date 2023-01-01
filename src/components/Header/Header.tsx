@@ -30,13 +30,13 @@ const useStyles = createStyles((theme, _params, getRef) => ({
     }`,
   },
   navWrapper: {
-    maxWidth: 1190,
-    width: "56vw",
+    maxWidth: 1130,
+    width: "63vw",
     display: "flex",
   },
   title: {
     ref: getRef("child"),
-    maxWidth: 1190,
+    maxWidth: 1130,
     color: theme.colorScheme === "dark" ? theme.white : theme.black,
     fontSize: theme.fontSizes.lg,
     display: "flex",

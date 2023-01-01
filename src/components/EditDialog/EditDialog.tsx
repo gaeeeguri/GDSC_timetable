@@ -1,6 +1,7 @@
 import { Button, Dialog, Group, NativeSelect, Text } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import axios from "axios";
+import { useState } from "react";
 
 import { timeBlock } from "@/components/Types/type";
 import days from "@/Const/days";
@@ -9,37 +10,19 @@ interface EditDialogProps {
   opened: boolean;
   onClose: () => void;
   timeData: timeBlock;
-  deleteTry?: boolean;
-  onDelete?: () => void;
   type: string;
 }
 
-const EditDialog = ({
-  opened,
-  onClose,
-  timeData,
-  deleteTry,
-  onDelete,
-  type,
-}: EditDialogProps) => {
-  async function onSubmit(values: { [key: string | number]: string | number }) {
+const EditDialog = ({ opened, onClose, timeData, type }: EditDialogProps) => {
+  const [deleteTry, setDeleteTry] = useState<boolean>(false);
+  async function modifyTime(values: {
+    [key: string | number]: string | number;
+  }) {
     try {
       await axios
-        .patch(
-          `http://35.247.70.187:8080/${type}/${values.id}`,
-          // ?day=${values.day}&start=${values.start}&end=${values.end}&id=${values.id}&user=${values.user}
-          values,
-          {
-            headers: {
-              "Access-Control-Allow-Origin": "*",
-            },
-          }
-        )
+        .patch(`http://35.247.70.187:8080/${type}/${values.id}`, values, {})
         .then(function (response) {
           console.log(response);
-          // type === "old"
-          //   ? getOldTimeBlock()
-          //   : getNewTimeBlock()
         });
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -98,19 +81,37 @@ const EditDialog = ({
     },
   });
 
+  const onClickDelete = async () => {
+    if (deleteTry) {
+      await deleteTime();
+      await onClose();
+    } else {
+      setDeleteTry(true);
+    }
+  };
+
+  const onClickModify = async (values: { [key: string]: string | number }) => {
+    await modifyTime(values);
+    await onClose();
+  };
+
   return (
     <Dialog
       withCloseButton
       opened={opened}
       size="lg"
       radius="md"
-      onClose={onClose}
+      onClose={() => {
+        onClose();
+        setDeleteTry(false);
+      }}
     >
       <Text size="lg" style={{ marginBottom: 10 }} weight={500}>
-        {timeData.user}, {days[timeData.day]}요일 {timeData.start}:00 -{" "}
-        {timeData.end}:00
+        {timeData.user}, {days[timeData.day]}요일 오후{" "}
+        {timeData.start === 12 ? 12 : timeData.start - 12}시 ~{" "}
+        {timeData.end - 12}시
       </Text>
-      <form onSubmit={editForm.onSubmit(values => onSubmit(values))}>
+      <form onSubmit={editForm.onSubmit(values => onClickModify(values))}>
         <NativeSelect
           // defaultValue={days[timeData.day]}
           data={[
@@ -173,7 +174,7 @@ const EditDialog = ({
             <Button
               variant={deleteTry ? "filled" : "light"}
               color="red"
-              onClick={deleteTry ? deleteTime : onDelete}
+              onClick={onClickDelete}
             >
               삭제
             </Button>
@@ -183,7 +184,7 @@ const EditDialog = ({
               </Text>
             ) : null}
           </Group>
-          <Button variant="light" type="submit" onClick={onClose}>
+          <Button variant="light" type="submit">
             수정
           </Button>
         </Group>

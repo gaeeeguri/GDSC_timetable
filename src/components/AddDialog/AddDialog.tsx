@@ -3,6 +3,7 @@ import { useForm } from "@mantine/form";
 import axios from "axios";
 
 import { timeBlock } from "@/components/Types/type";
+import fetchTimes from "@/Hook/fetchTimes";
 
 // axios.defaults.withCredentials = true;
 
@@ -10,29 +11,19 @@ interface AddDialogProps {
   opened: boolean;
   onClose: () => void;
   type: string;
-  getOldTimeBlock: () => void;
-  getNewTimeBlock: () => void;
 }
 
-const AddDialog = ({
-  opened,
-  onClose,
-  type,
-  getOldTimeBlock,
-  getNewTimeBlock,
-}: AddDialogProps) => {
-  async function onSubmit(values: { [key: string | number]: string | number }) {
-    console.log(values);
+const AddDialog = ({ opened, onClose, type }: AddDialogProps) => {
+  const onClickSubmit = async (values: { [key: string]: string | number }) => {
+    await addTime(values);
+    await onClose();
+  };
+  async function addTime(values: { [key: string | number]: string | number }) {
     try {
       await axios
-        .post(
-          `http://35.247.70.187:8080/${type}/addtime?day=${values.day}&start=${values.start}&end=${values.end}&user=${values.user}`,
-          {},
-          {}
-        )
+        .post(`http://35.247.70.187:8080/${type}`, values, {})
         .then(function (response) {
           console.log(response);
-          type === "old" ? getOldTimeBlock() : getNewTimeBlock();
         });
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -75,7 +66,7 @@ const AddDialog = ({
       <Text size="lg" style={{ marginBottom: 10 }} weight={500}>
         연습 시간 추가
       </Text>
-      <form onSubmit={addForm.onSubmit(values => onSubmit(values))}>
+      <form onSubmit={addForm.onSubmit(values => onClickSubmit(values))}>
         <NativeSelect
           // defaultValue={"도쭈"}
           data={["도쭈", "휴익", "이그니션", "싱송", "지스리"]}
@@ -141,7 +132,7 @@ const AddDialog = ({
           />
         </Group>
         <Group position="right" style={{ width: "100%", marginTop: 30 }}>
-          <Button variant="light" type="submit" onClick={onClose}>
+          <Button variant="light" type="submit">
             추가
           </Button>
         </Group>

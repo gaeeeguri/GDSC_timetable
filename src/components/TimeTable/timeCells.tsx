@@ -1,7 +1,4 @@
-import { createStyles } from "@mantine/core";
 import { Dispatch, SetStateAction } from "react";
-
-import colors from "@/Const/colors";
 
 import { timeBlock } from "../Types/type";
 import TimeCell from "./TimeCell";

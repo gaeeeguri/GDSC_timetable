@@ -22,7 +22,7 @@ const EditDialog = ({ opened, onClose, timeData, type }: EditDialogProps) => {
       await axios
         .patch(`http://35.247.70.187:8080/${type}/${values.id}`, values, {})
         .then(function (response) {
-          console.log(response);
+          // console.log(response);
         });
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -46,10 +46,7 @@ const EditDialog = ({ opened, onClose, timeData, type }: EditDialogProps) => {
           },
         })
         .then(function (response) {
-          console.log(response);
-          // type === "old"
-          //   ? getOldTimeBlock()
-          //   : getNewTimeBlock()
+          // console.log(response);
         });
     } catch (error) {
       if (axios.isAxiosError(error)) {

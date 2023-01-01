@@ -8,7 +8,7 @@ const FetchTimes = (type: string, isEdit: boolean) => {
 
   useEffect(() => {
     fetchTimes(type);
-  }, [isEdit]);
+  }, [isEdit, type]);
   async function fetchTimes(type: string) {
     try {
       const { data, status } = await axios.get<timeBlock[]>(

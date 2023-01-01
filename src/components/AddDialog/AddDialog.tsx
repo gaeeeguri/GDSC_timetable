@@ -2,11 +2,6 @@ import { Button, Dialog, Group, NativeSelect, Text } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import axios from "axios";
 
-import { timeBlock } from "@/components/Types/type";
-import fetchTimes from "@/Hook/fetchTimes";
-
-// axios.defaults.withCredentials = true;
-
 interface AddDialogProps {
   opened: boolean;
   onClose: () => void;
@@ -23,7 +18,7 @@ const AddDialog = ({ opened, onClose, type }: AddDialogProps) => {
       await axios
         .post(`http://35.247.70.187:8080/${type}`, values, {})
         .then(function (response) {
-          console.log(response);
+          // console.log(response);
         });
     } catch (error) {
       if (axios.isAxiosError(error)) {

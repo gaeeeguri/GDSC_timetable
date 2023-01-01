@@ -72,9 +72,9 @@ const Header = ({ isAdmin, setIsAdmin }: HeaderProps) => {
     setValidationFail(true);
   };
 
-  const onKeyPress = (e: any) => {
+  const onKeyPress = (e: React.KeyboardEvent<HTMLElement>) => {
     if (e.key === "Enter") {
-      console.log("enter");
+      // console.log("enter");
       validate();
     }
   };

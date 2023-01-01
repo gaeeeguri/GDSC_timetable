@@ -1,5 +1,4 @@
 import { Button, createStyles, Paper, SegmentedControl } from "@mantine/core";
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 
 import TimeCells from "@/components/TimeTable/timeCells";

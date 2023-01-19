@@ -58,7 +58,11 @@ const EditDialog = ({ opened, onClose, timeData, type }: EditDialogProps) => {
   async function deleteTime() {
     try {
       await axios
-        .delete(`http://118.67.132.211:8080/${type}/admin/${timeData.id}`, {})
+        .delete(`http://118.67.132.211:8080/${type}/admin/${timeData.id}`, {
+          headers: {
+            Authorization: `Bearer ${cookies.accessToken}`,
+          },
+        })
         .then(function (response) {
           // console.log(response);
         });

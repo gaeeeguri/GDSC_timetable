@@ -3,6 +3,7 @@ import { useForm } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
 import axios from "axios";
 import { useState } from "react";
+import { useCookies } from "react-cookie";
 
 import { dayForm, endForm, startForm } from "@/Const/form";
 
@@ -14,6 +15,10 @@ interface AddDialogProps {
 
 const AddDialog = ({ opened, onClose, type }: AddDialogProps) => {
   const [loading, setLoading] = useState<boolean>(false);
+  const [cookies, setCookie, removeCookie] = useCookies([
+    "accessToken",
+    "refreshToken",
+  ]);
   // const [error, setError] = useState<boolean>(false);
 
   const onClickSubmit = async (values: { [key: string]: string | number }) => {
@@ -30,7 +35,11 @@ const AddDialog = ({ opened, onClose, type }: AddDialogProps) => {
           end: Number(values.end),
           user: values.user,
         },
-        {}
+        {
+          headers: {
+            Authorization: `Bearer ${cookies.accessToken}`,
+          },
+        }
       );
     } catch (error) {
       if (axios.isAxiosError(error)) {

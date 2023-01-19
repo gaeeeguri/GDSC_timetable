@@ -12,7 +12,7 @@ const FetchTimes = (type: string, isEdit: boolean) => {
   async function fetchTimes(type: string) {
     try {
       const { data, status } = await axios.get<timeBlock[]>(
-        `http://35.247.70.187:8080/${type}`,
+        `http://118.67.132.211:8080/${type}`,
         {
           headers: {
             Accept: "Application/json",

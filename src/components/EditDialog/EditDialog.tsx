@@ -2,6 +2,7 @@ import { Button, Dialog, Group, NativeSelect, Text } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import axios from "axios";
 import { useState } from "react";
+import { useCookies } from "react-cookie";
 
 import { timeBlock } from "@/components/Types/type";
 import days from "@/Const/days";
@@ -16,12 +17,30 @@ interface EditDialogProps {
 
 const EditDialog = ({ opened, onClose, timeData, type }: EditDialogProps) => {
   const [deleteTry, setDeleteTry] = useState<boolean>(false);
+  const [cookies, setCookie, removeCookie] = useCookies([
+    "accessToken",
+    "refreshToken",
+  ]);
+
   async function modifyTime(values: {
     [key: string | number]: string | number;
   }) {
     try {
       await axios
-        .patch(`http://35.247.70.187:8080/${type}/${values.id}`, values, {})
+        .patch(
+          `http://118.67.132.211:8080/${type}/admin/${values.id}`,
+          {
+            id: values.id,
+            day: values.day,
+            start: Number(values.start),
+            end: Number(values.end),
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${cookies.accessToken}`,
+            },
+          }
+        )
         .then(function (response) {
           // console.log(response);
         });
@@ -39,13 +58,7 @@ const EditDialog = ({ opened, onClose, timeData, type }: EditDialogProps) => {
   async function deleteTime() {
     try {
       await axios
-        .delete(`http://35.247.70.187:8080/${type}/${timeData.id}`, {
-          headers: {
-            // "Content-Type": "application/json",
-            // "Accept": "application/json",
-            // 'Access-Control-Allow-Origin': "*",
-          },
-        })
+        .delete(`http://118.67.132.211:8080/${type}/admin/${timeData.id}`, {})
         .then(function (response) {
           // console.log(response);
         });
@@ -64,16 +77,16 @@ const EditDialog = ({ opened, onClose, timeData, type }: EditDialogProps) => {
     initialValues: {
       id: timeData.id,
       day: timeData.day,
-      start: timeData.start,
-      end: timeData.end,
+      start: timeData.start.toString(),
+      end: timeData.end.toString(),
     },
 
     validate: {
       end: (
-        value: number,
+        value: string,
         values: { [key: string | number]: string | number }
       ) =>
-        values.start < value
+        Number(values.start) < Number(value)
           ? null
           : "종료 시간은 시작 시간보다 늦어야 합니다!",
     },

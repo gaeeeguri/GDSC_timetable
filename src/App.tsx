@@ -1,5 +1,6 @@
 import { createStyles } from "@mantine/core";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
 
 import Header from "./components/Header/Header";
 import TimeTable from "./components/TimeTable/TimeTalbe";
@@ -17,6 +18,17 @@ const useStyles = createStyles((theme, _params, getRef) => ({
 export default function App() {
   const { classes } = useStyles();
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
+  const [cookies, setCookie, removeCookie] = useCookies([
+    "accessToken",
+    "refreshToken",
+  ]);
+
+  useEffect(() => {
+    if (cookies.accessToken != null) {
+      setIsAdmin(true);
+    }
+  }, []);
+
   return (
     <div className={classes.wrapper}>
       <Header isAdmin={isAdmin} setIsAdmin={setIsAdmin} />

@@ -22,7 +22,16 @@ const AddDialog = ({ opened, onClose, type }: AddDialogProps) => {
   };
   async function addTime(values: { [key: string | number]: string | number }) {
     try {
-      await axios.post(`http://35.247.70.187:8080/${type}`, values, {});
+      await axios.post(
+        `http://118.67.132.211:8080/${type}/admin`,
+        {
+          day: values.day,
+          start: Number(values.start),
+          end: Number(values.end),
+          user: values.user,
+        },
+        {}
+      );
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.log("error message: ", error.message);
@@ -38,16 +47,16 @@ const AddDialog = ({ opened, onClose, type }: AddDialogProps) => {
     initialValues: {
       user: "도쭈",
       day: "mon",
-      start: 12,
-      end: 13,
+      start: "12",
+      end: "13",
     },
 
     validate: {
       end: (
-        value: number,
+        value: string,
         values: { [key: string | number]: string | number }
       ) =>
-        values.start < value
+        Number(values.start) < Number(value)
           ? null
           : "종료 시간은 시작 시간보다 늦어야 합니다!",
     },

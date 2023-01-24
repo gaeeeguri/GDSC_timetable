@@ -1,11 +1,16 @@
 import {
   Button,
   createStyles,
+  Input,
   Modal,
   PasswordInput,
   Text,
 } from "@mantine/core";
+import axios from "axios";
 import React, { Dispatch, SetStateAction, useState } from "react";
+
+import axiosInstance from "@/lib/axiosSetting";
+import { removeCookie, setCookie } from "@/lib/cookie";
 
 const useStyles = createStyles((theme, _params, getRef) => ({
   wrapper: {
@@ -52,39 +57,46 @@ interface HeaderProps {
 
 const Header = ({ isAdmin, setIsAdmin }: HeaderProps) => {
   const [loginModal, setLoginModal] = useState<boolean>(false);
+  const [id, setId] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [validationFail, setValidationFail] = useState<boolean>(false);
   const { classes } = useStyles();
 
-  const onChange = (e: React.FormEvent<HTMLInputElement>) => {
+  const login = () => {
+    try {
+      axiosInstance
+        .post("/login/admin", { memberId: id, password: password })
+        .then(res => {
+          setCookie("accessToken", res.data.accessToken);
+          setCookie("refreshToken", res.data.refreshToken);
+          setIsAdmin(true);
+          setLoginModal(false);
+          setValidationFail(false);
+        });
+    } catch (e) {
+      setValidationFail(true);
+    }
+  };
+
+  const logOut = () => {
+    removeCookie("accessToken");
+    removeCookie("refreshToken");
+    setIsAdmin(false);
+  };
+
+  const onChangeId = (e: React.FormEvent<HTMLInputElement>) => {
+    setId(e.currentTarget.value);
+  };
+
+  const onChangePassword = (e: React.FormEvent<HTMLInputElement>) => {
     // console.log(e.currentTarget.value);
     setPassword(e.currentTarget.value);
-  };
-
-  const onSuccess = () => {
-    // console.log(isAdmin);
-    setIsAdmin(data => !data);
-    setLoginModal(false);
-    setValidationFail(false);
-  };
-
-  const onFailure = () => {
-    setValidationFail(true);
   };
 
   const onKeyPress = (e: React.KeyboardEvent<HTMLElement>) => {
     if (e.key === "Enter") {
       // console.log("enter");
-      validate();
-    }
-  };
-
-  const validate = () => {
-    // console.log("validate");
-    if (password === "1234") {
-      onSuccess();
-    } else {
-      onFailure();
+      login();
     }
   };
   return (
@@ -92,11 +104,7 @@ const Header = ({ isAdmin, setIsAdmin }: HeaderProps) => {
       <div className={classes.navWrapper}>
         <div className={classes.title}>GDSC Calendar Project</div>
         {isAdmin ? (
-          <Button
-            color="red"
-            style={{ marginLeft: "auto" }}
-            onClick={onSuccess}
-          >
+          <Button color="red" style={{ marginLeft: "auto" }} onClick={logOut}>
             로그아웃
           </Button>
         ) : (
@@ -114,21 +122,25 @@ const Header = ({ isAdmin, setIsAdmin }: HeaderProps) => {
         centered
         opened={loginModal}
         withCloseButton={false}
+        title="관리자 로그인"
         onClose={() => {
           setLoginModal(false);
           setValidationFail(false);
         }}
       >
-        <div className={classes.form} onSubmit={validate}>
+        <div className={classes.form} onSubmit={login}>
+          <Input.Wrapper label="아이디">
+            <Input onChange={onChangeId} onKeyDown={onKeyPress} />
+          </Input.Wrapper>
           <PasswordInput
             label="비밀번호"
-            description="관리자 비밀번호를 입력하세요."
-            onChange={onChange}
+            style={{ marginTop: 15 }}
+            onChange={onChangePassword}
             onKeyDown={onKeyPress}
           />
           {validationFail ? (
             <Text color="red" size="xs" style={{ marginLeft: 12 }}>
-              비밀번호가 틀렸습니다!
+              아이디 또는 비밀번호가 틀렸습니다!
             </Text>
           ) : (
             <div style={{ height: 20 }}></div>
@@ -136,7 +148,7 @@ const Header = ({ isAdmin, setIsAdmin }: HeaderProps) => {
           <Button
             value={password}
             style={{ marginTop: 15, float: "right" }}
-            onClick={validate}
+            onClick={login}
             onKeyPress={onKeyPress}
           >
             로그인

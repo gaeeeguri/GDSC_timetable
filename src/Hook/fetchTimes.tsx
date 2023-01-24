@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 import { timeBlock } from "@/components/Types/type";
+import axiosInstance from "@/lib/axiosSetting";
 
 const FetchTimes = (type: string, isEdit: boolean) => {
   const [data, setData] = useState<Array<timeBlock>>([]);
@@ -11,15 +12,7 @@ const FetchTimes = (type: string, isEdit: boolean) => {
   }, [isEdit, type]);
   async function fetchTimes(type: string) {
     try {
-      const { data, status } = await axios.get<timeBlock[]>(
-        `http://35.247.70.187:8080/${type}`,
-        {
-          headers: {
-            Accept: "Application/json",
-          },
-        }
-      );
-
+      const { data, status } = await axiosInstance.get(`/${type}`);
       setData(data);
     } catch (e) {
       if (axios.isAxiosError(e)) {

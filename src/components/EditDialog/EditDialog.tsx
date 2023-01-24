@@ -2,11 +2,11 @@ import { Button, Dialog, Group, NativeSelect, Text } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import axios from "axios";
 import { useState } from "react";
-import { useCookies } from "react-cookie";
 
 import { timeBlock } from "@/components/Types/type";
 import days from "@/Const/days";
 import { dayForm, endForm, startForm } from "@/Const/form";
+import { getCookie } from "@/lib/cookie";
 
 interface EditDialogProps {
   opened: boolean;
@@ -17,10 +17,6 @@ interface EditDialogProps {
 
 const EditDialog = ({ opened, onClose, timeData, type }: EditDialogProps) => {
   const [deleteTry, setDeleteTry] = useState<boolean>(false);
-  const [cookies, setCookie, removeCookie] = useCookies([
-    "accessToken",
-    "refreshToken",
-  ]);
 
   async function modifyTime(values: {
     [key: string | number]: string | number;
@@ -37,7 +33,7 @@ const EditDialog = ({ opened, onClose, timeData, type }: EditDialogProps) => {
           },
           {
             headers: {
-              Authorization: `Bearer ${cookies.accessToken}`,
+              Authorization: `Bearer ${getCookie("accessToken")}`,
             },
           }
         )
@@ -60,7 +56,7 @@ const EditDialog = ({ opened, onClose, timeData, type }: EditDialogProps) => {
       await axios
         .delete(`http://118.67.132.211:8080/${type}/admin/${timeData.id}`, {
           headers: {
-            Authorization: `Bearer ${cookies.accessToken}`,
+            Authorization: `Bearer ${getCookie("accessToken")}`,
           },
         })
         .then(function (response) {

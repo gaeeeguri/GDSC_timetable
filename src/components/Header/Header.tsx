@@ -8,7 +8,8 @@ import {
 } from "@mantine/core";
 import axios from "axios";
 import React, { Dispatch, SetStateAction, useState } from "react";
-import { useCookies } from "react-cookie";
+
+import { removeCookie, setCookie } from "@/lib/cookie";
 
 const useStyles = createStyles((theme, _params, getRef) => ({
   wrapper: {
@@ -59,10 +60,6 @@ const Header = ({ isAdmin, setIsAdmin }: HeaderProps) => {
   const [password, setPassword] = useState<string>("");
   const [validationFail, setValidationFail] = useState<boolean>(false);
   const { classes } = useStyles();
-  const [cookies, setCookie, removeCookie] = useCookies([
-    "accessToken",
-    "refreshToken",
-  ]);
 
   const login = () => {
     try {

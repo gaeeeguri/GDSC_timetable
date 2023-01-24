@@ -1,11 +1,10 @@
 import { Button, Dialog, Group, NativeSelect, Text } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { showNotification } from "@mantine/notifications";
 import axios from "axios";
 import { useState } from "react";
-import { useCookies } from "react-cookie";
 
 import { dayForm, endForm, startForm } from "@/Const/form";
+import { getCookie } from "@/lib/cookie";
 
 interface AddDialogProps {
   opened: boolean;
@@ -15,10 +14,6 @@ interface AddDialogProps {
 
 const AddDialog = ({ opened, onClose, type }: AddDialogProps) => {
   const [loading, setLoading] = useState<boolean>(false);
-  const [cookies, setCookie, removeCookie] = useCookies([
-    "accessToken",
-    "refreshToken",
-  ]);
   // const [error, setError] = useState<boolean>(false);
 
   const onClickSubmit = async (values: { [key: string]: string | number }) => {
@@ -37,7 +32,7 @@ const AddDialog = ({ opened, onClose, type }: AddDialogProps) => {
         },
         {
           headers: {
-            Authorization: `Bearer ${cookies.accessToken}`,
+            Authorization: `Bearer ${getCookie("accessToken")}`,
           },
         }
       );

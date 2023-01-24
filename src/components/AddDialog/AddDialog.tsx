@@ -1,11 +1,10 @@
 import { Button, Dialog, Group, NativeSelect, Text } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import axios from "axios";
-import { useState } from "react";
+import React, { useState } from "react";
 
 import { dayForm, endForm, startForm } from "@/Const/form";
 import axiosInstance from "@/lib/axiosSetting";
-import { getCookie } from "@/lib/cookie";
 
 interface AddDialogProps {
   opened: boolean;
@@ -15,7 +14,28 @@ interface AddDialogProps {
 
 const AddDialog = ({ opened, onClose, type }: AddDialogProps) => {
   const [loading, setLoading] = useState<boolean>(false);
-  // const [error, setError] = useState<boolean>(false);
+
+  const onStartChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    addForm.setFieldValue("start", e.currentTarget.value);
+
+    if (Number(addForm.values.end) <= Number(e.currentTarget.value)) {
+      addForm.setFieldValue(
+        "end",
+        (Number(e.currentTarget.value) + 1).toString()
+      );
+    }
+  };
+
+  const onEndChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    addForm.setFieldValue("end", e.currentTarget.value);
+
+    if (Number(e.currentTarget.value) <= Number(addForm.values.start)) {
+      addForm.setFieldValue(
+        "start",
+        (Number(e.currentTarget.value) - 1).toString()
+      );
+    }
+  };
 
   const onClickSubmit = async (values: { [key: string]: string | number }) => {
     await addTime(values);
@@ -99,6 +119,7 @@ const AddDialog = ({ opened, onClose, type }: AddDialogProps) => {
             label="시작 시간"
             style={{ width: "45%" }}
             {...addForm.getInputProps("start")}
+            onChange={onStartChange}
           />
           <NativeSelect
             // defaultValue={13}
@@ -106,6 +127,7 @@ const AddDialog = ({ opened, onClose, type }: AddDialogProps) => {
             data={endForm}
             style={{ width: "45%" }}
             {...addForm.getInputProps("end")}
+            onChange={onEndChange}
           />
         </div>
         <Group position="right" style={{ width: "100%", marginTop: 30 }}>

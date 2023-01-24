@@ -1,7 +1,7 @@
 import { Button, Dialog, Group, NativeSelect, Text } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import axios from "axios";
-import { useState } from "react";
+import React, { useState } from "react";
 
 import { timeBlock } from "@/components/Types/type";
 import days from "@/Const/days";
@@ -18,6 +18,28 @@ interface EditDialogProps {
 
 const EditDialog = ({ opened, onClose, timeData, type }: EditDialogProps) => {
   const [deleteTry, setDeleteTry] = useState<boolean>(false);
+
+  const onStartChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    editForm.setFieldValue("start", e.currentTarget.value);
+
+    if (Number(editForm.values.end) <= Number(e.currentTarget.value)) {
+      editForm.setFieldValue(
+        "end",
+        (Number(e.currentTarget.value) + 1).toString()
+      );
+    }
+  };
+
+  const onEndChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    editForm.setFieldValue("end", e.currentTarget.value);
+
+    if (Number(e.currentTarget.value) <= Number(editForm.values.start)) {
+      editForm.setFieldValue(
+        "start",
+        (Number(e.currentTarget.value) - 1).toString()
+      );
+    }
+  };
 
   async function modifyTime(values: {
     [key: string | number]: string | number;
@@ -133,6 +155,7 @@ const EditDialog = ({ opened, onClose, timeData, type }: EditDialogProps) => {
             label="시작 시간"
             style={{ width: "45%" }}
             {...editForm.getInputProps("start")}
+            onChange={onStartChange}
           />
           <NativeSelect
             // defaultValue={times[timeData.end]}
@@ -140,6 +163,7 @@ const EditDialog = ({ opened, onClose, timeData, type }: EditDialogProps) => {
             data={endForm}
             style={{ width: "45%" }}
             {...editForm.getInputProps("end")}
+            onChange={onEndChange}
           />
         </div>
         <Group position="apart" style={{ width: "100%", marginTop: 30 }}>

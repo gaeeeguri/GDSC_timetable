@@ -19,7 +19,7 @@ interface EditDialogProps {
 const EditDialog = ({ opened, onClose, timeData, type }: EditDialogProps) => {
   const [deleteTry, setDeleteTry] = useState<boolean>(false);
 
-  const onStartChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onStartChange = (e: any) => {
     editForm.setFieldValue("start", e.currentTarget.value);
 
     if (Number(editForm.values.end) <= Number(e.currentTarget.value)) {
@@ -30,7 +30,7 @@ const EditDialog = ({ opened, onClose, timeData, type }: EditDialogProps) => {
     }
   };
 
-  const onEndChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onEndChange = (e: any) => {
     editForm.setFieldValue("end", e.currentTarget.value);
 
     if (Number(e.currentTarget.value) <= Number(editForm.values.start)) {

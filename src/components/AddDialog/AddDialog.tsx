@@ -15,7 +15,7 @@ interface AddDialogProps {
 const AddDialog = ({ opened, onClose, type }: AddDialogProps) => {
   const [loading, setLoading] = useState<boolean>(false);
 
-  const onStartChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onStartChange = (e: any) => {
     addForm.setFieldValue("start", e.currentTarget.value);
 
     if (Number(addForm.values.end) <= Number(e.currentTarget.value)) {
@@ -26,7 +26,7 @@ const AddDialog = ({ opened, onClose, type }: AddDialogProps) => {
     }
   };
 
-  const onEndChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onEndChange = (e: any) => {
     addForm.setFieldValue("end", e.currentTarget.value);
 
     if (Number(e.currentTarget.value) <= Number(addForm.values.start)) {

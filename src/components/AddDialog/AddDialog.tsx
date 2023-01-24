@@ -4,6 +4,7 @@ import axios from "axios";
 import { useState } from "react";
 
 import { dayForm, endForm, startForm } from "@/Const/form";
+import axiosInstance from "@/lib/axiosSetting";
 import { getCookie } from "@/lib/cookie";
 
 interface AddDialogProps {
@@ -22,20 +23,12 @@ const AddDialog = ({ opened, onClose, type }: AddDialogProps) => {
   };
   async function addTime(values: { [key: string | number]: string | number }) {
     try {
-      await axios.post(
-        `http://118.67.132.211:8080/${type}/admin`,
-        {
-          day: values.day,
-          start: Number(values.start),
-          end: Number(values.end),
-          user: values.user,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${getCookie("accessToken")}`,
-          },
-        }
-      );
+      await axiosInstance.post(`/${type}/admin`, {
+        day: values.day,
+        start: Number(values.start),
+        end: Number(values.end),
+        user: values.user,
+      });
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.log("error message: ", error.message);

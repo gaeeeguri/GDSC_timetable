@@ -6,6 +6,7 @@ import { useState } from "react";
 import { timeBlock } from "@/components/Types/type";
 import days from "@/Const/days";
 import { dayForm, endForm, startForm } from "@/Const/form";
+import axiosInstance from "@/lib/axiosSetting";
 import { getCookie } from "@/lib/cookie";
 
 interface EditDialogProps {
@@ -22,21 +23,13 @@ const EditDialog = ({ opened, onClose, timeData, type }: EditDialogProps) => {
     [key: string | number]: string | number;
   }) {
     try {
-      await axios
-        .patch(
-          `http://118.67.132.211:8080/${type}/admin/${values.id}`,
-          {
-            id: values.id,
-            day: values.day,
-            start: Number(values.start),
-            end: Number(values.end),
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${getCookie("accessToken")}`,
-            },
-          }
-        )
+      await axiosInstance
+        .patch(`/${type}/admin/${values.id}`, {
+          id: values.id,
+          day: values.day,
+          start: Number(values.start),
+          end: Number(values.end),
+        })
         .then(function (response) {
           // console.log(response);
         });
@@ -53,12 +46,8 @@ const EditDialog = ({ opened, onClose, timeData, type }: EditDialogProps) => {
 
   async function deleteTime() {
     try {
-      await axios
-        .delete(`http://118.67.132.211:8080/${type}/admin/${timeData.id}`, {
-          headers: {
-            Authorization: `Bearer ${getCookie("accessToken")}`,
-          },
-        })
+      await axiosInstance
+        .delete(`/${type}/admin/${timeData.id}`)
         .then(function (response) {
           // console.log(response);
         });

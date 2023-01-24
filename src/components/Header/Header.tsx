@@ -9,6 +9,7 @@ import {
 import axios from "axios";
 import React, { Dispatch, SetStateAction, useState } from "react";
 
+import axiosInstance from "@/lib/axiosSetting";
 import { removeCookie, setCookie } from "@/lib/cookie";
 
 const useStyles = createStyles((theme, _params, getRef) => ({
@@ -63,11 +64,8 @@ const Header = ({ isAdmin, setIsAdmin }: HeaderProps) => {
 
   const login = () => {
     try {
-      axios
-        .post("http://118.67.132.211:8080/login/admin", {
-          memberId: id,
-          password: password,
-        })
+      axiosInstance
+        .post("/login/admin", { memberId: id, password: password })
         .then(res => {
           setCookie("accessToken", res.data.accessToken);
           setCookie("refreshToken", res.data.refreshToken);

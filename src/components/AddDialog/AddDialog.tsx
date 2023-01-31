@@ -93,7 +93,7 @@ const AddDialog = ({ opened, onClose, type }: AddDialogProps) => {
       <form onSubmit={addForm.onSubmit(values => onClickSubmit(values))}>
         <NativeSelect
           // defaultValue={"도쭈"}
-          data={["도쭈", "휴익", "이그니션", "싱송", "지스리"]}
+          data={["도쭈", "휴익", "이그니션", "싱송", "지스리", "악동"]}
           label="동아리"
           style={{ width: "100%" }}
           {...addForm.getInputProps("user")}

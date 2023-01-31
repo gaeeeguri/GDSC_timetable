@@ -4,7 +4,7 @@ const colors: { [key: string]: string } = {
   이그니션: "indigo",
   싱송: "teal",
   지스리: "orange",
-  아무개동아리: "blue",
+  악동: "blue",
 };
 
 export default colors;

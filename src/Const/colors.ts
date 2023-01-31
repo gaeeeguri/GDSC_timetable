@@ -5,6 +5,7 @@ const colors: { [key: string]: string } = {
   싱송: "teal",
   지스리: "orange",
   악동: "blue",
+  지대로: "yellow",
 };
 
 export default colors;

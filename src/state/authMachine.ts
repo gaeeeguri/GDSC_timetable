@@ -1,5 +1,12 @@
 import { actions, createMachine } from "xstate";
 
+export enum authStates {
+  unauthorized,
+  loginModal,
+  loading,
+  authorized,
+}
+
 export const authMachine = createMachine(
   {
     id: "authentication",
@@ -21,6 +28,10 @@ export const authMachine = createMachine(
       loginModal: {
         on: {
           LOGIN: "loading",
+          CLOSE_MODAL: {
+            target: "unauthorized",
+            actions: ["closeModal"],
+          },
         },
       },
       loading: {

@@ -25,7 +25,9 @@ axiosInstance.interceptors.response.use(
     } = err;
 
     if (status == 403) {
-      alert("로그인 시간이 만료되었습니다. 로그아웃 후 다시 로그인해주세요.");
+      alert(
+        "다음 중 한 가지 문제가 발생했습니다. \n 1. 인증 시간이 끝나 다시 로그인해야 합니다. \n 2. 아이디 또는 비밀번호가 틀렸습니다."
+      );
     }
 
     if (status == 406) {

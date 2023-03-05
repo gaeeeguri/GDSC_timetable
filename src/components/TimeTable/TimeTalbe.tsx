@@ -8,6 +8,8 @@ import captureData from "@/util/saveImage/saveImage";
 
 import AddDialog from "../AddDialog/AddDialog";
 import { timeBlock } from "../Types/type";
+import { useMachine } from "@xstate/react";
+import { authMachine } from "@/state/authMachine";
 
 interface tableLengthProps {
   height: number;
@@ -108,15 +110,13 @@ const useStyles = createStyles(
   })
 );
 
-interface timeTableProps {
-  isAdmin: boolean;
-}
-
-const TimeTable = ({ isAdmin }: timeTableProps) => {
+const TimeTable = () => {
   const { classes } = useStyles({ height: TABLE_CONST.height });
   const [type, setType] = useState<string>("old");
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [thisEdit, setThisEdit] = useState<boolean>(false);
+
+  const [state, send, actor] = useMachine(authMachine);
 
   const newTimeBlock: Array<timeBlock> = FetchTimes("new", isEdit);
   const oldTimeBlock: Array<timeBlock> = FetchTimes("old", isEdit);
@@ -136,7 +136,7 @@ const TimeTable = ({ isAdmin }: timeTableProps) => {
           type="new"
           isEdit={isEdit}
           setIsEdit={setIsEdit}
-          isAdmin={isAdmin}
+          isAdmin={state.matches("authorized")}
         />
       </td>
       <td className={classes.emptyCell}>
@@ -145,7 +145,7 @@ const TimeTable = ({ isAdmin }: timeTableProps) => {
           type="new"
           isEdit={isEdit}
           setIsEdit={setIsEdit}
-          isAdmin={isAdmin}
+          isAdmin={state.matches("authorized")}
         />
       </td>
       <td className={classes.emptyCell}>
@@ -154,7 +154,7 @@ const TimeTable = ({ isAdmin }: timeTableProps) => {
           type="new"
           isEdit={isEdit}
           setIsEdit={setIsEdit}
-          isAdmin={isAdmin}
+          isAdmin={state.matches("authorized")}
         />
       </td>
       <td className={classes.emptyCell}>
@@ -163,7 +163,7 @@ const TimeTable = ({ isAdmin }: timeTableProps) => {
           type="new"
           isEdit={isEdit}
           setIsEdit={setIsEdit}
-          isAdmin={isAdmin}
+          isAdmin={state.matches("authorized")}
         />
       </td>
       <td className={classes.emptyCell}>
@@ -172,7 +172,7 @@ const TimeTable = ({ isAdmin }: timeTableProps) => {
           type="new"
           isEdit={isEdit}
           setIsEdit={setIsEdit}
-          isAdmin={isAdmin}
+          isAdmin={state.matches("authorized")}
         />
       </td>
       <td className={classes.emptyCell}>
@@ -181,7 +181,7 @@ const TimeTable = ({ isAdmin }: timeTableProps) => {
           type="new"
           isEdit={isEdit}
           setIsEdit={setIsEdit}
-          isAdmin={isAdmin}
+          isAdmin={state.matches("authorized")}
         />
       </td>
       <td className={classes.emptyCell}>
@@ -190,7 +190,7 @@ const TimeTable = ({ isAdmin }: timeTableProps) => {
           type="new"
           isEdit={isEdit}
           setIsEdit={setIsEdit}
-          isAdmin={isAdmin}
+          isAdmin={state.matches("authorized")}
         />
       </td>
     </>
@@ -204,7 +204,7 @@ const TimeTable = ({ isAdmin }: timeTableProps) => {
           type="old"
           isEdit={isEdit}
           setIsEdit={setIsEdit}
-          isAdmin={isAdmin}
+          isAdmin={state.matches("authorized")}
         />
       </td>
       <td className={classes.emptyCell}>
@@ -213,7 +213,7 @@ const TimeTable = ({ isAdmin }: timeTableProps) => {
           type="old"
           isEdit={isEdit}
           setIsEdit={setIsEdit}
-          isAdmin={isAdmin}
+          isAdmin={state.matches("authorized")}
         />
       </td>
       <td className={classes.emptyCell}>
@@ -222,7 +222,7 @@ const TimeTable = ({ isAdmin }: timeTableProps) => {
           type="old"
           isEdit={isEdit}
           setIsEdit={setIsEdit}
-          isAdmin={isAdmin}
+          isAdmin={state.matches("authorized")}
         />
       </td>
       <td className={classes.emptyCell}>
@@ -231,7 +231,7 @@ const TimeTable = ({ isAdmin }: timeTableProps) => {
           type="old"
           isEdit={isEdit}
           setIsEdit={setIsEdit}
-          isAdmin={isAdmin}
+          isAdmin={state.matches("authorized")}
         />
       </td>
       <td className={classes.emptyCell}>
@@ -240,7 +240,7 @@ const TimeTable = ({ isAdmin }: timeTableProps) => {
           type="old"
           isEdit={isEdit}
           setIsEdit={setIsEdit}
-          isAdmin={isAdmin}
+          isAdmin={state.matches("authorized")}
         />
       </td>
       <td className={classes.emptyCell}>
@@ -249,7 +249,7 @@ const TimeTable = ({ isAdmin }: timeTableProps) => {
           type="old"
           isEdit={isEdit}
           setIsEdit={setIsEdit}
-          isAdmin={isAdmin}
+          isAdmin={state.matches("authorized")}
         />
       </td>
       <td className={classes.emptyCell}>
@@ -258,7 +258,7 @@ const TimeTable = ({ isAdmin }: timeTableProps) => {
           type="old"
           isEdit={isEdit}
           setIsEdit={setIsEdit}
-          isAdmin={isAdmin}
+          isAdmin={state.matches("authorized")}
         />
       </td>
     </>
@@ -297,7 +297,7 @@ const TimeTable = ({ isAdmin }: timeTableProps) => {
             ]}
             onChange={setType}
           />
-          {isAdmin ? (
+          {state.matches("authorized") ? (
             <Button size="md" onClick={onClickAddButton}>
               연습시간 추가
             </Button>

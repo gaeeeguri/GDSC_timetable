@@ -23,6 +23,10 @@ export const authMachine = createMachine(
             target: "loginModal",
             actions: ["openModal"],
           },
+          ALREADY_AUTHORIZED: {
+            target: "authorized",
+            actions: ["onSuccess"],
+          },
         },
       },
       loginModal: {

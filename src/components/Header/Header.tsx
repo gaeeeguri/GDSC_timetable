@@ -7,13 +7,14 @@ import {
   Text,
 } from "@mantine/core";
 import axios from "axios";
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { Dispatch, SetStateAction, useContext, useState } from "react";
 
 import axiosInstance from "@/lib/axiosSetting";
 import { removeCookie, setCookie } from "@/lib/cookie";
-import { useMachine } from "@xstate/react";
+import { useActor, useMachine } from "@xstate/react";
 import { authMachine } from "@/state/authMachine";
-import { StateMachine } from "xstate";
+import { ActorRef, StateMachine } from "xstate";
+import { AuthAactorContext } from "@/App";
 
 const useStyles = createStyles((theme, _params, getRef) => ({
   wrapper: {
@@ -53,18 +54,16 @@ const useStyles = createStyles((theme, _params, getRef) => ({
   form: {},
 }));
 
-interface HeaderProps {
-  isAdmin: boolean;
-  setIsAdmin: Dispatch<SetStateAction<boolean>>;
-}
-
-const Header = ({ isAdmin, setIsAdmin }: HeaderProps) => {
+const Header = () => {
   const [id, setId] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const { classes } = useStyles();
 
+  const authActor = useContext(AuthAactorContext);
+
   // xstate: authMachine
-  const [state, send, actor] = useMachine(authMachine);
+  // const [state, send, actor] = useMachine(authMachine);
+  const [state, send] = useActor(authActor);
 
   const callLoginApi = async () => {
     send({

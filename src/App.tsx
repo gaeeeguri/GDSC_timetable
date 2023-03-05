@@ -1,11 +1,15 @@
 import { createStyles } from "@mantine/core";
-import { useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 
 import { getCookie } from "@/lib/cookie";
 
 import Header from "./components/Header/Header";
 import TimeTable from "./components/TimeTable/TimeTalbe";
+import { authMachine } from "./state/authMachine";
+import { useInterpret, useMachine } from "@xstate/react";
+import { Context } from "html2canvas/dist/types/core/context";
+import { InterpreterFrom } from "xstate";
 
 const useStyles = createStyles((theme, _params, getRef) => ({
   wrapper: {
@@ -17,20 +21,27 @@ const useStyles = createStyles((theme, _params, getRef) => ({
   },
 }));
 
+export const AuthAactorContext = createContext({});
+
 export default function App() {
   const { classes } = useStyles();
-  const [isAdmin, setIsAdmin] = useState<boolean>(false);
+
+  const authActor = useInterpret(authMachine);
+
+  const [state, send, actor] = useMachine(authMachine);
 
   useEffect(() => {
     if (getCookie("accessToken") != undefined) {
-      setIsAdmin(true);
+      send({ type: "ALREADY_AUTHORIZED" });
     }
   }, []);
 
   return (
     <div className={classes.wrapper}>
-      <Header isAdmin={isAdmin} setIsAdmin={setIsAdmin} />
-      <TimeTable isAdmin={isAdmin} />
+      <AuthAactorContext.Provider value={{ authActor }}>
+        <Header />
+        <TimeTable />
+      </AuthAactorContext.Provider>
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import { Button, createStyles, Paper, SegmentedControl } from "@mantine/core";
 import React, { useEffect, useState } from "react";
 
+import { AuthMachineContext } from "@/App";
 import TimeCells from "@/components/TimeTable/timeCells";
 import TABLE_CONST from "@/Const/TABLE_CONST";
 import FetchTimes from "@/Hook/fetchTimes";
@@ -8,8 +9,6 @@ import captureData from "@/util/saveImage/saveImage";
 
 import AddDialog from "../AddDialog/AddDialog";
 import { timeBlock } from "../Types/type";
-import { useMachine } from "@xstate/react";
-import { authMachine } from "@/state/authMachine";
 
 interface tableLengthProps {
   height: number;
@@ -116,7 +115,7 @@ const TimeTable = () => {
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [thisEdit, setThisEdit] = useState<boolean>(false);
 
-  const [state, send, actor] = useMachine(authMachine);
+  const [state, send] = AuthMachineContext.useActor();
 
   const newTimeBlock: Array<timeBlock> = FetchTimes("new", isEdit);
   const oldTimeBlock: Array<timeBlock> = FetchTimes("old", isEdit);

@@ -1,15 +1,15 @@
 import { createStyles } from "@mantine/core";
+import { createActorContext, useInterpret, useMachine } from "@xstate/react";
+import { Context } from "html2canvas/dist/types/core/context";
 import { createContext, useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
+import { InterpreterFrom } from "xstate";
 
 import { getCookie } from "@/lib/cookie";
 
 import Header from "./components/Header/Header";
 import TimeTable from "./components/TimeTable/TimeTalbe";
 import { authMachine } from "./state/authMachine";
-import { useInterpret, useMachine } from "@xstate/react";
-import { Context } from "html2canvas/dist/types/core/context";
-import { InterpreterFrom } from "xstate";
 
 const useStyles = createStyles((theme, _params, getRef) => ({
   wrapper: {
@@ -21,27 +21,25 @@ const useStyles = createStyles((theme, _params, getRef) => ({
   },
 }));
 
-export const AuthAactorContext = createContext({});
+export const AuthMachineContext = createActorContext(authMachine);
 
 export default function App() {
   const { classes } = useStyles();
 
-  const authActor = useInterpret(authMachine);
-
-  const [state, send, actor] = useMachine(authMachine);
-
-  useEffect(() => {
-    if (getCookie("accessToken") != undefined) {
-      send({ type: "ALREADY_AUTHORIZED" });
-    }
-  }, []);
+  // const [state, send, actor] = useMachine(authMachine);
+  //
+  // useEffect(() => {
+  //   if (getCookie("accessToken") != undefined) {
+  //     send({ type: "ALREADY_AUTHORIZED" });
+  //   }
+  // }, []);
 
   return (
     <div className={classes.wrapper}>
-      <AuthAactorContext.Provider value={{ authActor }}>
+      <AuthMachineContext.Provider>
         <Header />
         <TimeTable />
-      </AuthAactorContext.Provider>
+      </AuthMachineContext.Provider>
     </div>
   );
 }

@@ -6,15 +6,11 @@ import {
   PasswordInput,
   Text,
 } from "@mantine/core";
-import axios from "axios";
-import React, { Dispatch, SetStateAction, useContext, useState } from "react";
+import React, { useState } from "react";
 
+import { AuthMachineContext } from "@/App";
 import axiosInstance from "@/lib/axiosSetting";
 import { removeCookie, setCookie } from "@/lib/cookie";
-import { useActor, useMachine } from "@xstate/react";
-import { authMachine } from "@/state/authMachine";
-import { ActorRef, StateMachine } from "xstate";
-import { AuthAactorContext } from "@/App";
 
 const useStyles = createStyles((theme, _params, getRef) => ({
   wrapper: {
@@ -59,11 +55,7 @@ const Header = () => {
   const [password, setPassword] = useState<string>("");
   const { classes } = useStyles();
 
-  const authActor = useContext(AuthAactorContext);
-
-  // xstate: authMachine
-  // const [state, send, actor] = useMachine(authMachine);
-  const [state, send] = useActor(authActor);
+  const [state, send] = AuthMachineContext.useActor();
 
   const callLoginApi = async () => {
     send({

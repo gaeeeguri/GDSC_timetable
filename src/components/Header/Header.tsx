@@ -6,9 +6,9 @@ import {
   PasswordInput,
   Text,
 } from "@mantine/core";
-import axios from "axios";
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { useState } from "react";
 
+import { AuthMachineContext } from "@/App";
 import axiosInstance from "@/lib/axiosSetting";
 import { removeCookie, setCookie } from "@/lib/cookie";
 
@@ -50,38 +50,43 @@ const useStyles = createStyles((theme, _params, getRef) => ({
   form: {},
 }));
 
-interface HeaderProps {
-  isAdmin: boolean;
-  setIsAdmin: Dispatch<SetStateAction<boolean>>;
-}
-
-const Header = ({ isAdmin, setIsAdmin }: HeaderProps) => {
-  const [loginModal, setLoginModal] = useState<boolean>(false);
+const Header = () => {
   const [id, setId] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [validationFail, setValidationFail] = useState<boolean>(false);
   const { classes } = useStyles();
 
-  const login = () => {
+  const [state, send] = AuthMachineContext.useActor();
+
+  const callLoginApi = async () => {
+    send({
+      type: "LOGIN",
+    });
+
     try {
-      axiosInstance
+      await axiosInstance
         .post("/login/admin", { memberId: id, password: password })
         .then(res => {
           setCookie("accessToken", res.data.accessToken);
           setCookie("refreshToken", res.data.refreshToken);
-          setIsAdmin(true);
-          setLoginModal(false);
-          setValidationFail(false);
+
+          send({
+            type: "LOGIN_SUCCESS",
+          });
         });
     } catch (e) {
-      setValidationFail(true);
+      send({
+        type: "LOGIN_ERROR",
+      });
     }
   };
 
   const logOut = () => {
     removeCookie("accessToken");
     removeCookie("refreshToken");
-    setIsAdmin(false);
+
+    send({
+      type: "LOGOUT",
+    });
   };
 
   const onChangeId = (e: React.FormEvent<HTMLInputElement>) => {
@@ -96,14 +101,14 @@ const Header = ({ isAdmin, setIsAdmin }: HeaderProps) => {
   const onKeyPress = (e: React.KeyboardEvent<HTMLElement>) => {
     if (e.key === "Enter") {
       // console.log("enter");
-      login();
+      callLoginApi();
     }
   };
   return (
     <div className={classes.wrapper}>
       <div className={classes.navWrapper}>
         <div className={classes.title}>GDSC Calendar Project</div>
-        {isAdmin ? (
+        {state.matches("authorized") ? (
           <Button color="red" style={{ marginLeft: "auto" }} onClick={logOut}>
             로그아웃
           </Button>
@@ -112,7 +117,7 @@ const Header = ({ isAdmin, setIsAdmin }: HeaderProps) => {
             color="red"
             variant="outline"
             style={{ marginLeft: "auto" }}
-            onClick={() => setLoginModal(true)}
+            onClick={() => send({ type: "OPEN_LOGIN_MODAL" })}
           >
             관리자 로그인
           </Button>
@@ -120,15 +125,16 @@ const Header = ({ isAdmin, setIsAdmin }: HeaderProps) => {
       </div>
       <Modal
         centered
-        opened={loginModal}
+        opened={state.context.loginModal}
         withCloseButton={false}
         title="관리자 로그인"
         onClose={() => {
-          setLoginModal(false);
-          setValidationFail(false);
+          send({
+            type: "CLOSE_MODAL",
+          });
         }}
       >
-        <div className={classes.form} onSubmit={login}>
+        <div className={classes.form} onSubmit={callLoginApi}>
           <Input.Wrapper label="아이디">
             <Input onChange={onChangeId} onKeyDown={onKeyPress} />
           </Input.Wrapper>
@@ -138,9 +144,9 @@ const Header = ({ isAdmin, setIsAdmin }: HeaderProps) => {
             onChange={onChangePassword}
             onKeyDown={onKeyPress}
           />
-          {validationFail ? (
+          {state.context.errorMessage ? (
             <Text color="red" size="xs" style={{ marginLeft: 12 }}>
-              아이디 또는 비밀번호가 틀렸습니다!
+              {state.context.errorMessage}
             </Text>
           ) : (
             <div style={{ height: 20 }}></div>
@@ -148,7 +154,7 @@ const Header = ({ isAdmin, setIsAdmin }: HeaderProps) => {
           <Button
             value={password}
             style={{ marginTop: 15, float: "right" }}
-            onClick={login}
+            onClick={callLoginApi}
             onKeyPress={onKeyPress}
           >
             로그인

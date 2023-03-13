@@ -6,7 +6,8 @@ import {
   PasswordInput,
   Text,
 } from "@mantine/core";
-import React, { useState } from "react";
+import { useForm } from "@mantine/form";
+import React from "react";
 
 import { AuthMachineContext } from "@/App";
 import axiosInstance from "@/lib/axiosSetting";
@@ -51,20 +52,25 @@ const useStyles = createStyles((theme, _params, getRef) => ({
 }));
 
 const Header = () => {
-  const [id, setId] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const loginForm = useForm({
+    initialValues: {
+      memberId: "",
+      password: "",
+    },
+  });
+
   const { classes } = useStyles();
 
   const [state, send] = AuthMachineContext.useActor();
 
-  const callLoginApi = async () => {
+  const callLoginApi = async (memberId: string, password: string) => {
     send({
       type: "LOGIN",
     });
 
     try {
       await axiosInstance
-        .post("/login/admin", { memberId: id, password: password })
+        .post("/login/admin", { memberId: memberId, password: password })
         .then(res => {
           setCookie("accessToken", res.data.accessToken);
           setCookie("refreshToken", res.data.refreshToken);
@@ -89,19 +95,12 @@ const Header = () => {
     });
   };
 
-  const onChangeId = (e: React.FormEvent<HTMLInputElement>) => {
-    setId(e.currentTarget.value);
-  };
-
-  const onChangePassword = (e: React.FormEvent<HTMLInputElement>) => {
-    // console.log(e.currentTarget.value);
-    setPassword(e.currentTarget.value);
-  };
-
   const onKeyPress = (e: React.KeyboardEvent<HTMLElement>) => {
     if (e.key === "Enter") {
       // console.log("enter");
-      callLoginApi();
+      loginForm.onSubmit(values =>
+        callLoginApi(values.memberId, values.password)
+      );
     }
   };
   return (
@@ -134,15 +133,24 @@ const Header = () => {
           });
         }}
       >
-        <div className={classes.form} onSubmit={callLoginApi}>
+        <form
+          className={classes.form}
+          id="loginForm"
+          onSubmit={loginForm.onSubmit(values =>
+            callLoginApi(values.memberId, values.password)
+          )}
+        >
           <Input.Wrapper label="아이디">
-            <Input onChange={onChangeId} onKeyDown={onKeyPress} />
+            <Input
+              onKeyDown={onKeyPress}
+              {...loginForm.getInputProps("memberId")}
+            />
           </Input.Wrapper>
           <PasswordInput
             label="비밀번호"
             style={{ marginTop: 15 }}
-            onChange={onChangePassword}
             onKeyDown={onKeyPress}
+            {...loginForm.getInputProps("password")}
           />
           {state.context.errorMessage ? (
             <Text color="red" size="xs" style={{ marginLeft: 12 }}>
@@ -151,15 +159,10 @@ const Header = () => {
           ) : (
             <div style={{ height: 20 }}></div>
           )}
-          <Button
-            value={password}
-            style={{ marginTop: 15, float: "right" }}
-            onClick={callLoginApi}
-            onKeyPress={onKeyPress}
-          >
+          <Button style={{ marginTop: 15, float: "right" }} type="submit">
             로그인
           </Button>
-        </div>
+        </form>
       </Modal>
     </div>
   );

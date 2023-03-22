@@ -27,12 +27,20 @@ const useStyles = createStyles((theme, _params, getRef) => ({
     }`,
   },
 }));
-const NavBarContainer = ({ logOut, logIn, isAdmin }: NavBarProps) => {
+const NavBarContainer = ({
+  onClickLogOut,
+  onClickLogIn,
+  isAdmin,
+}: NavBarProps) => {
   const { classes } = useStyles();
 
   return (
     <div className={classes.wrapper}>
-      <NavBar logOut={logOut} logIn={logIn} isAdmin={isAdmin} />
+      <NavBar
+        isAdmin={isAdmin}
+        onClickLogOut={onClickLogOut}
+        onClickLogIn={onClickLogIn}
+      />
     </div>
   );
 };

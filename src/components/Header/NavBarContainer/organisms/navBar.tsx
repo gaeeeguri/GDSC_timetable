@@ -15,13 +15,17 @@ const useStyles = createStyles((theme, _params, getRef) => ({
 
 export type NavBarProps = HeaderButtonProps;
 
-const NavBar = ({ isAdmin, logIn, logOut }: NavBarProps) => {
+const NavBar = ({ isAdmin, onClickLogIn, onClickLogOut }: NavBarProps) => {
   const { classes } = useStyles();
 
   return (
     <div className={classes.navWrapper}>
       <Logo />
-      <HeaderButton isAdmin={isAdmin} logIn={logIn} logOut={logOut} />
+      <HeaderButton
+        isAdmin={isAdmin}
+        onClickLogIn={onClickLogIn}
+        onClickLogOut={onClickLogOut}
+      />
     </div>
   );
 };

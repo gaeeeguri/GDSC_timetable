@@ -2,15 +2,15 @@ import { Button } from "@mantine/core";
 import React from "react";
 
 export interface LoginButtonProps {
-  logIn: () => void;
+  onClickLogIn: () => void;
 }
 
-const LogInButton = ({ logIn }: LoginButtonProps) => (
+const LogInButton = ({ onClickLogIn }: LoginButtonProps) => (
   <Button
     color="red"
     variant="outline"
     style={{ marginLeft: "auto" }}
-    onClick={logIn}
+    onClick={onClickLogIn}
   >
     관리자 로그인
   </Button>

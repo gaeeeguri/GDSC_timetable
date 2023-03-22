@@ -2,11 +2,11 @@ import { Button } from "@mantine/core";
 import React from "react";
 
 export interface LogoutButtonProps {
-  logOut: () => void;
+  onClickLogOut: () => void;
 }
 
-const LogOutButton = ({ logOut }: LogoutButtonProps) => (
-  <Button color="red" style={{ marginLeft: "auto" }} onClick={logOut}>
+const LogOutButton = ({ onClickLogOut }: LogoutButtonProps) => (
+  <Button color="red" style={{ marginLeft: "auto" }} onClick={onClickLogOut}>
     로그아웃
   </Button>
 );

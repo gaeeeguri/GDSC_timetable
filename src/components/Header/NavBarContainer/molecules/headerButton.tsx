@@ -9,7 +9,15 @@ export interface HeaderButtonProps extends LoginButtonProps, LogoutButtonProps {
   isAdmin: boolean;
 }
 
-const HeaderButton = ({ isAdmin, logOut, logIn }: HeaderButtonProps) =>
-  isAdmin ? <LogOutButton logOut={logOut} /> : <LogInButton logIn={logIn} />;
+const HeaderButton = ({
+  isAdmin,
+  onClickLogOut,
+  onClickLogIn,
+}: HeaderButtonProps) =>
+  isAdmin ? (
+    <LogOutButton onClickLogOut={onClickLogOut} />
+  ) : (
+    <LogInButton onClickLogIn={onClickLogIn} />
+  );
 
 export default HeaderButton;

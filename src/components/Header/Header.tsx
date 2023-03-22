@@ -1,16 +1,9 @@
-import {
-  Button,
-  createStyles,
-  Input,
-  Modal,
-  PasswordInput,
-  Text,
-} from "@mantine/core";
-import React, { useState } from "react";
+import { createStyles } from "@mantine/core";
+import React from "react";
 
 import { AuthMachineContext } from "@/App";
-import axiosInstance from "@/lib/axiosSetting";
-import { removeCookie, setCookie } from "@/lib/cookie";
+import LoginModalContainer from "@/components/Header/LoginModal/loginModalContainer";
+import { removeCookie } from "@/lib/cookie";
 
 import NavBarContainer from "./NavBarContainer/navBarContainer";
 
@@ -53,36 +46,7 @@ const useStyles = createStyles((theme, _params, getRef) => ({
 }));
 
 const Header = () => {
-  const [id, setId] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const { classes } = useStyles();
-
   const [state, send] = AuthMachineContext.useActor();
-
-  const isAdmin: boolean = state.matches("authorized");
-
-  const callLoginApi = async () => {
-    send({
-      type: "LOGIN",
-    });
-
-    try {
-      await axiosInstance
-        .post("/login/admin", { memberId: id, password: password })
-        .then(res => {
-          setCookie("accessToken", res.data.accessToken);
-          setCookie("refreshToken", res.data.refreshToken);
-
-          send({
-            type: "LOGIN_SUCCESS",
-          });
-        });
-    } catch (e) {
-      send({
-        type: "LOGIN_ERROR",
-      });
-    }
-  };
 
   const clickLogOut = () => {
     removeCookie("accessToken");
@@ -95,64 +59,14 @@ const Header = () => {
 
   const clickLogIn = () => send({ type: "OPEN_LOGIN_MODAL" });
 
-  const onChangeId = (e: React.FormEvent<HTMLInputElement>) =>
-    setId(e.currentTarget.value);
-
-  const onChangePassword = (e: React.FormEvent<HTMLInputElement>) =>
-    setPassword(e.currentTarget.value);
-
-  const onKeyPress = (e: React.KeyboardEvent<HTMLElement>) => {
-    if (e.key === "Enter") {
-      // console.log("enter");
-      callLoginApi();
-    }
-  };
-
   return (
     <>
       <NavBarContainer
-        isAdmin={isAdmin}
-        logIn={clickLogIn}
-        logOut={clickLogOut}
+        isAdmin={state.matches("authorized")}
+        onClickLogIn={clickLogIn}
+        onClickLogOut={clickLogOut}
       />
-      <Modal
-        centered
-        opened={state.context.loginModal}
-        withCloseButton={false}
-        title="관리자 로그인"
-        onClose={() => {
-          send({
-            type: "CLOSE_MODAL",
-          });
-        }}
-      >
-        <div className={classes.form} onSubmit={callLoginApi}>
-          <Input.Wrapper label="아이디">
-            <Input onChange={onChangeId} onKeyDown={onKeyPress} />
-          </Input.Wrapper>
-          <PasswordInput
-            label="비밀번호"
-            style={{ marginTop: 15 }}
-            onChange={onChangePassword}
-            onKeyDown={onKeyPress}
-          />
-          {state.context.errorMessage ? (
-            <Text color="red" size="xs" style={{ marginLeft: 12 }}>
-              {state.context.errorMessage}
-            </Text>
-          ) : (
-            <div style={{ height: 20 }}></div>
-          )}
-          <Button
-            value={password}
-            style={{ marginTop: 15, float: "right" }}
-            onClick={callLoginApi}
-            onKeyPress={onKeyPress}
-          >
-            로그인
-          </Button>
-        </div>
-      </Modal>
+      <LoginModalContainer />
     </>
   );
 };

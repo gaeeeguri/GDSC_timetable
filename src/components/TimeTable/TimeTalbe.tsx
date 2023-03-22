@@ -23,6 +23,13 @@ const useStyles = createStyles(
     calendarWrapper: {
       height: "fit-content",
       maxWidth: 1190,
+      [`@media (max-width: 760px)`]: {
+        width: "100%",
+        marginLeft: 30,
+        marginRight: 30,
+        paddingLeft: 20,
+        paddingRight: 20,
+      },
       display: "flex",
       flexDirection: "column",
       alignItems: "start",

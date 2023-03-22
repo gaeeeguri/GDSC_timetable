@@ -17,6 +17,9 @@ const useStyles = createStyles(
   (theme, { start, end, color }: BlockProps, getRef) => ({
     block: {
       width: "8vw",
+      [`@media (max-width: ${theme.breakpoints.sm})`]: {
+        width: "calc((100vw - 35px * 2) / 8)",
+      },
       maxWidth: 1130 / 8 + 1,
       minWidth: 45,
       position: "absolute",

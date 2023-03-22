@@ -13,11 +13,12 @@ const HeaderButton = ({
   isAdmin,
   onClickLogOut,
   onClickLogIn,
+  isDesktop,
 }: HeaderButtonProps) =>
   isAdmin ? (
-    <LogOutButton onClickLogOut={onClickLogOut} />
+    <LogOutButton isDesktop={isDesktop} onClickLogOut={onClickLogOut} />
   ) : (
-    <LogInButton onClickLogIn={onClickLogIn} />
+    <LogInButton isDesktop={isDesktop} onClickLogIn={onClickLogIn} />
   );
 
 export default HeaderButton;

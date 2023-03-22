@@ -3,10 +3,16 @@ import React from "react";
 
 export interface LogoutButtonProps {
   onClickLogOut: () => void;
+  isDesktop: boolean;
 }
 
-const LogOutButton = ({ onClickLogOut }: LogoutButtonProps) => (
-  <Button color="red" style={{ marginLeft: "auto" }} onClick={onClickLogOut}>
+const LogOutButton = ({ onClickLogOut, isDesktop }: LogoutButtonProps) => (
+  <Button
+    color="red"
+    style={{ marginLeft: "auto" }}
+    size={isDesktop ? "md" : "sm"}
+    onClick={onClickLogOut}
+  >
     로그아웃
   </Button>
 );

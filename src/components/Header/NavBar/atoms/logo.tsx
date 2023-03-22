@@ -1,6 +1,8 @@
 import { createStyles } from "@mantine/core";
 import React from "react";
 
+import GdscLogo from "@/components/Header/NavBar/atoms/gdscLogo";
+
 const useStyles = createStyles((theme, _params, getRef) => ({
   title: {
     ref: getRef("child"),
@@ -12,10 +14,18 @@ const useStyles = createStyles((theme, _params, getRef) => ({
   },
 }));
 
-const Logo = () => {
+export interface LogoProps {
+  isDesktop: boolean;
+}
+
+const Logo = ({ isDesktop }: LogoProps) => {
   const { classes } = useStyles();
 
-  return <div className={classes.title}>GDSC Calendar Project</div>;
+  return isDesktop ? (
+    <div className={classes.title}>GDSC Calendar Project</div>
+  ) : (
+    <GdscLogo />
+  );
 };
 
 export default Logo;

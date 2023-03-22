@@ -1,9 +1,9 @@
 import { createStyles } from "@mantine/core";
 import React from "react";
 
-import NavBar, {
-  NavBarProps,
-} from "@/components/Header/NavBar/organisms/navBar";
+import { AuthMachineContext } from "@/App";
+import NavBar from "@/components/Header/NavBar/organisms/navBar";
+import { removeCookie } from "@/lib/cookie";
 
 const useStyles = createStyles((theme, _params, getRef) => ({
   wrapper: {
@@ -27,19 +27,28 @@ const useStyles = createStyles((theme, _params, getRef) => ({
     }`,
   },
 }));
-const NavBarContainer = ({
-  onClickLogOut,
-  onClickLogIn,
-  isAdmin,
-}: NavBarProps) => {
+const NavBarContainer = () => {
   const { classes } = useStyles();
+
+  const [state, send] = AuthMachineContext.useActor();
+
+  const clickLogOut = () => {
+    removeCookie("accessToken");
+    removeCookie("refreshToken");
+
+    send({
+      type: "LOGOUT",
+    });
+  };
+
+  const clickLogIn = () => send({ type: "OPEN_LOGIN_MODAL" });
 
   return (
     <div className={classes.wrapper}>
       <NavBar
-        isAdmin={isAdmin}
-        onClickLogOut={onClickLogOut}
-        onClickLogIn={onClickLogIn}
+        isAdmin={state.matches("authorized")}
+        onClickLogOut={clickLogOut}
+        onClickLogIn={clickLogIn}
       />
     </div>
   );

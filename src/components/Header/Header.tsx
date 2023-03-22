@@ -1,9 +1,7 @@
 import { createStyles } from "@mantine/core";
 import React from "react";
 
-import { AuthMachineContext } from "@/App";
 import LoginModalContainer from "@/components/Header/LoginModal/loginModalContainer";
-import { removeCookie } from "@/lib/cookie";
 
 import NavBarContainer from "./NavBar/navBarContainer";
 
@@ -46,26 +44,9 @@ const useStyles = createStyles((theme, _params, getRef) => ({
 }));
 
 const Header = () => {
-  const [state, send] = AuthMachineContext.useActor();
-
-  const clickLogOut = () => {
-    removeCookie("accessToken");
-    removeCookie("refreshToken");
-
-    send({
-      type: "LOGOUT",
-    });
-  };
-
-  const clickLogIn = () => send({ type: "OPEN_LOGIN_MODAL" });
-
   return (
     <>
-      <NavBarContainer
-        isAdmin={state.matches("authorized")}
-        onClickLogIn={clickLogIn}
-        onClickLogOut={clickLogOut}
-      />
+      <NavBarContainer />
       <LoginModalContainer />
     </>
   );

@@ -5,7 +5,7 @@ export interface LoginButtonProps {
   logIn: () => void;
 }
 
-const LoginButton = ({ logIn }: LoginButtonProps) => (
+const LogInButton = ({ logIn }: LoginButtonProps) => (
   <Button
     color="red"
     variant="outline"
@@ -16,4 +16,4 @@ const LoginButton = ({ logIn }: LoginButtonProps) => (
   </Button>
 );
 
-export default LoginButton;
+export default LogInButton;

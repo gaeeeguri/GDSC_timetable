@@ -5,10 +5,10 @@ export interface LogoutButtonProps {
   logOut: () => void;
 }
 
-const LogoutButton = ({ logOut }: LogoutButtonProps) => (
+const LogOutButton = ({ logOut }: LogoutButtonProps) => (
   <Button color="red" style={{ marginLeft: "auto" }} onClick={logOut}>
     로그아웃
   </Button>
 );
 
-export default LogoutButton;
+export default LogOutButton;

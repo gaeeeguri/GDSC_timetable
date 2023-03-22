@@ -1,9 +1,9 @@
 import LoginButton, {
   LoginButtonProps,
-} from "@/components/Header/atoms/loginButton";
+} from "@/components/Header/NavBarContainer/atoms/loginButton";
 import LogoutButton, {
   LogoutButtonProps,
-} from "@/components/Header/atoms/logoutButton";
+} from "@/components/Header/NavBarContainer/atoms/logoutButton";
 
 export interface HeaderButtonProps extends LoginButtonProps, LogoutButtonProps {
   isAdmin: boolean;

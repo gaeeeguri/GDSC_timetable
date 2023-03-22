@@ -1,7 +1,7 @@
 import { createStyles } from "@mantine/core";
 import React from "react";
 
-import Logo from "@/components/Header/atoms/logo";
+import Logo from "@/components/Header/NavBarContainer/atoms/logo";
 
 import HeaderButton, { HeaderButtonProps } from "../molecules/headerButton";
 
@@ -13,7 +13,9 @@ const useStyles = createStyles((theme, _params, getRef) => ({
   },
 }));
 
-const NavBar = ({ isAdmin, logIn, logOut }: HeaderButtonProps) => {
+export type NavBarProps = HeaderButtonProps;
+
+const NavBar = ({ isAdmin, logIn, logOut }: NavBarProps) => {
   const { classes } = useStyles();
 
   return (

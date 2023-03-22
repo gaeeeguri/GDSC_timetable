@@ -12,7 +12,7 @@ import { AuthMachineContext } from "@/App";
 import axiosInstance from "@/lib/axiosSetting";
 import { removeCookie, setCookie } from "@/lib/cookie";
 
-import NavBar from "./organisms/navBar";
+import NavBarContainer from "./NavBarContainer/navBarContainer";
 
 const useStyles = createStyles((theme, _params, getRef) => ({
   wrapper: {
@@ -95,14 +95,11 @@ const Header = () => {
 
   const clickLogIn = () => send({ type: "OPEN_LOGIN_MODAL" });
 
-  const onChangeId = (e: React.FormEvent<HTMLInputElement>) => {
+  const onChangeId = (e: React.FormEvent<HTMLInputElement>) =>
     setId(e.currentTarget.value);
-  };
 
-  const onChangePassword = (e: React.FormEvent<HTMLInputElement>) => {
-    // console.log(e.currentTarget.value);
+  const onChangePassword = (e: React.FormEvent<HTMLInputElement>) =>
     setPassword(e.currentTarget.value);
-  };
 
   const onKeyPress = (e: React.KeyboardEvent<HTMLElement>) => {
     if (e.key === "Enter") {
@@ -110,9 +107,14 @@ const Header = () => {
       callLoginApi();
     }
   };
+
   return (
-    <div className={classes.wrapper}>
-      <NavBar logOut={clickLogOut} logIn={clickLogIn} isAdmin={isAdmin} />
+    <>
+      <NavBarContainer
+        isAdmin={isAdmin}
+        logIn={clickLogIn}
+        logOut={clickLogOut}
+      />
       <Modal
         centered
         opened={state.context.loginModal}
@@ -151,7 +153,7 @@ const Header = () => {
           </Button>
         </div>
       </Modal>
-    </div>
+    </>
   );
 };
 

@@ -1,7 +1,7 @@
 import { createStyles } from "@mantine/core";
 import React from "react";
 
-import Logo from "@/components/Header/NavBarContainer/atoms/logo";
+import Logo from "@/components/Header/NavBar/atoms/logo";
 
 import HeaderButton, { HeaderButtonProps } from "../molecules/headerButton";
 

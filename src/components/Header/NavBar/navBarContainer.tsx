@@ -3,7 +3,7 @@ import React from "react";
 
 import NavBar, {
   NavBarProps,
-} from "@/components/Header/NavBarContainer/organisms/navBar";
+} from "@/components/Header/NavBar/organisms/navBar";
 
 const useStyles = createStyles((theme, _params, getRef) => ({
   wrapper: {

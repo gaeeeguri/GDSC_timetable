@@ -12,6 +12,8 @@ import { AuthMachineContext } from "@/App";
 import axiosInstance from "@/lib/axiosSetting";
 import { removeCookie, setCookie } from "@/lib/cookie";
 
+import NavBar from "./organisms/navBar";
+
 const useStyles = createStyles((theme, _params, getRef) => ({
   wrapper: {
     backgroundColor:
@@ -57,6 +59,8 @@ const Header = () => {
 
   const [state, send] = AuthMachineContext.useActor();
 
+  const isAdmin: boolean = state.matches("authorized");
+
   const callLoginApi = async () => {
     send({
       type: "LOGIN",
@@ -80,7 +84,7 @@ const Header = () => {
     }
   };
 
-  const logOut = () => {
+  const clickLogOut = () => {
     removeCookie("accessToken");
     removeCookie("refreshToken");
 
@@ -88,6 +92,8 @@ const Header = () => {
       type: "LOGOUT",
     });
   };
+
+  const clickLogIn = () => send({ type: "OPEN_LOGIN_MODAL" });
 
   const onChangeId = (e: React.FormEvent<HTMLInputElement>) => {
     setId(e.currentTarget.value);
@@ -106,23 +112,7 @@ const Header = () => {
   };
   return (
     <div className={classes.wrapper}>
-      <div className={classes.navWrapper}>
-        <div className={classes.title}>GDSC Calendar Project</div>
-        {state.matches("authorized") ? (
-          <Button color="red" style={{ marginLeft: "auto" }} onClick={logOut}>
-            로그아웃
-          </Button>
-        ) : (
-          <Button
-            color="red"
-            variant="outline"
-            style={{ marginLeft: "auto" }}
-            onClick={() => send({ type: "OPEN_LOGIN_MODAL" })}
-          >
-            관리자 로그인
-          </Button>
-        )}
-      </div>
+      <NavBar logOut={clickLogOut} logIn={clickLogIn} isAdmin={isAdmin} />
       <Modal
         centered
         opened={state.context.loginModal}

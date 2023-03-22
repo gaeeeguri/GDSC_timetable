@@ -1,4 +1,5 @@
 import { createStyles } from "@mantine/core";
+
 import React from "react";
 
 import LoginModalContainer from "@/components/Header/LoginModal/loginModalContainer";
@@ -49,6 +50,7 @@ const Header = () => {
       <NavBarContainer />
       <LoginModalContainer />
     </>
+
   );
 };
 

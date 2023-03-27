@@ -1,10 +1,10 @@
 import { Button, createStyles, Paper, SegmentedControl } from "@mantine/core";
 import React, { useEffect, useState } from "react";
 
-import { AuthMachineContext } from "@/App";
 import TimeCells from "@/components/TimeTable/timeCells";
 import TABLE_CONST from "@/Const/TABLE_CONST";
 import FetchTimes from "@/Hook/fetchTimes";
+import { AuthMachineContext } from "@/main";
 import captureData from "@/util/saveImage/saveImage";
 
 import AddDialog from "../AddDialog/AddDialog";

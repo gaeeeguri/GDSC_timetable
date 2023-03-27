@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction } from "react";
 
 import { timeBlock } from "../Types/type";
-import TimeCell from "./TimeCell";
+import TimeCell from "./TimeCell/TimeCell";
 
 interface TimeCellsProps {
   times: Array<timeBlock>;

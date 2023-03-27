@@ -1,13 +1,13 @@
-import { Button, Dialog, Group, NativeSelect, Text } from "@mantine/core";
+import { Button, Dialog, Group, Text } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import axios from "axios";
 import React, { useState } from "react";
 
+import DaySelector from "@/components/TimeTable/TimeCell/EditDialog/atoms/daySelector";
+import EditDialogTitle from "@/components/TimeTable/TimeCell/EditDialog/atoms/editDialogTitle";
+import TimeSelector from "@/components/TimeTable/TimeCell/EditDialog/atoms/timeSelector";
 import { timeBlock } from "@/components/Types/type";
-import days from "@/Const/days";
-import { dayForm, endForm, startForm } from "@/Const/form";
 import axiosInstance from "@/lib/axiosSetting";
-import { getCookie } from "@/lib/cookie";
 
 interface EditDialogProps {
   opened: boolean;
@@ -128,19 +128,15 @@ const EditDialog = ({ opened, onClose, timeData, type }: EditDialogProps) => {
         setDeleteTry(false);
       }}
     >
-      <Text size="lg" style={{ marginBottom: 10 }} weight={500}>
-        {timeData.user}, {days[timeData.day]}요일 오후{" "}
-        {timeData.start === 12 ? 12 : timeData.start - 12}시 ~{" "}
-        {timeData.end - 12}시
-      </Text>
+      <EditDialogTitle
+        user={timeData.user}
+        day={timeData.day}
+        start={timeData.start}
+        end={timeData.end}
+      />
       <form onSubmit={editForm.onSubmit(values => onClickModify(values))}>
-        <NativeSelect
-          // defaultValue={days[timeData.day]}
-          data={dayForm}
-          label="요일"
-          style={{ width: "100%", marginTop: 15 }}
-          {...editForm.getInputProps("day")}
-        />
+        <DaySelector form={editForm} />
+
         <div
           style={{
             marginTop: 15,
@@ -149,21 +145,10 @@ const EditDialog = ({ opened, onClose, timeData, type }: EditDialogProps) => {
             justifyContent: "space-between",
           }}
         >
-          <NativeSelect
-            // defaultValue={times[timeData.start]}
-            data={startForm}
-            label="시작 시간"
-            style={{ width: "45%" }}
-            {...editForm.getInputProps("start")}
-            onChange={onStartChange}
-          />
-          <NativeSelect
-            // defaultValue={times[timeData.end]}
-            label="종료 시간"
-            data={endForm}
-            style={{ width: "45%" }}
-            {...editForm.getInputProps("end")}
-            onChange={onEndChange}
+          <TimeSelector
+            form={editForm}
+            onStartChange={onStartChange}
+            onEndChange={onEndChange}
           />
         </div>
         <Group position="apart" style={{ width: "100%", marginTop: 30 }}>

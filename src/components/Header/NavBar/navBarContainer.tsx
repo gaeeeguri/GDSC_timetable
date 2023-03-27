@@ -2,9 +2,9 @@ import { createStyles } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import React from "react";
 
-import { AuthMachineContext } from "@/App";
 import NavBar from "@/components/Header/NavBar/organisms/navBar";
 import { removeCookie } from "@/lib/cookie";
+import { AuthMachineContext } from "@/main";
 
 const useStyles = createStyles((theme, _params, getRef) => ({
   wrapper: {

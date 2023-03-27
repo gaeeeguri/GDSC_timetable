@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 
-import { AuthMachineContext } from "@/App";
 import axiosInstance from "@/lib/axiosSetting";
 import { setCookie } from "@/lib/cookie";
+import { AuthMachineContext } from "@/main";
 
 import LoginModal from "./organisms/loginModal";
 

@@ -1,11 +1,11 @@
 import { createStyles } from "@mantine/core";
-import { IconEdit } from "@tabler/icons";
 import React, { Dispatch, SetStateAction, useState } from "react";
 
+import EditButton from "@/components/TimeTable/TimeCell/atoms/editButton";
 import colors from "@/Const/colors";
 
-import EditDialog from "../EditDialog/EditDialog";
-import { timeBlock } from "../Types/type";
+import { timeBlock } from "../../Types/type";
+import EditDialog from "./EditDialog/EditDialog";
 
 interface BlockProps {
   start: number;
@@ -113,21 +113,13 @@ const TimeCell = ({
         onMouseLeave={onMouseLeave}
       >
         {timeData.user}
-        <div
-          role="presentation"
-          style={{ position: "absolute", top: 10, right: 10 }}
-        >
-          {hover && !isEdit && isAdmin ? (
-            <div
-              className={classes.editButton}
-              role="presentation"
-              onClick={onClickEditIcon}
-              onKeyDown={onClickEditIcon}
-            >
-              <IconEdit size={18} />
-            </div>
-          ) : null}
-        </div>
+
+        <EditButton
+          isVisible={hover && !isEdit && isAdmin}
+          color={color}
+          onClickEdit={onClickEditIcon}
+          onKeyDown={onClickEditIcon}
+        />
       </div>
       <EditDialog
         opened={isDialogOn}

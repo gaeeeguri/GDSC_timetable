@@ -1,9 +1,10 @@
 import { createStyles } from "@mantine/core";
+import { useMediaQuery } from "@mantine/hooks";
 import React from "react";
 
-import { AuthMachineContext } from "@/App";
 import NavBar from "@/components/Header/NavBar/organisms/navBar";
 import { removeCookie } from "@/lib/cookie";
+import { AuthMachineContext } from "@/main";
 
 const useStyles = createStyles((theme, _params, getRef) => ({
   wrapper: {
@@ -22,6 +23,11 @@ const useStyles = createStyles((theme, _params, getRef) => ({
     right: 0,
     marginLeft: 0,
     marginRight: 0,
+    [`@media (max-width: 760px)`]: {
+      paddingLeft: 30 + 20,
+      paddingRight: 30 + 20,
+    },
+
     borderBottom: `1px solid ${
       theme.colorScheme === "dark" ? theme.colors.dark[8] : theme.colors.gray[2]
     }`,
@@ -31,6 +37,8 @@ const NavBarContainer = () => {
   const { classes } = useStyles();
 
   const [state, send] = AuthMachineContext.useActor();
+
+  const isDesktop: boolean = useMediaQuery("(min-width: 760px)");
 
   const clickLogOut = () => {
     removeCookie("accessToken");
@@ -47,6 +55,7 @@ const NavBarContainer = () => {
     <div className={classes.wrapper}>
       <NavBar
         isAdmin={state.matches("authorized")}
+        isDesktop={isDesktop}
         onClickLogOut={clickLogOut}
         onClickLogIn={clickLogIn}
       />

@@ -1,4 +1,4 @@
-const TABLE_CONST = {
+export const TABLE_CONST = {
   height: 47,
 };
 

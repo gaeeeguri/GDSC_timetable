@@ -3,12 +3,14 @@ import React from "react";
 
 export interface LoginButtonProps {
   onClickLogIn: () => void;
+  isDesktop: boolean;
 }
 
-const LogInButton = ({ onClickLogIn }: LoginButtonProps) => (
+const LogInButton = ({ onClickLogIn, isDesktop }: LoginButtonProps) => (
   <Button
     color="red"
     variant="outline"
+    size={isDesktop ? "md" : "sm"}
     style={{ marginLeft: "auto" }}
     onClick={onClickLogIn}
   >

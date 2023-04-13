@@ -1,9 +1,11 @@
 import { createStyles } from "@mantine/core";
-import { createActorContext } from "@xstate/react";
+import { useEffect } from "react";
+
+import { getCookie } from "@/lib/cookie";
+import { AuthMachineContext } from "@/main";
 
 import Header from "./components/Header/Header";
 import TimeTable from "./components/TimeTable/TimeTalbe";
-import { authMachine } from "./state/authMachine";
 
 const useStyles = createStyles((theme, _params, getRef) => ({
   wrapper: {
@@ -15,17 +17,24 @@ const useStyles = createStyles((theme, _params, getRef) => ({
   },
 }));
 
-export const AuthMachineContext = createActorContext(authMachine);
-
 export default function App() {
   const { classes } = useStyles();
+  //TODO: authorized on refresh
+  const [state, send] = AuthMachineContext.useActor();
+
+  useEffect(() => {
+    if (
+      getCookie("accessToken") != undefined &&
+      state.matches("unauthorized")
+    ) {
+      send({ type: "ALREADY_AUTHORIZED" });
+    }
+  }, [send, state]);
 
   return (
     <div className={classes.wrapper}>
-      <AuthMachineContext.Provider>
-        <Header />
-        <TimeTable />
-      </AuthMachineContext.Provider>
+      <Header />
+      <TimeTable />
     </div>
   );
 }

@@ -3,7 +3,7 @@ import axios, { AxiosInstance } from "axios";
 import { getCookie } from "@/lib/cookie";
 
 const axiosInstance: AxiosInstance = axios.create({
-  baseURL: "https://www.club-timetable.p-e.kr",
+  baseURL: "https://www.club-timetable.com",
 });
 
 axiosInstance.interceptors.request.use(config => {

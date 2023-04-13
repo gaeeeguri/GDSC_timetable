@@ -21,7 +21,15 @@ const TimeCells = ({
   return (
     <>
       {times.map(time => (
-        <div key={time.id} style={{ width: "100%" }}>
+        <div
+          key={time.id}
+          style={{
+            width: "100%",
+            position: "relative",
+            padding: "0",
+            margin: "0",
+          }}
+        >
           <TimeCell
             timeData={time}
             isEdit={isEdit}

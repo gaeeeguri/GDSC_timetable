@@ -3,6 +3,7 @@ import React, { Dispatch, SetStateAction, useState } from "react";
 
 import EditButton from "@/components/TimeTable/TimeCell/atoms/editButton";
 import colors from "@/Const/colors";
+import TABLE_CONST from "@/Const/TABLE_CONST";
 
 import { timeBlock } from "../../Types/type";
 import EditDialog from "./EditDialog/EditDialog";
@@ -16,25 +17,17 @@ interface BlockProps {
 const useStyles = createStyles(
   (theme, { start, end, color }: BlockProps, getRef) => ({
     block: {
-      width: "8vw",
+      width: "100%",
       [`@media (max-width: ${theme.breakpoints.sm})`]: {
         width: "calc((100vw - 35px * 2) / 8)",
       },
-      maxWidth: 1130 / 8 + 1,
-      minWidth: 45,
       position: "absolute",
-      marginLeft: -1,
-      // boxSizing: "border-box",
-      borderRight:
-        theme.colorScheme === "dark"
-          ? `1px solid ${theme.colors.dark[4]}`
-          : `1px solid ${theme.colors.gray[3]}`,
       backgroundColor:
         theme.colorScheme === "dark"
           ? theme.colors[color][6]
           : theme.colors[color][4],
-      marginTop: (start - 12) * 47 - 23,
-      height: (end - start) * 47 - 1,
+      marginTop: (start - 12) * TABLE_CONST.height - 23,
+      height: (end - start) * TABLE_CONST.height - 1,
       zIndex: 5,
 
       color: theme.white,

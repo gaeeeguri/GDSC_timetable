@@ -72,7 +72,6 @@ const useStyles = createStyles(
           : theme.colors.gray[6],
     },
     timesHead: {
-      minWidth: 92,
       maxWidth: 1130 / 8,
       width: "7vw",
       textAlign: "center",
@@ -93,6 +92,8 @@ const useStyles = createStyles(
     },
     emptyCell: {
       width: "8vw",
+      padding: "0",
+      margin: "0",
       height: height,
       border:
         theme.colorScheme === "dark"
@@ -333,11 +334,11 @@ const TimeTable = () => {
           </thead>
           <tbody>
             <tr>
-              <td className={classes.times}>오후 12시</td>
+              <td className={classes.times}>12</td>
               {type === "new" ? newRow : oldRow}
             </tr>
             <tr>
-              <td className={classes.times}>오후 1시</td>
+              <td className={classes.times}>1</td>
               <td className={classes.emptyCell}></td>
               <td className={classes.emptyCell}></td>
               <td className={classes.emptyCell}></td>
@@ -347,7 +348,7 @@ const TimeTable = () => {
               <td className={classes.emptyCell}></td>
             </tr>
             <tr>
-              <td className={classes.times}>오후 2시</td>
+              <td className={classes.times}>2</td>
               <td className={classes.emptyCell}></td>
               <td className={classes.emptyCell}></td>
               <td className={classes.emptyCell}></td>
@@ -357,7 +358,7 @@ const TimeTable = () => {
               <td className={classes.emptyCell}></td>
             </tr>
             <tr>
-              <td className={classes.times}>오후 3시</td>
+              <td className={classes.times}>3</td>
               <td className={classes.emptyCell}></td>
               <td className={classes.emptyCell}></td>
               <td className={classes.emptyCell}></td>
@@ -367,7 +368,7 @@ const TimeTable = () => {
               <td className={classes.emptyCell}></td>
             </tr>
             <tr>
-              <td className={classes.times}>오후 4시</td>
+              <td className={classes.times}>4</td>
               <td className={classes.emptyCell}></td>
               <td className={classes.emptyCell}></td>
               <td className={classes.emptyCell}></td>
@@ -377,7 +378,7 @@ const TimeTable = () => {
               <td className={classes.emptyCell}></td>
             </tr>
             <tr>
-              <td className={classes.times}>오후 5시</td>
+              <td className={classes.times}>5</td>
               <td className={classes.emptyCell}></td>
               <td className={classes.emptyCell}></td>
               <td className={classes.emptyCell}></td>
@@ -387,7 +388,7 @@ const TimeTable = () => {
               <td className={classes.emptyCell}></td>
             </tr>
             <tr>
-              <td className={classes.times}>오후 6시</td>
+              <td className={classes.times}>6</td>
               <td className={classes.emptyCell}></td>
               <td className={classes.emptyCell}></td>
               <td className={classes.emptyCell}></td>
@@ -397,7 +398,7 @@ const TimeTable = () => {
               <td className={classes.emptyCell}></td>
             </tr>
             <tr>
-              <td className={classes.times}>오후 7시</td>
+              <td className={classes.times}>7</td>
               <td className={classes.emptyCell}></td>
               <td className={classes.emptyCell}></td>
               <td className={classes.emptyCell}></td>
@@ -407,7 +408,7 @@ const TimeTable = () => {
               <td className={classes.emptyCell}></td>
             </tr>
             <tr>
-              <td className={classes.times}>오후 8시</td>
+              <td className={classes.times}>8</td>
               <td className={classes.emptyCell}></td>
               <td className={classes.emptyCell}></td>
               <td className={classes.emptyCell}></td>
@@ -417,7 +418,7 @@ const TimeTable = () => {
               <td className={classes.emptyCell}></td>
             </tr>
             <tr>
-              <td className={classes.times}>오후 9시</td>
+              <td className={classes.times}>9</td>
               <td className={classes.emptyCell}></td>
               <td className={classes.emptyCell}></td>
               <td className={classes.emptyCell}></td>
@@ -427,7 +428,7 @@ const TimeTable = () => {
               <td className={classes.emptyCell}></td>
             </tr>
             <tr>
-              <td className={classes.times}>오후 10시</td>
+              <td className={classes.times}>10</td>
               <td className={classes.emptyCell}></td>
               <td className={classes.emptyCell}></td>
               <td className={classes.emptyCell}></td>
@@ -437,7 +438,7 @@ const TimeTable = () => {
               <td className={classes.emptyCell}></td>
             </tr>
             <tr>
-              <td className={classes.times}>오후 11시</td>
+              <td className={classes.times}>11</td>
               <td className={classes.emptyCell}></td>
               <td className={classes.emptyCell}></td>
               <td className={classes.emptyCell}></td>

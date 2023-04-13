@@ -1,4 +1,5 @@
 import { createStyles } from "@mantine/core";
+import { useMediaQuery } from "@mantine/hooks";
 import { useEffect } from "react";
 
 import { getCookie } from "@/lib/cookie";
@@ -22,6 +23,8 @@ export default function App() {
   //TODO: authorized on refresh
   const [state, send] = AuthMachineContext.useActor();
 
+  const isDesktop: boolean = useMediaQuery("(min-width: 760px)");
+
   useEffect(() => {
     if (
       getCookie("accessToken") != undefined &&
@@ -33,8 +36,8 @@ export default function App() {
 
   return (
     <div className={classes.wrapper}>
-      <Header />
-      <TimeTable />
+      <Header isDesktop={isDesktop} />
+      <TimeTable isDesktop={isDesktop} />
     </div>
   );
 }

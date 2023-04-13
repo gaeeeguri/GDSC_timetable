@@ -20,10 +20,11 @@ const useStyles = createStyles((theme, getRef) => ({
     maxWidth: 1190,
     [`@media (max-width: 760px)`]: {
       width: "100%",
-      marginLeft: 30,
-      marginRight: 30,
-      paddingLeft: 20,
-      paddingRight: 20,
+      marginLeft: 5,
+      marginRight: 5,
+      paddingLeft: 10,
+      paddingRight: 10,
+      paddingTop: 10,
     },
     display: "flex",
     flexDirection: "column",
@@ -41,6 +42,9 @@ const useStyles = createStyles((theme, getRef) => ({
     maxHeight: 800,
     maxWidth: 1130,
     marginTop: 15,
+    [`@media (max-width: 760px)`]: {
+      marginTop: 10,
+    },
     width: "100%",
     backgroundColor: theme.colorScheme === "dark" ? theme.black : theme.white,
     borderCollapse: "collapse",
@@ -56,6 +60,9 @@ const useStyles = createStyles((theme, getRef) => ({
     minWidth: 45,
     textAlign: "center",
     padding: "7px 15px",
+    [`@media (max-width: 760px)`]: {
+      padding: 0,
+    },
     fontSize: theme.fontSizes.sm,
     border:
       theme.colorScheme === "dark"
@@ -73,6 +80,10 @@ const useStyles = createStyles((theme, getRef) => ({
     fontSize: theme.fontSizes.sm,
     [theme.fn.smallerThan("md")]: {
       fontSize: theme.fontSizes.xs,
+    },
+    [`@media (max-width: 760px)`]: {
+      width: "10px",
+      padding: 0,
     },
     border:
       theme.colorScheme === "dark"
@@ -104,6 +115,10 @@ const useStyles = createStyles((theme, getRef) => ({
     [theme.fn.smallerThan("md")]: {
       fontSize: theme.fontSizes.xs,
     },
+    [`@media (max-width: 760px)`]: {
+      width: "10px",
+      padding: 0,
+    },
     border:
       theme.colorScheme === "dark"
         ? `1px solid ${theme.colors.dark[4]}`
@@ -117,7 +132,10 @@ const useStyles = createStyles((theme, getRef) => ({
   },
 }));
 
-const TimeTable = () => {
+interface TimeTableProps {
+  isDesktop: boolean;
+}
+const TimeTable = ({ isDesktop }: TimeTableProps) => {
   const { classes } = useStyles();
   const [type, setType] = useState<string>("old");
   const [isEdit, setIsEdit] = useState<boolean>(false);
@@ -296,7 +314,7 @@ const TimeTable = () => {
       >
         <div className={classes.paperHeader}>
           <SegmentedControl
-            size="md"
+            size={isDesktop ? "md" : "sm"}
             value={type}
             data={[
               { label: "구관", value: "old" },
@@ -305,12 +323,12 @@ const TimeTable = () => {
             onChange={setType}
           />
           {state.matches("authorized") ? (
-            <Button size="md" onClick={onClickAddButton}>
+            <Button size={isDesktop ? "md" : "sm"} onClick={onClickAddButton}>
               연습시간 추가
             </Button>
           ) : (
             <Button
-              size="md"
+              size={isDesktop ? "md" : "sm"}
               variant="outline"
               color="gray"
               onClick={captureData}

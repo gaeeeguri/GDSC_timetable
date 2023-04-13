@@ -1,5 +1,4 @@
 import { createStyles } from "@mantine/core";
-import { useMediaQuery } from "@mantine/hooks";
 import React from "react";
 
 import NavBar from "@/components/Header/NavBar/organisms/navBar";
@@ -24,8 +23,8 @@ const useStyles = createStyles((theme, _params, getRef) => ({
     marginLeft: 0,
     marginRight: 0,
     [`@media (max-width: 760px)`]: {
-      paddingLeft: 30 + 20,
-      paddingRight: 30 + 20,
+      paddingLeft: 15,
+      paddingRight: 15,
     },
 
     borderBottom: `1px solid ${
@@ -33,12 +32,13 @@ const useStyles = createStyles((theme, _params, getRef) => ({
     }`,
   },
 }));
-const NavBarContainer = () => {
+export interface NavBarContainerProps {
+  isDesktop: boolean;
+}
+const NavBarContainer = ({ isDesktop }: NavBarContainerProps) => {
   const { classes } = useStyles();
 
   const [state, send] = AuthMachineContext.useActor();
-
-  const isDesktop: boolean = useMediaQuery("(min-width: 760px)");
 
   const clickLogOut = () => {
     removeCookie("accessToken");

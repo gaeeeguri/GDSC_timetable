@@ -2,12 +2,15 @@ import React from "react";
 
 import LoginModalContainer from "@/components/Header/LoginModal/loginModalContainer";
 
-import NavBarContainer from "./NavBar/navBarContainer";
+import NavBarContainer, {
+  NavBarContainerProps,
+} from "./NavBar/navBarContainer";
 
-const Header = () => {
+type HeaderProps = NavBarContainerProps;
+const Header = ({ isDesktop }: HeaderProps) => {
   return (
     <>
-      <NavBarContainer />
+      <NavBarContainer isDesktop={isDesktop} />
       <LoginModalContainer />
     </>
   );

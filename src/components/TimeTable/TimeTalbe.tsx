@@ -10,115 +10,115 @@ import captureData from "@/util/saveImage/saveImage";
 import AddDialog from "../AddDialog/AddDialog";
 import { timeBlock } from "../Types/type";
 
-interface tableLengthProps {
-  height: number;
-}
-
-const useStyles = createStyles(
-  (theme, { height }: tableLengthProps, getRef) => ({
-    wrapper: {
-      display: "flex",
-      justifyContent: "center",
-    },
-    calendarWrapper: {
-      height: "fit-content",
-      maxWidth: 1190,
-      [`@media (max-width: 760px)`]: {
-        width: "100%",
-        marginLeft: 30,
-        marginRight: 30,
-        paddingLeft: 20,
-        paddingRight: 20,
-      },
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "start",
-      justifyContent: "flex-start",
-      marginTop: 30,
-    },
-    paperHeader: {
-      display: "flex",
+const useStyles = createStyles((theme, getRef) => ({
+  wrapper: {
+    display: "flex",
+    justifyContent: "center",
+  },
+  calendarWrapper: {
+    height: "fit-content",
+    maxWidth: 1190,
+    [`@media (max-width: 760px)`]: {
       width: "100%",
-      alignItems: "center",
-      justifyContent: "space-between",
+      marginLeft: 30,
+      marginRight: 30,
+      paddingLeft: 20,
+      paddingRight: 20,
     },
-    calendar: {
-      maxHeight: 800,
-      maxWidth: 1130,
-      marginTop: 15,
-      width: "100%",
-      backgroundColor: theme.colorScheme === "dark" ? theme.black : theme.white,
-      borderCollapse: "collapse",
-      captionSide: "top",
-      border:
-        theme.colorScheme === "dark"
-          ? `1px solid ${theme.colors.dark[4]}`
-          : `1px solid ${theme.colors.gray[3]}`,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "start",
+    justifyContent: "flex-start",
+    marginTop: 30,
+  },
+  paperHeader: {
+    display: "flex",
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  calendar: {
+    maxHeight: 800,
+    maxWidth: 1130,
+    marginTop: 15,
+    width: "100%",
+    backgroundColor: theme.colorScheme === "dark" ? theme.black : theme.white,
+    borderCollapse: "collapse",
+    captionSide: "top",
+    border:
+      theme.colorScheme === "dark"
+        ? `1px solid ${theme.colors.dark[4]}`
+        : `1px solid ${theme.colors.gray[3]}`,
+  },
+  tableHead: {
+    maxWidth: 1130 / 8,
+    width: "8vw",
+    minWidth: 45,
+    textAlign: "center",
+    padding: "7px 15px",
+    fontSize: theme.fontSizes.sm,
+    border:
+      theme.colorScheme === "dark"
+        ? `1px solid ${theme.colors.dark[4]}`
+        : `1px solid ${theme.colors.gray[3]}`,
+    color:
+      theme.colorScheme === "dark"
+        ? theme.colors.dark[2]
+        : theme.colors.gray[6],
+  },
+  timesHead: {
+    maxWidth: 1130 / 8,
+    width: "7vw",
+    textAlign: "center",
+    fontSize: theme.fontSizes.sm,
+    [theme.fn.smallerThan("md")]: {
+      fontSize: theme.fontSizes.xs,
     },
-    tableHead: {
-      maxWidth: 1130 / 8,
-      width: "8vw",
-      minWidth: 45,
-      textAlign: "center",
-      padding: "7px 15px",
-      fontSize: theme.fontSizes.sm,
-      border:
-        theme.colorScheme === "dark"
-          ? `1px solid ${theme.colors.dark[4]}`
-          : `1px solid ${theme.colors.gray[3]}`,
-      color:
-        theme.colorScheme === "dark"
-          ? theme.colors.dark[2]
-          : theme.colors.gray[6],
+    border:
+      theme.colorScheme === "dark"
+        ? `1px solid ${theme.colors.dark[4]}`
+        : `1px solid ${theme.colors.gray[3]}`,
+  },
+  tableTime: {
+    textAlign: "center",
+    padding: "12px 15px",
+    fontSize: theme.fontSizes.sm,
+    border:
+      theme.colorScheme === "dark"
+        ? `1px solid ${theme.colors.dark[4]}`
+        : `1px solid ${theme.colors.gray[3]}`,
+  },
+  emptyCell: {
+    width: "8vw",
+    padding: "0",
+    margin: "0",
+    height: TABLE_CONST.webHeight,
+    border:
+      theme.colorScheme === "dark"
+        ? `1px solid ${theme.colors.dark[4]}`
+        : `1px solid ${theme.colors.gray[3]}`,
+  },
+  times: {
+    textAlign: "center",
+    fontSize: theme.fontSizes.sm,
+    [theme.fn.smallerThan("md")]: {
+      fontSize: theme.fontSizes.xs,
     },
-    timesHead: {
-      maxWidth: 1130 / 8,
-      width: "7vw",
-      textAlign: "center",
-      fontSize: theme.fontSizes.sm,
-      border:
-        theme.colorScheme === "dark"
-          ? `1px solid ${theme.colors.dark[4]}`
-          : `1px solid ${theme.colors.gray[3]}`,
-    },
-    tableTime: {
-      textAlign: "center",
-      padding: "12px 15px",
-      fontSize: theme.fontSizes.sm,
-      border:
-        theme.colorScheme === "dark"
-          ? `1px solid ${theme.colors.dark[4]}`
-          : `1px solid ${theme.colors.gray[3]}`,
-    },
-    emptyCell: {
-      width: "8vw",
-      padding: "0",
-      margin: "0",
-      height: height,
-      border:
-        theme.colorScheme === "dark"
-          ? `1px solid ${theme.colors.dark[4]}`
-          : `1px solid ${theme.colors.gray[3]}`,
-    },
-    times: {
-      textAlign: "center",
-      fontSize: theme.fontSizes.sm,
-      border:
-        theme.colorScheme === "dark"
-          ? `1px solid ${theme.colors.dark[4]}`
-          : `1px solid ${theme.colors.gray[3]}`,
-      padding: "12px 10px",
-      height: height,
-      color:
-        theme.colorScheme === "dark"
-          ? theme.colors.dark[2]
-          : theme.colors.gray[6],
-    },
-  })
-);
+    border:
+      theme.colorScheme === "dark"
+        ? `1px solid ${theme.colors.dark[4]}`
+        : `1px solid ${theme.colors.gray[3]}`,
+    padding: "12px 10px",
+    height: TABLE_CONST.webHeight,
+    color:
+      theme.colorScheme === "dark"
+        ? theme.colors.dark[2]
+        : theme.colors.gray[6],
+  },
+}));
 
 const TimeTable = () => {
-  const { classes } = useStyles({ height: TABLE_CONST.height });
+  const { classes } = useStyles();
   const [type, setType] = useState<string>("old");
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [thisEdit, setThisEdit] = useState<boolean>(false);

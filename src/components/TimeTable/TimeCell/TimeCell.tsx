@@ -26,10 +26,12 @@ const useStyles = createStyles(
         theme.colorScheme === "dark"
           ? theme.colors[color][6]
           : theme.colors[color][4],
-      marginTop: (start - 12) * TABLE_CONST.height - 23,
-      height: (end - start) * TABLE_CONST.height - 1,
+      marginTop: (start - 12) * TABLE_CONST.webHeight - 23,
+      height: (end - start) * TABLE_CONST.webHeight - 1,
       zIndex: 5,
-
+      [theme.fn.smallerThan("md")]: {
+        fontSize: theme.fontSizes.sm,
+      },
       color: theme.white,
       paddingTop: 10,
       paddingLeft: 10,

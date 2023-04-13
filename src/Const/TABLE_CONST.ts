@@ -1,5 +1,6 @@
 export const TABLE_CONST = {
-  height: 47,
+  webHeight: 47,
+  mobileHeight: 35,
 };
 
 export default TABLE_CONST;

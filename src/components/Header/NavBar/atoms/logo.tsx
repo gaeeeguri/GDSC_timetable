@@ -6,7 +6,6 @@ import GdscLogo from "@/components/Header/NavBar/atoms/gdscLogo";
 const useStyles = createStyles((theme, _params, getRef) => ({
   title: {
     ref: getRef("child"),
-    maxWidth: 1130,
     color: theme.colorScheme === "dark" ? theme.white : theme.black,
     fontSize: theme.fontSizes.lg,
     display: "flex",

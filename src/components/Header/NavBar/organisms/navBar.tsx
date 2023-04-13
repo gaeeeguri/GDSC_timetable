@@ -7,13 +7,15 @@ import HeaderButton, { HeaderButtonProps } from "../molecules/headerButton";
 
 const useStyles = createStyles((theme, _params, getRef) => ({
   navWrapper: {
-    maxWidth: 1130,
+    maxWidth: 1190,
     width: "63vw",
     [`@media (max-width: 760px)`]: {
       width: "100%",
     },
 
     display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
 }));
 

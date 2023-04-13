@@ -10,9 +10,10 @@ interface AddDialogProps {
   opened: boolean;
   onClose: () => void;
   type: string;
+  isDesktop: boolean;
 }
 
-const AddDialog = ({ opened, onClose, type }: AddDialogProps) => {
+const AddDialog = ({ opened, onClose, type, isDesktop }: AddDialogProps) => {
   const [loading, setLoading] = useState<boolean>(false);
 
   const onStartChange = (e: any) => {
@@ -83,8 +84,11 @@ const AddDialog = ({ opened, onClose, type }: AddDialogProps) => {
     <Dialog
       withCloseButton
       opened={opened}
-      size="lg"
-      radius="md"
+      position={
+        isDesktop ? { right: 20, bottom: 20 } : { right: 10, bottom: 10 }
+      }
+      size={isDesktop ? "lg" : "md"}
+      radius={isDesktop ? "md" : "sm"}
       onClose={onClose}
     >
       <Text size="lg" style={{ marginBottom: 10 }} weight={500}>

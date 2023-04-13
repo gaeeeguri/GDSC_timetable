@@ -14,9 +14,16 @@ interface EditDialogProps {
   onClose: () => void;
   timeData: timeBlock;
   type: string;
+  isDesktop: boolean;
 }
 
-const EditDialog = ({ opened, onClose, timeData, type }: EditDialogProps) => {
+const EditDialog = ({
+  opened,
+  onClose,
+  timeData,
+  type,
+  isDesktop,
+}: EditDialogProps) => {
   const [deleteTry, setDeleteTry] = useState<boolean>(false);
 
   const onStartChange = (e: any) => {
@@ -121,7 +128,10 @@ const EditDialog = ({ opened, onClose, timeData, type }: EditDialogProps) => {
     <Dialog
       withCloseButton
       opened={opened}
-      size="lg"
+      size={isDesktop ? "lg" : "md"}
+      position={
+        isDesktop ? { right: 20, bottom: 20 } : { right: 10, bottom: 10 }
+      }
       radius="md"
       onClose={() => {
         onClose();

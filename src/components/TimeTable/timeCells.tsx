@@ -9,6 +9,7 @@ interface TimeCellsProps {
   isEdit: boolean;
   setIsEdit: Dispatch<SetStateAction<boolean>>;
   isAdmin: boolean;
+  isDesktop: boolean;
 }
 
 const TimeCells = ({
@@ -17,6 +18,7 @@ const TimeCells = ({
   isEdit,
   setIsEdit,
   isAdmin,
+  isDesktop,
 }: TimeCellsProps) => {
   return (
     <>
@@ -36,6 +38,7 @@ const TimeCells = ({
             setIsEdit={setIsEdit}
             type={type}
             isAdmin={isAdmin}
+            isDesktop={isDesktop}
           />
         </div>
       ))}

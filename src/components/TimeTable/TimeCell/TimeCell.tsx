@@ -18,9 +18,6 @@ const useStyles = createStyles(
   (theme, { start, end, color }: BlockProps, getRef) => ({
     block: {
       width: "100%",
-      [`@media (max-width: ${theme.breakpoints.sm})`]: {
-        width: "calc((100vw - 35px * 2) / 8)",
-      },
       position: "absolute",
       backgroundColor:
         theme.colorScheme === "dark"
@@ -64,6 +61,7 @@ interface TimeCellProps {
   isEdit: boolean;
   setIsEdit: Dispatch<SetStateAction<boolean>>;
   isAdmin: boolean;
+  isDesktop: boolean;
 }
 
 const TimeCell = ({
@@ -72,6 +70,7 @@ const TimeCell = ({
   isEdit,
   setIsEdit,
   isAdmin,
+  isDesktop,
 }: TimeCellProps) => {
   const [start, end, color] = [
     timeData.start,
@@ -120,6 +119,7 @@ const TimeCell = ({
         opened={isDialogOn}
         timeData={timeData}
         type={type}
+        isDesktop={isDesktop}
         onClose={onCloseEditModal}
       />
     </>

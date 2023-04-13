@@ -113,6 +113,13 @@ const useStyles = createStyles((theme, getRef) => ({
     textAlign: "center",
     fontSize: theme.fontSizes.sm,
     [theme.fn.smallerThan("md")]: {
+      overflow: "hidden",
+      fontSize: theme.fontSizes.xs,
+      WebkitLineClamp: 1,
+      lineClamp: 1,
+      WebkitBoxOrient: "vertical",
+    },
+    [theme.fn.smallerThan("sm")]: {
       fontSize: theme.fontSizes.xs,
     },
     [`@media (max-width: 760px)`]: {
@@ -162,6 +169,7 @@ const TimeTable = ({ isDesktop }: TimeTableProps) => {
           isEdit={isEdit}
           setIsEdit={setIsEdit}
           isAdmin={state.matches("authorized")}
+          isDesktop={isDesktop}
         />
       </td>
       <td className={classes.emptyCell}>
@@ -171,6 +179,7 @@ const TimeTable = ({ isDesktop }: TimeTableProps) => {
           isEdit={isEdit}
           setIsEdit={setIsEdit}
           isAdmin={state.matches("authorized")}
+          isDesktop={isDesktop}
         />
       </td>
       <td className={classes.emptyCell}>
@@ -180,6 +189,7 @@ const TimeTable = ({ isDesktop }: TimeTableProps) => {
           isEdit={isEdit}
           setIsEdit={setIsEdit}
           isAdmin={state.matches("authorized")}
+          isDesktop={isDesktop}
         />
       </td>
       <td className={classes.emptyCell}>
@@ -189,6 +199,7 @@ const TimeTable = ({ isDesktop }: TimeTableProps) => {
           isEdit={isEdit}
           setIsEdit={setIsEdit}
           isAdmin={state.matches("authorized")}
+          isDesktop={isDesktop}
         />
       </td>
       <td className={classes.emptyCell}>
@@ -198,6 +209,7 @@ const TimeTable = ({ isDesktop }: TimeTableProps) => {
           isEdit={isEdit}
           setIsEdit={setIsEdit}
           isAdmin={state.matches("authorized")}
+          isDesktop={isDesktop}
         />
       </td>
       <td className={classes.emptyCell}>
@@ -207,6 +219,7 @@ const TimeTable = ({ isDesktop }: TimeTableProps) => {
           isEdit={isEdit}
           setIsEdit={setIsEdit}
           isAdmin={state.matches("authorized")}
+          isDesktop={isDesktop}
         />
       </td>
       <td className={classes.emptyCell}>
@@ -216,6 +229,7 @@ const TimeTable = ({ isDesktop }: TimeTableProps) => {
           isEdit={isEdit}
           setIsEdit={setIsEdit}
           isAdmin={state.matches("authorized")}
+          isDesktop={isDesktop}
         />
       </td>
     </>
@@ -230,6 +244,7 @@ const TimeTable = ({ isDesktop }: TimeTableProps) => {
           isEdit={isEdit}
           setIsEdit={setIsEdit}
           isAdmin={state.matches("authorized")}
+          isDesktop={isDesktop}
         />
       </td>
       <td className={classes.emptyCell}>
@@ -239,6 +254,7 @@ const TimeTable = ({ isDesktop }: TimeTableProps) => {
           isEdit={isEdit}
           setIsEdit={setIsEdit}
           isAdmin={state.matches("authorized")}
+          isDesktop={isDesktop}
         />
       </td>
       <td className={classes.emptyCell}>
@@ -248,6 +264,7 @@ const TimeTable = ({ isDesktop }: TimeTableProps) => {
           isEdit={isEdit}
           setIsEdit={setIsEdit}
           isAdmin={state.matches("authorized")}
+          isDesktop={isDesktop}
         />
       </td>
       <td className={classes.emptyCell}>
@@ -257,6 +274,7 @@ const TimeTable = ({ isDesktop }: TimeTableProps) => {
           isEdit={isEdit}
           setIsEdit={setIsEdit}
           isAdmin={state.matches("authorized")}
+          isDesktop={isDesktop}
         />
       </td>
       <td className={classes.emptyCell}>
@@ -266,6 +284,7 @@ const TimeTable = ({ isDesktop }: TimeTableProps) => {
           isEdit={isEdit}
           setIsEdit={setIsEdit}
           isAdmin={state.matches("authorized")}
+          isDesktop={isDesktop}
         />
       </td>
       <td className={classes.emptyCell}>
@@ -275,6 +294,7 @@ const TimeTable = ({ isDesktop }: TimeTableProps) => {
           isEdit={isEdit}
           setIsEdit={setIsEdit}
           isAdmin={state.matches("authorized")}
+          isDesktop={isDesktop}
         />
       </td>
       <td className={classes.emptyCell}>
@@ -284,6 +304,7 @@ const TimeTable = ({ isDesktop }: TimeTableProps) => {
           isEdit={isEdit}
           setIsEdit={setIsEdit}
           isAdmin={state.matches("authorized")}
+          isDesktop={isDesktop}
         />
       </td>
     </>
@@ -468,7 +489,12 @@ const TimeTable = ({ isDesktop }: TimeTableProps) => {
           </tbody>
         </table>
       </Paper>
-      <AddDialog opened={thisEdit} type={type} onClose={onCloseAddDialog} />
+      <AddDialog
+        opened={thisEdit}
+        type={type}
+        isDesktop={isDesktop}
+        onClose={onCloseAddDialog}
+      />
     </div>
   );
 };

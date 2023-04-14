@@ -5,7 +5,7 @@ import EditButton from "@/components/TimeTable/TimeCell/atoms/editButton";
 import colors from "@/Const/colors";
 import TABLE_CONST from "@/Const/TABLE_CONST";
 
-import { IsDeskTop, timeBlock } from "../../Types/type";
+import { IsDeskTop, TableType, timeBlock } from "../../Types/type";
 import EditDialog from "./EditDialog/EditDialog";
 
 interface BlockStyleProps {
@@ -56,7 +56,7 @@ const useStyles = createStyles(
 );
 
 export interface CellProps extends IsDeskTop {
-  type: "new" | "old";
+  type: TableType;
   isEdit: boolean;
   setIsEdit: Dispatch<SetStateAction<boolean>>;
   isAdmin: boolean;

@@ -8,7 +8,13 @@ import { AuthMachineContext } from "@/main";
 import captureData from "@/util/saveImage/saveImage";
 
 import AddDialog from "../AddDialog/AddDialog";
-import { IsDeskTop, timeBlock } from "../Types/type";
+import {
+  IsDeskTop,
+  TABLE_TYPE,
+  timeBlock,
+  WeekDay,
+  weekDays,
+} from "../Types/type";
 
 const useStyles = createStyles((theme, getRef) => ({
   wrapper: {
@@ -142,171 +148,44 @@ const useStyles = createStyles((theme, getRef) => ({
 type TimeTableProps = IsDeskTop;
 const TimeTable = ({ isDesktop }: TimeTableProps) => {
   const { classes } = useStyles();
-  const [type, setType] = useState<string>("old");
+  const [type, setType] = useState<string>(TABLE_TYPE.OLD);
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [thisEdit, setThisEdit] = useState<boolean>(false);
 
   const [state, send] = AuthMachineContext.useActor();
 
-  const newTimeBlock: Array<timeBlock> = FetchTimes("new", isEdit);
-  const oldTimeBlock: Array<timeBlock> = FetchTimes("old", isEdit);
+  const newTimeBlock: Array<timeBlock> = FetchTimes(TABLE_TYPE.NEW, isEdit);
+  const oldTimeBlock: Array<timeBlock> = FetchTimes(TABLE_TYPE.OLD, isEdit);
 
-  const filterByDay = (
-    times: Array<timeBlock>,
-    day: string
-  ): Array<timeBlock> => {
+  const filterByDay = (times: timeBlock[], day: WeekDay): timeBlock[] => {
     return times.filter(time => time.day === day);
   };
 
-  const newRow = (
-    <>
-      <td className={classes.emptyCell}>
-        <TimeCells
-          times={filterByDay(newTimeBlock, "mon")}
-          type="new"
-          isEdit={isEdit}
-          setIsEdit={setIsEdit}
-          isAdmin={state.matches("authorized")}
-          isDesktop={isDesktop}
-        />
-      </td>
-      <td className={classes.emptyCell}>
-        <TimeCells
-          times={filterByDay(newTimeBlock, "tue")}
-          type="new"
-          isEdit={isEdit}
-          setIsEdit={setIsEdit}
-          isAdmin={state.matches("authorized")}
-          isDesktop={isDesktop}
-        />
-      </td>
-      <td className={classes.emptyCell}>
-        <TimeCells
-          times={filterByDay(newTimeBlock, "wed")}
-          type="new"
-          isEdit={isEdit}
-          setIsEdit={setIsEdit}
-          isAdmin={state.matches("authorized")}
-          isDesktop={isDesktop}
-        />
-      </td>
-      <td className={classes.emptyCell}>
-        <TimeCells
-          times={filterByDay(newTimeBlock, "thu")}
-          type="new"
-          isEdit={isEdit}
-          setIsEdit={setIsEdit}
-          isAdmin={state.matches("authorized")}
-          isDesktop={isDesktop}
-        />
-      </td>
-      <td className={classes.emptyCell}>
-        <TimeCells
-          times={filterByDay(newTimeBlock, "fri")}
-          type="new"
-          isEdit={isEdit}
-          setIsEdit={setIsEdit}
-          isAdmin={state.matches("authorized")}
-          isDesktop={isDesktop}
-        />
-      </td>
-      <td className={classes.emptyCell}>
-        <TimeCells
-          times={filterByDay(newTimeBlock, "sat")}
-          type="new"
-          isEdit={isEdit}
-          setIsEdit={setIsEdit}
-          isAdmin={state.matches("authorized")}
-          isDesktop={isDesktop}
-        />
-      </td>
-      <td className={classes.emptyCell}>
-        <TimeCells
-          times={filterByDay(newTimeBlock, "sun")}
-          type="new"
-          isEdit={isEdit}
-          setIsEdit={setIsEdit}
-          isAdmin={state.matches("authorized")}
-          isDesktop={isDesktop}
-        />
-      </td>
-    </>
-  );
+  const newRow = weekDays.map(d => (
+    <td key={d} className={classes.emptyCell}>
+      <TimeCells
+        times={filterByDay(newTimeBlock, d)}
+        type={TABLE_TYPE.NEW}
+        isEdit={isEdit}
+        setIsEdit={setIsEdit}
+        isAdmin={state.matches("authorized")}
+        isDesktop={isDesktop}
+      />
+    </td>
+  ));
 
-  const oldRow = (
-    <>
-      <td className={classes.emptyCell}>
-        <TimeCells
-          times={filterByDay(oldTimeBlock, "mon")}
-          type="old"
-          isEdit={isEdit}
-          setIsEdit={setIsEdit}
-          isAdmin={state.matches("authorized")}
-          isDesktop={isDesktop}
-        />
-      </td>
-      <td className={classes.emptyCell}>
-        <TimeCells
-          times={filterByDay(oldTimeBlock, "tue")}
-          type="old"
-          isEdit={isEdit}
-          setIsEdit={setIsEdit}
-          isAdmin={state.matches("authorized")}
-          isDesktop={isDesktop}
-        />
-      </td>
-      <td className={classes.emptyCell}>
-        <TimeCells
-          times={filterByDay(oldTimeBlock, "wed")}
-          type="old"
-          isEdit={isEdit}
-          setIsEdit={setIsEdit}
-          isAdmin={state.matches("authorized")}
-          isDesktop={isDesktop}
-        />
-      </td>
-      <td className={classes.emptyCell}>
-        <TimeCells
-          times={filterByDay(oldTimeBlock, "thu")}
-          type="old"
-          isEdit={isEdit}
-          setIsEdit={setIsEdit}
-          isAdmin={state.matches("authorized")}
-          isDesktop={isDesktop}
-        />
-      </td>
-      <td className={classes.emptyCell}>
-        <TimeCells
-          times={filterByDay(oldTimeBlock, "fri")}
-          type="old"
-          isEdit={isEdit}
-          setIsEdit={setIsEdit}
-          isAdmin={state.matches("authorized")}
-          isDesktop={isDesktop}
-        />
-      </td>
-      <td className={classes.emptyCell}>
-        <TimeCells
-          times={filterByDay(oldTimeBlock, "sat")}
-          type="old"
-          isEdit={isEdit}
-          setIsEdit={setIsEdit}
-          isAdmin={state.matches("authorized")}
-          isDesktop={isDesktop}
-        />
-      </td>
-      <td className={classes.emptyCell}>
-        <TimeCells
-          times={filterByDay(oldTimeBlock, "sun")}
-          type="old"
-          isEdit={isEdit}
-          setIsEdit={setIsEdit}
-          isAdmin={state.matches("authorized")}
-          isDesktop={isDesktop}
-        />
-      </td>
-    </>
-  );
+  const oldRow = weekDays.map(d => (
+    <td key={d} className={classes.emptyCell}>
+      <TimeCells
+        times={filterByDay(oldTimeBlock, d)}
+        type={TABLE_TYPE.OLD}
+        isEdit={isEdit}
+        setIsEdit={setIsEdit}
+        isAdmin={state.matches("authorized")}
+        isDesktop={isDesktop}
+      />
+    </td>
+  ));
 
   const onClickAddButton = () => {
     setThisEdit(true);
@@ -336,8 +215,8 @@ const TimeTable = ({ isDesktop }: TimeTableProps) => {
             size={isDesktop ? "md" : "sm"}
             value={type}
             data={[
-              { label: "구관", value: "old" },
-              { label: "신관", value: "new" },
+              { label: "구관", value: TABLE_TYPE.OLD },
+              { label: "신관", value: TABLE_TYPE.NEW },
             ]}
             onChange={setType}
           />
@@ -372,118 +251,22 @@ const TimeTable = ({ isDesktop }: TimeTableProps) => {
           <tbody>
             <tr>
               <td className={classes.times}>12</td>
-              {type === "new" ? newRow : oldRow}
+              {type === TABLE_TYPE.NEW ? newRow : oldRow}
             </tr>
-            <tr>
-              <td className={classes.times}>1</td>
-              <td className={classes.emptyCell}></td>
-              <td className={classes.emptyCell}></td>
-              <td className={classes.emptyCell}></td>
-              <td className={classes.emptyCell}></td>
-              <td className={classes.emptyCell}></td>
-              <td className={classes.emptyCell}></td>
-              <td className={classes.emptyCell}></td>
-            </tr>
-            <tr>
-              <td className={classes.times}>2</td>
-              <td className={classes.emptyCell}></td>
-              <td className={classes.emptyCell}></td>
-              <td className={classes.emptyCell}></td>
-              <td className={classes.emptyCell}></td>
-              <td className={classes.emptyCell}></td>
-              <td className={classes.emptyCell}></td>
-              <td className={classes.emptyCell}></td>
-            </tr>
-            <tr>
-              <td className={classes.times}>3</td>
-              <td className={classes.emptyCell}></td>
-              <td className={classes.emptyCell}></td>
-              <td className={classes.emptyCell}></td>
-              <td className={classes.emptyCell}></td>
-              <td className={classes.emptyCell}></td>
-              <td className={classes.emptyCell}></td>
-              <td className={classes.emptyCell}></td>
-            </tr>
-            <tr>
-              <td className={classes.times}>4</td>
-              <td className={classes.emptyCell}></td>
-              <td className={classes.emptyCell}></td>
-              <td className={classes.emptyCell}></td>
-              <td className={classes.emptyCell}></td>
-              <td className={classes.emptyCell}></td>
-              <td className={classes.emptyCell}></td>
-              <td className={classes.emptyCell}></td>
-            </tr>
-            <tr>
-              <td className={classes.times}>5</td>
-              <td className={classes.emptyCell}></td>
-              <td className={classes.emptyCell}></td>
-              <td className={classes.emptyCell}></td>
-              <td className={classes.emptyCell}></td>
-              <td className={classes.emptyCell}></td>
-              <td className={classes.emptyCell}></td>
-              <td className={classes.emptyCell}></td>
-            </tr>
-            <tr>
-              <td className={classes.times}>6</td>
-              <td className={classes.emptyCell}></td>
-              <td className={classes.emptyCell}></td>
-              <td className={classes.emptyCell}></td>
-              <td className={classes.emptyCell}></td>
-              <td className={classes.emptyCell}></td>
-              <td className={classes.emptyCell}></td>
-              <td className={classes.emptyCell}></td>
-            </tr>
-            <tr>
-              <td className={classes.times}>7</td>
-              <td className={classes.emptyCell}></td>
-              <td className={classes.emptyCell}></td>
-              <td className={classes.emptyCell}></td>
-              <td className={classes.emptyCell}></td>
-              <td className={classes.emptyCell}></td>
-              <td className={classes.emptyCell}></td>
-              <td className={classes.emptyCell}></td>
-            </tr>
-            <tr>
-              <td className={classes.times}>8</td>
-              <td className={classes.emptyCell}></td>
-              <td className={classes.emptyCell}></td>
-              <td className={classes.emptyCell}></td>
-              <td className={classes.emptyCell}></td>
-              <td className={classes.emptyCell}></td>
-              <td className={classes.emptyCell}></td>
-              <td className={classes.emptyCell}></td>
-            </tr>
-            <tr>
-              <td className={classes.times}>9</td>
-              <td className={classes.emptyCell}></td>
-              <td className={classes.emptyCell}></td>
-              <td className={classes.emptyCell}></td>
-              <td className={classes.emptyCell}></td>
-              <td className={classes.emptyCell}></td>
-              <td className={classes.emptyCell}></td>
-              <td className={classes.emptyCell}></td>
-            </tr>
-            <tr>
-              <td className={classes.times}>10</td>
-              <td className={classes.emptyCell}></td>
-              <td className={classes.emptyCell}></td>
-              <td className={classes.emptyCell}></td>
-              <td className={classes.emptyCell}></td>
-              <td className={classes.emptyCell}></td>
-              <td className={classes.emptyCell}></td>
-              <td className={classes.emptyCell}></td>
-            </tr>
-            <tr>
-              <td className={classes.times}>11</td>
-              <td className={classes.emptyCell}></td>
-              <td className={classes.emptyCell}></td>
-              <td className={classes.emptyCell}></td>
-              <td className={classes.emptyCell}></td>
-              <td className={classes.emptyCell}></td>
-              <td className={classes.emptyCell}></td>
-              <td className={classes.emptyCell}></td>
-            </tr>
+            {Array.from(Array(11))
+              .map((x, i) => i + 1)
+              .map(x => (
+                <tr key={x}>
+                  <td className={classes.times}>{x}</td>
+                  <td className={classes.emptyCell}></td>
+                  <td className={classes.emptyCell}></td>
+                  <td className={classes.emptyCell}></td>
+                  <td className={classes.emptyCell}></td>
+                  <td className={classes.emptyCell}></td>
+                  <td className={classes.emptyCell}></td>
+                  <td className={classes.emptyCell}></td>
+                </tr>
+              ))}
           </tbody>
         </table>
       </Paper>

@@ -5,3 +5,7 @@ export type timeBlock = {
   end: number;
   user: string;
 };
+
+export interface IsDeskTop {
+  isDesktop: boolean;
+}

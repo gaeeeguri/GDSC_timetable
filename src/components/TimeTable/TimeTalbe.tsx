@@ -8,7 +8,7 @@ import { AuthMachineContext } from "@/main";
 import captureData from "@/util/saveImage/saveImage";
 
 import AddDialog from "../AddDialog/AddDialog";
-import { timeBlock } from "../Types/type";
+import { IsDeskTop, timeBlock } from "../Types/type";
 
 const useStyles = createStyles((theme, getRef) => ({
   wrapper: {
@@ -139,9 +139,7 @@ const useStyles = createStyles((theme, getRef) => ({
   },
 }));
 
-interface TimeTableProps {
-  isDesktop: boolean;
-}
+type TimeTableProps = IsDeskTop;
 const TimeTable = ({ isDesktop }: TimeTableProps) => {
   const { classes } = useStyles();
   const [type, setType] = useState<string>("old");

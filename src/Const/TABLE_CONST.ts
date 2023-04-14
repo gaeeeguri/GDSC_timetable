@@ -1,4 +1,4 @@
-export const TABLE_CONST = {
+const TABLE_CONST = {
   webHeight: 47,
   mobileHeight: 35,
 };

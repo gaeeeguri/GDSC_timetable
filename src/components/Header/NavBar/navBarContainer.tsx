@@ -2,6 +2,7 @@ import { createStyles } from "@mantine/core";
 import React from "react";
 
 import NavBar from "@/components/Header/NavBar/organisms/navBar";
+import { IsDeskTop } from "@/components/Types/type";
 import { removeCookie } from "@/lib/cookie";
 import { AuthMachineContext } from "@/main";
 
@@ -32,9 +33,7 @@ const useStyles = createStyles((theme, _params, getRef) => ({
     }`,
   },
 }));
-export interface NavBarContainerProps {
-  isDesktop: boolean;
-}
+export type NavBarContainerProps = IsDeskTop;
 const NavBarContainer = ({ isDesktop }: NavBarContainerProps) => {
   const { classes } = useStyles();
 

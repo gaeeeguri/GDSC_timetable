@@ -5,17 +5,17 @@ import EditButton from "@/components/TimeTable/TimeCell/atoms/editButton";
 import colors from "@/Const/colors";
 import TABLE_CONST from "@/Const/TABLE_CONST";
 
-import { timeBlock } from "../../Types/type";
+import { IsDeskTop, TableType, timeBlock } from "../../Types/type";
 import EditDialog from "./EditDialog/EditDialog";
 
-interface BlockProps {
+interface BlockStyleProps {
   start: number;
   end: number;
   color: string;
 }
 
 const useStyles = createStyles(
-  (theme, { start, end, color }: BlockProps, getRef) => ({
+  (theme, { start, end, color }: BlockStyleProps, getRef) => ({
     block: {
       width: "100%",
       position: "absolute",
@@ -55,13 +55,15 @@ const useStyles = createStyles(
   })
 );
 
-interface TimeCellProps {
-  timeData: timeBlock;
-  type: "new" | "old";
+export interface CellProps extends IsDeskTop {
+  type: TableType;
   isEdit: boolean;
   setIsEdit: Dispatch<SetStateAction<boolean>>;
   isAdmin: boolean;
-  isDesktop: boolean;
+}
+
+interface TimeCellProps extends CellProps {
+  timeData: timeBlock;
 }
 
 const TimeCell = ({

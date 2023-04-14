@@ -1,15 +1,8 @@
-import { Dispatch, SetStateAction } from "react";
-
 import { timeBlock } from "../Types/type";
-import TimeCell from "./TimeCell/TimeCell";
+import TimeCell, { CellProps } from "./TimeCell/TimeCell";
 
-interface TimeCellsProps {
-  times: Array<timeBlock>;
-  type: "new" | "old";
-  isEdit: boolean;
-  setIsEdit: Dispatch<SetStateAction<boolean>>;
-  isAdmin: boolean;
-  isDesktop: boolean;
+interface TimeCellsProps extends CellProps {
+  times: timeBlock[];
 }
 
 const TimeCells = ({

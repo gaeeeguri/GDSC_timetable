@@ -4,8 +4,12 @@ import LogInButton, {
 import LogOutButton, {
   LogoutButtonProps,
 } from "@/components/Header/NavBar/atoms/logOutButton";
+import { IsDeskTop } from "@/components/Types/type";
 
-export interface HeaderButtonProps extends LoginButtonProps, LogoutButtonProps {
+export interface HeaderButtonProps
+  extends LoginButtonProps,
+    LogoutButtonProps,
+    IsDeskTop {
   isAdmin: boolean;
 }
 
